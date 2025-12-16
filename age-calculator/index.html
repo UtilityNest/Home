@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Age Calculator (Exact Age in Years, Months & Days)</title>
+  <title>Age Calculator – Exact Age in Years, Months & Days</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Free Age Calculator for government exams and official forms. Calculate exact age in years, months and days.">
+  <meta name="description" content="Free Age Calculator for government exams, forms and eligibility. Calculate exact age in years, months and days.">
+
+  <!-- FIXED BASE FOR YOUR SITE -->
+  <base href="/Home/">
 
   <style>
     body{margin:0;font-family:Arial, sans-serif;background:#f6f7fb}
@@ -44,20 +47,20 @@
 
 <!-- HEADER -->
 <header class="site-header">
-  <div class="logo"><a href="../">India Tools Hub</a></div>
+  <div class="logo"><a href="">UtilityNest</a></div>
   <nav>
-    <a href="../government-tools/">Government</a>
-    <a href="../finance-calculators/">Finance</a>
-    <a href="../student-tools/">Student</a>
-    <a href="../utility-tools/">Utility</a>
-    <a href="../hindi-tools/">Hindi</a>
+    <a href="government-tools/">Government</a>
+    <a href="finance-calculators/">Finance</a>
+    <a href="student-tools/">Student</a>
+    <a href="utility-tools/">Utility</a>
+    <a href="hindi-tools/">Hindi</a>
   </nav>
 </header>
 
 <!-- BREADCRUMB -->
 <nav class="breadcrumb">
-  <a href="../">Home</a> ›
-  <a href="../government-tools/">Government Tools</a> ›
+  <a href="">Home</a> ›
+  <a href="government-tools/">Government Tools</a> ›
   <span>Age Calculator</span>
 </nav>
 
@@ -80,11 +83,11 @@
 <section class="tool-categories">
   <h3>Explore More Tools</h3>
   <div class="cat-grid">
-    <a href="../government-tools/">🏛 Government Tools</a>
-    <a href="../finance-calculators/">💰 Finance Calculators</a>
-    <a href="../student-tools/">🎓 Student Tools</a>
-    <a href="../utility-tools/">🛠 Utility Tools</a>
-    <a href="../hindi-tools/">🇮🇳 Hindi Tools</a>
+    <a href="government-tools/">🏛 Government Tools</a>
+    <a href="finance-calculators/">💰 Finance Calculators</a>
+    <a href="student-tools/">🎓 Student Tools</a>
+    <a href="utility-tools/">🛠 Utility Tools</a>
+    <a href="hindi-tools/">🇮🇳 Hindi Tools</a>
   </div>
 </section>
 
@@ -93,28 +96,31 @@
   <div class="footer-grid">
     <div>
       <h4>Government Tools</h4>
-      <a href="../age-calculator/">Age Calculator</a>
-      <a href="../retirement-date-calculator/">Retirement Calculator</a>
-      <a href="../gratuity-calculator/">Gratuity Calculator</a>
+      <a href="age-calculator/">Age Calculator</a>
+      <a href="retirement-date-calculator/">Retirement Calculator</a>
+      <a href="gratuity-calculator/">Gratuity Calculator</a>
     </div>
     <div>
       <h4>Finance Calculators</h4>
-      <a href="../emi-calculator/">EMI Calculator</a>
-      <a href="../sip-calculator/">SIP Calculator</a>
+      <a href="emi-calculator/">EMI Calculator</a>
+      <a href="sip-calculator/">SIP Calculator</a>
     </div>
     <div>
       <h4>Hindi Tools</h4>
-      <a href="../hindi-word-counter/">Hindi Word Counter</a>
+      <a href="hindi-word-counter/">Hindi Word Counter</a>
     </div>
   </div>
-  <p class="copy">© 2025 India Tools Hub</p>
+  <p class="copy">© 2025 UtilityNest</p>
 </footer>
 
 <script>
 function calcAge(){
-  let dob = new Date(document.getElementById('dob').value);
-  let asOn = new Date(document.getElementById('asOn').value || new Date());
-  if(!dob){alert('Select Date of Birth');return}
+  let dobVal = document.getElementById('dob').value;
+  if(!dobVal){alert('Please select Date of Birth');return}
+
+  let dob = new Date(dobVal);
+  let asOnVal = document.getElementById('asOn').value;
+  let asOn = asOnVal ? new Date(asOnVal) : new Date();
 
   let years = asOn.getFullYear() - dob.getFullYear();
   let months = asOn.getMonth() - dob.getMonth();
