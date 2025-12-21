@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SIP Calculator - Calculate Investment Returns | UtilityNest</title>
+  <meta name="description" content="Free SIP Calculator to calculate returns on Systematic Investment Plan. Calculate final amount, total invested, total gain, CAGR.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background-color: #f9fafb;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+
+    header {
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 16px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header a:first-child {
+      font-size: 20px;
+      font-weight: bold;
+      color: #16a34a;
+      text-decoration: none;
+      margin-right: 30px;
+    }
+
+    header nav {
+      display: inline-flex;
+      gap: 20px;
+    }
+
+    header nav a {
+      color: #6b7280;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    header nav a:hover {
+      color: #16a34a;
+    }
+
+    @media (max-width: 768px) {
+      header nav {
+        display: none;
+      }
+    }
+
+    .breadcrumb {
+      padding: 10px 20px;
+      font-size: 13px;
+      color: #9ca3af;
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .breadcrumb a {
+      color: #16a34a;
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    .section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+
+    .section h1 {
+      font-size: 28px;
+      margin-bottom: 15px;
+      color: #1f2937;
+    }
+
+    .section > p {
+      font-size: 15px;
+      color: #6b7280;
+      margin-bottom: 25px;
+      line-height: 1.7;
+    }
+
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 20px;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: #1f2937;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: #6b7280;
+      line-height: 1.7;
+    }
+
+    .gradient-card {
+      background: linear-gradient(135deg, #f0fdf4 0%, #f0f9ff 100%);
+      border: 2px solid #16a34a;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid #e5e7eb;
+      margin-bottom: 20px;
+    }
+
+    .tab-button {
+      padding: 12px 20px;
+      background: none;
+      border: none;
+      font-size: 14px;
+      font-weight: 500;
+      color: #6b7280;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+    }
+
+    .tab-button:hover {
+      color: #16a34a;
+    }
+
+    .tab-button.active {
+      color: #16a34a;
+      border-bottom-color: #16a34a;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: #1f2937;
+      margin-bottom: 8px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 2px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #16a34a;
+      box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+    }
+
+    .input-help {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-top: 4px;
+    }
+
+    .slider-container {
+      margin-top: 8px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #d1d5db;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #16a34a;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      background: #15803d;
+      box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.2);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #16a34a;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    input[type="range"]::-moz-range-thumb:hover {
+      background: #15803d;
+      box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.2);
+    }
+
+    .calculator-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .calculator-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .results-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .result-box {
+      background: #f3f4f6;
+      border-left: 4px solid #16a34a;
+      padding: 15px;
+      border-radius: 6px;
+    }
+
+    .result-label {
+      font-size: 12px;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 5px;
+    }
+
+    .result-value {
+      font-size: 24px;
+      font-weight: 600;
+      color: #16a34a;
+    }
+
+    .result-box.highlight {
+      border-left-color: #f59e0b;
+    }
+
+    .result-box.highlight .result-value {
+      color: #f59e0b;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      margin-top: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    table thead {
+      background: #f3f4f6;
+      border-bottom: 2px solid #d1d5db;
+    }
+
+    table th {
+      padding: 12px 8px;
+      text-align: left;
+      font-weight: 600;
+      color: #1f2937;
+    }
+
+    table td {
+      padding: 10px 8px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    table tbody tr:hover {
+      background: #f9fafb;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .actions button {
+      flex: 1;
+      min-width: 140px;
+      padding: 10px 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      background: white;
+      color: #374151;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .actions button:hover {
+      border-color: #16a34a;
+      color: #16a34a;
+      background: #f0fdf4;
+    }
+
+    .btn-primary {
+      background: #16a34a;
+      color: white;
+      border-color: #16a34a;
+    }
+
+    .btn-primary:hover {
+      background: #15803d;
+      border-color: #15803d;
+    }
+
+    .chart-container {
+      margin-top: 30px;
+      padding: 20px;
+      background: #f9fafb;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .chart-container h3 {
+      font-size: 16px;
+      margin-bottom: 15px;
+      color: #1f2937;
+    }
+
+    footer {
+      background: white;
+      border-top: 1px solid #e5e7eb;
+      padding: 30px 20px;
+      margin-top: 40px;
+    }
+
+    .footer-grid {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .footer-grid h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 12px;
+    }
+
+    .footer-grid a {
+      display: block;
+      font-size: 13px;
+      color: #6b7280;
+      text-decoration: none;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+
+    .footer-grid a:hover {
+      color: #16a34a;
+    }
+
+    .copy {
+      max-width: 1000px;
+      margin: 0 auto;
+      font-size: 13px;
+      color: #9ca3af;
+      text-align: center;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #16a34a;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .formula-box {
+      background: #f9fafb;
+      padding: 15px;
+      border-radius: 6px;
+      border-left: 4px solid #16a34a;
+      margin-top: 15px;
+      font-family: monospace;
+      font-size: 12px;
+      color: #374151;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="">UtilityNest</a>
+  <nav>
+    <a href="government-tools/">Government</a>
+    <a href="finance-calculators/">Finance</a>
+    <a href="student-tools/">Student</a>
+    <a href="utility-tools/">Utility</a>
+    <a href="hindi-tools/">Hindi</a>
+  </nav>
+</header>
+
+<nav class="breadcrumb">
+  <a href="">Home</a> › <a href="finance-calculators/">Finance Calculators</a> › SIP Calculator
+</nav>
+
+<section class="section">
+  <h1>SIP Calculator</h1>
+  <p>Use our advanced SIP Calculator to calculate returns on Systematic Investment Plan. Calculate final amount, total invested, total gain, CAGR and more for mutual funds, stocks, and other investments.</p>
+
+  <div class="card gradient-card">
+    <h2>📈 Calculate Your SIP Returns</h2>
+
+    <div class="tabs">
+      <button class="tab-button active" onclick="switchTab(event, 'regular')">Regular SIP</button>
+      <button class="tab-button" onclick="switchTab(event, 'stepup')">Step-Up SIP</button>
+      <button class="tab-button" onclick="switchTab(event, 'lumpsum')">Lump-Sum</button>
+      <button class="tab-button" onclick="switchTab(event, 'combined')">SIP + Lump-Sum</button>
+    </div>
+
+    <!-- Regular SIP -->
+    <div id="regular" class="tab-content active">
+      <div class="calculator-grid">
+        <div>
+          <div class="form-group">
+            <label>Monthly Investment (₹)</label>
+            <input type="number" id="monthlyInvestment" placeholder="Enter monthly SIP amount" min="500" max="1000000" value="10000" oninput="calculateRegularSIP()">
+            <div class="input-help">Min: ₹500 | Max: ₹10,00,000</div>
+            <div class="slider-container">
+              <input type="range" id="monthlySlider" min="500" max="1000000" value="10000" step="500" oninput="syncSliderToMonthly()">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Investment Period (Years)</label>
+            <input type="number" id="investmentPeriod" placeholder="Enter investment period" min="1" max="50" value="10" oninput="calculateRegularSIP()">
+            <div class="input-help">Min: 1 Year | Max: 50 Years</div>
+            <div class="slider-container">
+              <input type="range" id="periodSlider" min="1" max="50" value="10" step="1" oninput="syncSliderToPeriod()">
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <label>Expected Annual Return (%)</label>
+            <input type="number" id="annualReturn" placeholder="Enter expected annual return" min="0.01" max="50" step="0.01" value="12" oninput="calculateRegularSIP()">
+            <div class="input-help">Min: 0.01% | Max: 50% (Typical: 7-15%)</div>
+            <div class="slider-container">
+              <input type="range" id="returnSlider" min="0.01" max="50" value="12" step="0.01" oninput="syncSliderToReturn()">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Expected Inflation Rate (%) - Optional</label>
+            <input type="number" id="inflationRate" placeholder="Enter inflation rate" min="0" max="20" step="0.01" value="5" oninput="calculateRegularSIP()">
+            <div class="input-help">Min: 0% | Max: 20% (Typical: 3-8%)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="results-grid">
+        <div class="result-box">
+          <div class="result-label">Total Invested</div>
+          <div class="result-value">₹<span id="totalInvested">0</span></div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Total Gain</div>
+          <div class="result-value">₹<span id="totalGain">0</span></div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Final Amount</div>
+          <div class="result-value">₹<span id="finalAmount">0</span></div>
+        </div>
+        <div class="result-box highlight">
+          <div class="result-label">Real Value (After Inflation)</div>
+          <div class="result-value">₹<span id="realValue">0</span></div>
+        </div>
+      </div>
+
+      <div class="formula-box">
+        FV = P × [((1 + R)^N - 1) / R] × (1 + R)<br>
+        Where: P = Monthly Investment, R = Monthly Rate, N = Total Months
+      </div>
+    </div>
+
+    <!-- Step-Up SIP -->
+    <div id="stepup" class="tab-content">
+      <div class="calculator-grid">
+        <div>
+          <div class="form-group">
+            <label>Initial Monthly Investment (₹)</label>
+            <input type="number" id="stepupMonthly" placeholder="Enter initial monthly SIP" min="500" max="1000000" value="10000" oninput="calculateStepupSIP()">
+            <div class="input-help">Starting SIP amount</div>
+          </div>
+
+          <div class="form-group">
+            <label>Annual Increase (%)</label>
+            <input type="number" id="stepupIncrease" placeholder="Enter annual increase percentage" min="0" max="50" step="0.01" value="10" oninput="calculateStepupSIP()">
+            <div class="input-help">Typical: 5-15% per year</div>
+          </div>
+
+          <div class="form-group">
+            <label>Investment Period (Years)</label>
+            <input type="number" id="stepupPeriod" placeholder="Enter investment period" min="1" max="50" value="10" oninput="calculateStepupSIP()">
+            <div class="input-help">Min: 1 Year | Max: 50 Years</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <label>Expected Annual Return (%)</label>
+            <input type="number" id="stepupReturn" placeholder="Enter expected annual return" min="0.01" max="50" step="0.01" value="12" oninput="calculateStepupSIP()">
+            <div class="input-help">Min: 0.01% | Max: 50%</div>
+          </div>
+
+          <div class="form-group">
+            <label>Expected Inflation Rate (%) - Optional</label>
+            <input type="number" id="stepupInflation" placeholder="Enter inflation rate" min="0" max="20" step="0.01" value="5" oninput="calculateStepupSIP()">
+            <div class="input-help">Min: 0% | Max: 20%</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="results-grid">
+        <div class="result-box">
+          <div class="result-label">Total Invested</div>
+          <div class="result-value">₹<span id="stepupTotalInvested">0</span></div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Total Gain</div>
+          <div class="result-value">₹<span id="stepupTotalGain">0</span></div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Final Amount</div>
+          <div class="result-value">₹<span id="stepupFinalAmount">0</span></div>
+        </div>
+        <div class="result-box highlight">
+          <div class="result-label">CAGR (%)</div>
+          <div class="result-value"><span id="stepupCAGR">0</span>%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lump-Sum -->
+    <div id="lumpsum" class="tab-content">
+      <div class="calculator-grid">
+        <div>
+          <div class="form-group">
+            <label>Lump-Sum Amount (₹)</label>
+            <input type="number" id="lumpsumAmount" placeholder="Enter lump-sum investment" min="1000" max="100000000" value="500000" oninput="calculateLumpsum()">
+            <div class="input-help">Min: ₹1,000 | Max: ₹10,00,00,000</div>
+            <div class="slider-container">
+              <input type="range" id="lumpsumSlider" min="1000" max="100000000" value="500000" step="10000" oninput="syncSliderToLumpsum()">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Investment Period (Years)</label>
+            <input type="number" id="lumpsumPeriod" placeholder="Enter investment period" min="1" max="50" value="10" oninput="calculateLumpsum()">
+            <div class="input-help">Min: 1 Year | Max: 50 Years</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <label>Expected Annual Return (%)</label>
+            <input type="number" id="lumpsumReturn" placeholder="Enter expected annual return" min="0.01" max="50" step="0.01" value="12" oninput="calculateLumpsum()">
+            <div class="input-help">Min: 0.01% | Max: 50%</div>
+          </div>
+
+          <div class="form-group">
+            <label>Expected Inflation Rate (%) - Optional</label>
+            <input type="number" id="lumpsumInflation" placeholder="Enter inflation rate" min="0" max="20" step="0.01" value="5" oninput="calculateLumpsum()">
+            <div class="input-help">Min: 0% | Max: 20%</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="results-grid">
+        <div class="result-box">
+          <div class="result-label">Invested Amount</div>
+          <div class="result-value">₹<span id="lumpsumInvested">0</span></div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Total Gain</div>
+          <div class="result-value">₹<span id="lumpsumGain">0</span></div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Final Amount</div>
+          <div class="result-value">₹<span id="lumpsumFinal">0</span></div>
+        </div>
+        <div class="result-box highlight">
+          <div class="result-label">Real Value (After Inflation)</div>
+          <div class="result-value">₹<span id="lumpsumRealValue">0</span></div>
+        </div>
+      </div>
+
+      <div class="formula-box">
+        FV = P × (1 + R)^N<br>
+        Where: P = Principal Amount, R = Annual Rate / 100, N = Years
+      </div>
+    </div>
+
+    <!-- Combined -->
+    <div id="combined" class="tab-content">
+      <div class="calculator-grid">
+        <div>
+          <div class="form-group">
+            <label>Initial Lump-Sum (₹)</label>
+            <input type="number" id="combinedLumpsum" placeholder="Enter initial lump-sum (optional)" min="0" max="100000000" value="200000" oninput="calculateCombined()">
+            <div class="input-help">Can be zero if no initial investment</div>
+          </div>
+
+          <div class="form-group">
+            <label>Monthly SIP (₹)</label>
+            <input type="number" id="combinedMonthly" placeholder="Enter monthly SIP" min="0" max="1000000" value="5000" oninput="calculateCombined()">
+            <div class="input-help">Can be zero if only lump-sum</div>
+          </div>
+
+          <div class="form-group">
+            <label>Investment Period (Years)</label>
+            <input type="number" id="combinedPeriod" placeholder="Enter investment period" min="1" max="50" value="10" oninput="calculateCombined()">
+            <div class="input-help">Min: 1 Year | Max: 50 Years</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <label>Expected Annual Return (%)</label>
+            <input type="number" id="combinedReturn" placeholder="Enter expected annual return" min="0.01" max="50" step="0.01" value="12" oninput="calculateCombined()">
+            <div class="input-help">Min: 0.01% | Max: 50%</div>
+          </div>
+
+          <div class="form-group">
+            <label>Expected Inflation Rate (%) - Optional</label>
+            <input type="number" id="combinedInflation" placeholder="Enter inflation rate" min="0" max="20" step="0.01" value="5" oninput="calculateCombined()">
+            <div class="input-help">Min: 0% | Max: 20%</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="results-grid">
+        <div class="result-box">
+          <div class="result-label">Total Invested</div>
+          <div class="result-value">₹<span id="combinedTotalInvested">0</span></div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Total Gain</div>
+          <div class="result-value">₹<span id="combinedTotalGain">0</span></div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Final Amount</div>
+          <div class="result-value">₹<span id="combinedFinalAmount">0</span></div>
+        </div>
+        <div class="result-box highlight">
+          <div class="result-label">Real Value (After Inflation)</div>
+          <div class="result-value">₹<span id="combinedRealValue">0</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn-primary" onclick="resetCalculators()">🔄 Reset All</button>
+      <button onclick="downloadReport()">📥 Download Report</button>
+      <button onclick="printReport()">🖨️ Print</button>
+    </div>
+  </div>
+
+  <div class="card chart-container">
+    <h3>📊 Growth Projection (Regular SIP)</h3>
+    <canvas id="growthChart" width="400" height="200"></canvas>
+  </div>
+
+  <div class="card">
+    <h3>📋 Year-by-Year Breakdown (Regular SIP)</h3>
+    <div class="table-wrapper">
+      <table id="yearTable">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Annual Investment (₹)</th>
+            <th>Total Invested (₹)</th>
+            <th>Gain (₹)</th>
+            <th>Balance (₹)</th>
+          </tr>
+        </thead>
+        <tbody id="yearTableBody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>About SIP Calculator</h2>
+    <p><strong>SIP (Systematic Investment Plan)</strong> is a disciplined investment approach where you invest a fixed amount at regular intervals. Our advanced calculator supports multiple SIP types and includes inflation adjustment.</p>
+    <p style="margin-top: 12px;"><strong>Types of SIP:</strong></p>
+    <ul style="margin-left: 20px; margin-top: 8px;">
+      <li><strong>Regular SIP:</strong> Fixed monthly investment amount</li>
+      <li><strong>Step-Up SIP:</strong> Increasing investment amount annually</li>
+      <li><strong>Lump-Sum:</strong> One-time bulk investment</li>
+      <li><strong>Combined:</strong> Both lump-sum and regular SIP</li>
+    </ul>
+    <p style="margin-top: 12px;"><strong>Supported Investments:</strong> Mutual Funds, Stocks, ETFs, Index Funds, Gold, Real Estate, and any other investment.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h3>Finance Calculators</h3>
+      <a href="finance-calculators/sip-calculator/">SIP Calculator</a>
+      <a href="finance-calculators/emi-calculator/">EMI Calculator</a>
+      <a href="finance-calculators/compound-interest/">Compound Interest</a>
+    </div>
+    <div>
+      <h3>Popular Tools</h3>
+      <a href="age-calculator/">Age Calculator</a>
+      <a href="student-tools/">Student Tools</a>
+    </div>
+  </div>
+  <p class="copy">© 2025 UtilityNest</p>
+</footer>
+
+<script>
+function formatNumber(num) {
+  return parseFloat(num).toLocaleString('en-IN');
+}
+
+function switchTab(event, tabName) {
+  const tabs = document.querySelectorAll('.tab-content');
+  tabs.forEach(tab => tab.classList.remove('active'));
+  
+  const buttons = document.querySelectorAll('.tab-button');
+  buttons.forEach(btn => btn.classList.remove('active'));
+  
+  document.getElementById(tabName).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// REGULAR SIP
+function calculateRegularSIP() {
+  const monthlyInvestment = parseFloat(document.getElementById('monthlyInvestment').value) || 0;
+  const yearsPeriod = parseInt(document.getElementById('investmentPeriod').value) || 0;
+  const annualReturn = parseFloat(document.getElementById('annualReturn').value) || 0;
+  const inflationRate = parseFloat(document.getElementById('inflationRate').value) || 0;
+
+  if (monthlyInvestment <= 0 || yearsPeriod <= 0) {
+    document.getElementById('totalInvested').textContent = '0';
+    document.getElementById('totalGain').textContent = '0';
+    document.getElementById('finalAmount').textContent = '0';
+    document.getElementById('realValue').textContent = '0';
+    return;
+  }
+
+  const monthlyReturn = annualReturn / 12 / 100;
+  const months = yearsPeriod * 12;
+
+  let finalValue;
+  if (monthlyReturn === 0) {
+    finalValue = monthlyInvestment * months;
+  } else {
+    finalValue = monthlyInvestment * (((Math.pow(1 + monthlyReturn, months) - 1) / monthlyReturn) * (1 + monthlyReturn));
+  }
+
+  const totalInvested = monthlyInvestment * months;
+  const totalGain = finalValue - totalInvested;
+  const realValue = finalValue / Math.pow(1 + inflationRate / 100, yearsPeriod);
+
+  document.getElementById('totalInvested').textContent = formatNumber(totalInvested.toFixed(2));
+  document.getElementById('totalGain').textContent = formatNumber(totalGain.toFixed(2));
+  document.getElementById('finalAmount').textContent = formatNumber(finalValue.toFixed(2));
+  document.getElementById('realValue').textContent = formatNumber(realValue.toFixed(2));
+
+  generateYearlyTable(monthlyInvestment, monthlyReturn, months);
+  updateGrowthChart(monthlyInvestment, monthlyReturn, months);
+}
+
+function generateYearlyTable(monthlyInvestment, monthlyReturn, totalMonths) {
+  const tableBody = document.getElementById('yearTableBody');
+  tableBody.innerHTML = '';
+
+  let balance = 0;
+  let totalInvested = 0;
+
+  for (let year = 1; year <= Math.ceil(totalMonths / 12); year++) {
+    const monthsInYear = Math.min(12, totalMonths - (year - 1) * 12);
+    
+    let yearlyGain = 0;
+    for (let m = 0; m < monthsInYear; m++) {
+      balance = balance * (1 + monthlyReturn) + monthlyInvestment;
+      yearlyGain = balance - totalInvested - monthlyInvestment * monthsInYear;
+    }
+    
+    totalInvested += monthlyInvestment * monthsInYear;
+    const gain = balance - totalInvested;
+
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${year}</td>
+      <td>₹${formatNumber((monthlyInvestment * monthsInYear).toFixed(2))}</td>
+      <td>₹${formatNumber(totalInvested.toFixed(2))}</td>
+      <td>₹${formatNumber(gain.toFixed(2))}</td>
+      <td>₹${formatNumber(balance.toFixed(2))}</td>
+    `;
+    tableBody.appendChild(row);
+  }
+}
+
+function updateGrowthChart(monthlyInvestment, monthlyReturn, months) {
+  const canvas = document.getElementById('growthChart');
+  const ctx = canvas.getContext('2d');
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const width = canvas.width;
+  const height = canvas.height;
+  const padding = 40;
+  const chartWidth = width - padding * 2;
+  const chartHeight = height - padding * 2;
+
+  let balance = 0;
+  let maxBalance = 0;
+
+  for (let m = 0; m < months; m++) {
+    balance = balance * (1 + monthlyReturn) + monthlyInvestment;
+  }
+  maxBalance = balance;
+
+  ctx.strokeStyle = '#d1d5db';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(padding, height - padding);
+  ctx.lineTo(width - padding, height - padding);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(padding, padding);
+  ctx.lineTo(padding, height - padding);
+  ctx.stroke();
+
+  balance = 0;
+  ctx.strokeStyle = '#16a34a';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+
+  for (let m = 0; m < months; m++) {
+    balance = balance * (1 + monthlyReturn) + monthlyInvestment;
+    const x = padding + (m / months) * chartWidth;
+    const y = height - padding - (balance / maxBalance) * chartHeight;
+
+    if (m === 0) {
+      ctx.moveTo(x, y);
+    } else {
+      ctx.lineTo(x, y);
+    }
+  }
+  ctx.stroke();
+
+  ctx.fillStyle = '#6b7280';
+  ctx.font = '12px Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText(`0`, padding - 10, height - padding + 15);
+  ctx.fillText(`₹${formatNumber(maxBalance.toFixed(0))}`, padding - 10, padding + 10);
+  ctx.fillText(`Months: ${months}`, width / 2, height - 10);
+}
+
+function syncSliderToMonthly() {
+  document.getElementById('monthlyInvestment').value = document.getElementById('monthlySlider').value;
+  calculateRegularSIP();
+}
+
+function syncSliderToPeriod() {
+  document.getElementById('investmentPeriod').value = document.getElementById('periodSlider').value;
+  calculateRegularSIP();
+}
+
+function syncSliderToReturn() {
+  document.getElementById('annualReturn').value = document.getElementById('returnSlider').value;
+  calculateRegularSIP();
+}
+
+document.getElementById('monthlyInvestment').addEventListener('input', function() {
+  document.getElementById('monthlySlider').value = this.value;
+});
+document.getElementById('investmentPeriod').addEventListener('input', function() {
+  document.getElementById('periodSlider').value = this.value;
+});
+document.getElementById('annualReturn').addEventListener('input', function() {
+  document.getElementById('returnSlider').value = this.value;
+});
+
+// STEP-UP SIP
+function calculateStepupSIP() {
+  const initialInvestment = parseFloat(document.getElementById('stepupMonthly').value) || 0;
+  const annualIncrease = parseFloat(document.getElementById('stepupIncrease').value) || 0;
+  const yearsPeriod = parseInt(document.getElementById('stepupPeriod').value) || 0;
+  const annualReturn = parseFloat(document.getElementById('stepupReturn').value) || 0;
+  const inflationRate = parseFloat(document.getElementById('stepupInflation').value) || 0;
+
+  if (initialInvestment <= 0 || yearsPeriod <= 0) {
+    document.getElementById('stepupTotalInvested').textContent = '0';
+    document.getElementById('stepupTotalGain').textContent = '0';
+    document.getElementById('stepupFinalAmount').textContent = '0';
+    document.getElementById('stepupCAGR').textContent = '0';
+    return;
+  }
+
+  const monthlyReturn = annualReturn / 12 / 100;
+  let balance = 0;
+  let totalInvested = 0;
+
+  for (let year = 0; year < yearsPeriod; year++) {
+    const monthlyInvestment = initialInvestment * Math.pow(1 + annualIncrease / 100, year);
+    
+    for (let month = 0; month < 12; month++) {
+      balance = balance * (1 + monthlyReturn) + monthlyInvestment;
+      totalInvested += monthlyInvestment;
+    }
+  }
+
+  const totalGain = balance - totalInvested;
+  const cagr = Math.pow(balance / totalInvested, 1 / yearsPeriod) - 1;
+  const realValue = balance / Math.pow(1 + inflationRate / 100, yearsPeriod);
+
+  document.getElementById('stepupTotalInvested').textContent = formatNumber(totalInvested.toFixed(2));
+  document.getElementById('stepupTotalGain').textContent = formatNumber(totalGain.toFixed(2));
+  document.getElementById('stepupFinalAmount').textContent = formatNumber(balance.toFixed(2));
+  document.getElementById('stepupCAGR').textContent = (cagr * 100).toFixed(2);
+}
+
+// LUMP-SUM
+function calculateLumpsum() {
+  const principalAmount = parseFloat(document.getElementById('lumpsumAmount').value) || 0;
+  const yearsPeriod = parseInt(document.getElementById('lumpsumPeriod').value) || 0;
+  const annualReturn = parseFloat(document.getElementById('lumpsumReturn').value) || 0;
+  const inflationRate = parseFloat(document.getElementById('lumpsumInflation').value) || 0;
+
+  if (principalAmount <= 0 || yearsPeriod <= 0) {
+    document.getElementById('lumpsumInvested').textContent = '0';
+    document.getElementById('lumpsumGain').textContent = '0';
+    document.getElementById('lumpsumFinal').textContent = '0';
+    document.getElementById('lumpsumRealValue').textContent = '0';
+    return;
+  }
+
+  const finalValue = principalAmount * Math.pow(1 + annualReturn / 100, yearsPeriod);
+  const totalGain = finalValue - principalAmount;
+  const realValue = finalValue / Math.pow(1 + inflationRate / 100, yearsPeriod);
+
+  document.getElementById('lumpsumInvested').textContent = formatNumber(principalAmount.toFixed(2));
+  document.getElementById('lumpsumGain').textContent = formatNumber(totalGain.toFixed(2));
+  document.getElementById('lumpsumFinal').textContent = formatNumber(finalValue.toFixed(2));
+  document.getElementById('lumpsumRealValue').textContent = formatNumber(realValue.toFixed(2));
+}
+
+function syncSliderToLumpsum() {
+  document.getElementById('lumpsumAmount').value = document.getElementById('lumpsumSlider').value;
+  calculateLumpsum();
+}
+
+document.getElementById('lumpsumAmount').addEventListener('input', function() {
+  document.getElementById('lumpsumSlider').value = this.value;
+});
+
+// COMBINED
+function calculateCombined() {
+  const lumpsumAmount = parseFloat(document.getElementById('combinedLumpsum').value) || 0;
+  const monthlyInvestment = parseFloat(document.getElementById('combinedMonthly').value) || 0;
+  const yearsPeriod = parseInt(document.getElementById('combinedPeriod').value) || 0;
+  const annualReturn = parseFloat(document.getElementById('combinedReturn').value) || 0;
+  const inflationRate = parseFloat(document.getElementById('combinedInflation').value) || 0;
+
+  if (yearsPeriod <= 0 || (lumpsumAmount <= 0 && monthlyInvestment <= 0)) {
+    document.getElementById('combinedTotalInvested').textContent = '0';
+    document.getElementById('combinedTotalGain').textContent = '0';
+    document.getElementById('combinedFinalAmount').textContent = '0';
+    document.getElementById('combinedRealValue').textContent = '0';
+    return;
+  }
+
+  const monthlyReturn = annualReturn / 12 / 100;
+  const months = yearsPeriod * 12;
+
+  let lumpsumFV = lumpsumAmount * Math.pow(1 + annualReturn / 100, yearsPeriod);
+
+  let sipFV = 0;
+  if (monthlyInvestment > 0) {
+    if (monthlyReturn === 0) {
+      sipFV = monthlyInvestment * months;
+    } else {
+      sipFV = monthlyInvestment * (((Math.pow(1 + monthlyReturn, months) - 1) / monthlyReturn) * (1 + monthlyReturn));
+    }
+  }
+
+  const finalValue = lumpsumFV + sipFV;
+  const totalInvested = lumpsumAmount + monthlyInvestment * months;
+  const totalGain = finalValue - totalInvested;
+  const realValue = finalValue / Math.pow(1 + inflationRate / 100, yearsPeriod);
+
+  document.getElementById('combinedTotalInvested').textContent = formatNumber(totalInvested.toFixed(2));
+  document.getElementById('combinedTotalGain').textContent = formatNumber(totalGain.toFixed(2));
+  document.getElementById('combinedFinalAmount').textContent = formatNumber(finalValue.toFixed(2));
+  document.getElementById('combinedRealValue').textContent = formatNumber(realValue.toFixed(2));
+}
+
+// EXPORT
+function resetCalculators() {
+  document.getElementById('monthlyInvestment').value = 10000;
+  document.getElementById('investmentPeriod').value = 10;
+  document.getElementById('annualReturn').value = 12;
+  document.getElementById('inflationRate').value = 5;
+
+  document.getElementById('stepupMonthly').value = 10000;
+  document.getElementById('stepupIncrease').value = 10;
+  document.getElementById('stepupPeriod').value = 10;
+  document.getElementById('stepupReturn').value = 12;
+  document.getElementById('stepupInflation').value = 5;
+
+  document.getElementById('lumpsumAmount').value = 500000;
+  document.getElementById('lumpsumPeriod').value = 10;
+  document.getElementById('lumpsumReturn').value = 12;
+  document.getElementById('lumpsumInflation').value = 5;
+
+  document.getElementById('combinedLumpsum').value = 200000;
+  document.getElementById('combinedMonthly').value = 5000;
+  document.getElementById('combinedPeriod').value = 10;
+  document.getElementById('combinedReturn').value = 12;
+  document.getElementById('combinedInflation').value = 5;
+
+  calculateRegularSIP();
+  calculateStepupSIP();
+  calculateLumpsum();
+  calculateCombined();
+}
+
+function downloadReport() {
+  let reportContent = 'SIP CALCULATOR REPORT\n';
+  reportContent += '='.repeat(80) + '\n\n';
+
+  reportContent += 'REGULAR SIP\n';
+  reportContent += '-'.repeat(80) + '\n';
+  reportContent += `Monthly Investment: ₹${document.getElementById('monthlyInvestment').value}\n`;
+  reportContent += `Period: ${document.getElementById('investmentPeriod').value} Years\n`;
+  reportContent += `Annual Return: ${document.getElementById('annualReturn').value}%\n`;
+  reportContent += `Total Invested: ₹${document.getElementById('totalInvested').textContent}\n`;
+  reportContent += `Total Gain: ₹${document.getElementById('totalGain').textContent}\n`;
+  reportContent += `Final Amount: ₹${document.getElementById('finalAmount').textContent}\n`;
+  reportContent += `Real Value (After Inflation): ₹${document.getElementById('realValue').textContent}\n\n`;
+
+  reportContent += 'STEP-UP SIP\n';
+  reportContent += '-'.repeat(80) + '\n';
+  reportContent += `Initial Investment: ₹${document.getElementById('stepupMonthly').value}\n`;
+  reportContent += `Annual Increase: ${document.getElementById('stepupIncrease').value}%\n`;
+  reportContent += `Period: ${document.getElementById('stepupPeriod').value} Years\n`;
+  reportContent += `Total Invested: ₹${document.getElementById('stepupTotalInvested').textContent}\n`;
+  reportContent += `Total Gain: ₹${document.getElementById('stepupTotalGain').textContent}\n`;
+  reportContent += `Final Amount: ₹${document.getElementById('stepupFinalAmount').textContent}\n\n`;
+
+  reportContent += 'LUMP-SUM\n';
+  reportContent += '-'.repeat(80) + '\n';
+  reportContent += `Lump-Sum Amount: ₹${document.getElementById('lumpsumAmount').value}\n`;
+  reportContent += `Period: ${document.getElementById('lumpsumPeriod').value} Years\n`;
+  reportContent += `Annual Return: ${document.getElementById('lumpsumReturn').value}%\n`;
+  reportContent += `Final Amount: ₹${document.getElementById('lumpsumFinal').textContent}\n\n`;
+
+  reportContent += 'COMBINED (SIP + LUMP-SUM)\n';
+  reportContent += '-'.repeat(80) + '\n';
+  reportContent += `Lump-Sum: ₹${document.getElementById('combinedLumpsum').value}\n`;
+  reportContent += `Monthly SIP: ₹${document.getElementById('combinedMonthly').value}\n`;
+  reportContent += `Period: ${document.getElementById('combinedPeriod').value} Years\n`;
+  reportContent += `Total Invested: ₹${document.getElementById('combinedTotalInvested').textContent}\n`;
+  reportContent += `Final Amount: ₹${document.getElementById('combinedFinalAmount').textContent}\n`;
+
+  const element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(reportContent));
+  element.setAttribute('download', 'SIP_Report.txt');
+  element.style.display = 'none';
+  document.body.appendChild(element);
+  element.click();
+  document.body.removeChild(element);
+
+  showToast('Report downloaded successfully!');
+}
+
+function printReport() {
+  const printWindow = window.open('', '', 'height=800,width=1000');
+  
+  printWindow.document.write('<html><head><title>SIP Calculator Report</title>');
+  printWindow.document.write('<style>');
+  printWindow.document.write('body { font-family: Arial, sans-serif; margin: 20px; }');
+  printWindow.document.write('h2 { color: #16a34a; border-bottom: 2px solid #16a34a; padding-bottom: 10px; }');
+  printWindow.document.write('table { width: 100%; border-collapse: collapse; margin: 20px 0; }');
+  printWindow.document.write('td { padding: 8px; border-bottom: 1px solid #ddd; }');
+  printWindow.document.write('td:first-child { font-weight: bold; width: 40%; }');
+  printWindow.document.write('</style></head><body>');
+
+  printWindow.document.write('<h1>SIP CALCULATOR REPORT</h1>');
+
+  printWindow.document.write('<h2>Regular SIP</h2><table>');
+  printWindow.document.write(`<tr><td>Monthly Investment:</td><td>₹${document.getElementById('monthlyInvestment').value}</td></tr>`);
+  printWindow.document.write(`<tr><td>Period:</td><td>${document.getElementById('investmentPeriod').value} Years</td></tr>`);
+  printWindow.document.write(`<tr><td>Annual Return:</td><td>${document.getElementById('annualReturn').value}%</td></tr>`);
+  printWindow.document.write(`<tr><td>Total Invested:</td><td>₹${document.getElementById('totalInvested').textContent}</td></tr>`);
+  printWindow.document.write(`<tr><td>Total Gain:</td><td>₹${document.getElementById('totalGain').textContent}</td></tr>`);
+  printWindow.document.write(`<tr><td>Final Amount:</td><td>₹${document.getElementById('finalAmount').textContent}</td></tr>`);
+  printWindow.document.write('</table>');
+
+  printWindow.document.write('<h2>Lump-Sum</h2><table>');
+  printWindow.document.write(`<tr><td>Lump-Sum Amount:</td><td>₹${document.getElementById('lumpsumAmount').value}</td></tr>`);
+  printWindow.document.write(`<tr><td>Period:</td><td>${document.getElementById('lumpsumPeriod').value} Years</td></tr>`);
+  printWindow.document.write(`<tr><td>Final Amount:</td><td>₹${document.getElementById('lumpsumFinal').textContent}</td></tr>`);
+  printWindow.document.write('</table>');
+
+  printWindow.document.write('</body></html>');
+  printWindow.document.close();
+  printWindow.print();
+}
+
+function showToast(message) {
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = message;
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.remove();
+  }, 3000);
+}
+
+window.addEventListener('load', () => {
+  calculateRegularSIP();
+  calculateStepupSIP();
+  calculateLumpsum();
+  calculateCombined();
+});
+</script>
+
+</body>
+</html>
