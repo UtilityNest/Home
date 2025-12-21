@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <title>Hindi Word Counter – Count Hindi Words & Characters | UtilityNest</title>
+
+  <meta name="description" content="Free Hindi Word Counter tool to count words, characters, sentences and paragraphs in Hindi text instantly. Accurate and privacy-friendly online tool.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="/Home/">
+
+  <!-- GLOBAL CSS -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    textarea{
+      width:100%;
+      min-height:180px;
+      padding:14px;
+      font-size:16px;
+      border:2px solid #d1d5db;
+      border-radius:10px;
+      resize:vertical;
+    }
+    textarea:focus{
+      outline:none;
+      border-color:#2563eb;
+      box-shadow:0 0 0 2px #bfdbfe;
+    }
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+      gap:15px;
+      margin-top:20px;
+    }
+    .stat-box{
+      background:#f9fafb;
+      padding:15px;
+      border-radius:10px;
+      text-align:center;
+      border:1px solid #e5e7eb;
+    }
+    .stat-box h3{
+      margin:0;
+      font-size:22px;
+      color:#1f2937;
+    }
+    .stat-box p{
+      margin:5px 0 0;
+      font-size:14px;
+      color:#6b7280;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+  <a href="">UtilityNest</a>
+  <nav>
+    <a href="government-tools/">Government</a>
+    <a href="finance-calculators/">Finance</a>
+    <a href="student-tools/">Student</a>
+    <a href="utility-tools/">Utility</a>
+    <a href="hindi-tools/">Hindi</a>
+  </nav>
+</header>
+
+<!-- BREADCRUMB -->
+<nav class="breadcrumb">
+  <a href="">Home</a> ›
+  <a href="hindi-tools/">Hindi Tools</a> ›
+  Hindi Word Counter
+</nav>
+
+<!-- MAIN -->
+<section class="section">
+
+  <h1>Hindi Word Counter</h1>
+  <p>
+    इस Hindi Word Counter की मदद से आप किसी भी हिंदी टेक्स्ट में
+    <strong>शब्दों, अक्षरों, वाक्यों और पैराग्राफ</strong> की संख्या
+    तुरंत और सटीक रूप से जान सकते हैं।
+  </p>
+
+  <!-- TOOL CARD -->
+  <div class="card gradient-card">
+    <h2>Enter Hindi Text</h2>
+
+    <textarea id="textInput" placeholder="यहाँ हिंदी टेक्स्ट लिखें या पेस्ट करें..."></textarea>
+
+    <button class="btn-primary" onclick="countText()">📊 Count Words</button>
+  </div>
+
+  <!-- RESULT -->
+  <div id="resultBox" class="card" style="display:none;">
+    <h2>Text Statistics</h2>
+
+    <div class="stats">
+      <div class="stat-box">
+        <h3 id="wordCount">0</h3>
+        <p>Words</p>
+      </div>
+
+      <div class="stat-box">
+        <h3 id="charCount">0</h3>
+        <p>Characters</p>
+      </div>
+
+      <div class="stat-box">
+        <h3 id="charNoSpace">0</h3>
+        <p>Characters (No Space)</p>
+      </div>
+
+      <div class="stat-box">
+        <h3 id="sentenceCount">0</h3>
+        <p>Sentences</p>
+      </div>
+
+      <div class="stat-box">
+        <h3 id="paragraphCount">0</h3>
+        <p>Paragraphs</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEO CONTENT -->
+  <div class="card">
+    <h2>About Hindi Word Counter</h2>
+    <p>
+      Hindi Word Counter एक फ्री ऑनलाइन टूल है जो छात्रों, लेखकों,
+      ब्लॉगर्स और प्रतियोगी परीक्षाओं की तैयारी करने वालों के लिए
+      बेहद उपयोगी है। यह टूल किसी भी हिंदी कंटेंट का विश्लेषण
+      तुरंत करता है और आपकी प्राइवेसी पूरी तरह सुरक्षित रखता है।
+    </p>
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h3>Hindi Tools</h3>
+      <a href="hindi-tools/hindi-word-counter/">Hindi Word Counter</a>
+      <a href="hindi-tools/hindi-character-counter/">Hindi Character Counter</a>
+      <a href="hindi-tools/hindi-typing-tool/">Hindi Typing Tool</a>
+    </div>
+
+    <div>
+      <h3>Popular Tools</h3>
+      <a href="age-calculator/">Age Calculator</a>
+      <a href="emi-calculator/">EMI Calculator</a>
+    </div>
+  </div>
+
+  <p class="copy">© 2025 UtilityNest</p>
+</footer>
+
+<!-- SCRIPT -->
+<script>
+function countText(){
+  const text = document.getElementById("textInput").value.trim();
+
+  if(text.length === 0){
+    document.getElementById("resultBox").style.display = "none";
+    return;
+  }
+
+  const words = text.split(/\s+/).filter(w => w.length > 0);
+  const characters = text.length;
+  const charactersNoSpace = text.replace(/\s/g,'').length;
+  const sentences = text.split(/[।.!?]+/).filter(s => s.trim().length > 0);
+  const paragraphs = text.split(/\n+/).filter(p => p.trim().length > 0);
+
+  document.getElementById("wordCount").innerText = words.length;
+  document.getElementById("charCount").innerText = characters;
+  document.getElementById("charNoSpace").innerText = charactersNoSpace;
+  document.getElementById("sentenceCount").innerText = sentences.length;
+  document.getElementById("paragraphCount").innerText = paragraphs.length;
+
+  document.getElementById("resultBox").style.display = "block";
+}
+</script>
+
+</body>
+</html>
