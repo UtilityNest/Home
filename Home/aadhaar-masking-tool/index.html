@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Aadhaar Masking Tool – Mask Aadhaar Number Online | UtilityNest</title>
+
+  <meta name="description" content="Free Aadhaar Masking Tool to hide first 8 digits and show only last 4 digits. Secure, instant and privacy-friendly Aadhaar masking online.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="/Home/css/style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="site-header"></div>
+
+<main class="container">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="/Home/">Home</a> ›
+    <a href="/Home/government-tools/">Government Tools</a> ›
+    Aadhaar Masking Tool
+  </div>
+
+  <!-- Tool Section -->
+  <section class="section">
+
+    <h1>Aadhaar Masking Tool</h1>
+    <p>
+      Mask your Aadhaar number securely by hiding the first 8 digits and showing
+      only the last 4 digits. This helps protect your privacy while sharing documents.
+    </p>
+
+    <!-- Ad Placeholder -->
+    <div class="ad-box">Advertisement</div>
+
+    <!-- Input Card -->
+    <div class="card">
+      <h2>Enter Aadhaar Number</h2>
+
+      <input
+        type="text"
+        id="aadhaarInput"
+        placeholder="XXXX XXXX XXXX"
+        maxlength="14"
+        style="width:100%;padding:12px;font-size:18px;font-family:monospace;margin-top:10px"
+      >
+
+      <button
+        onclick="maskAadhaar()"
+        style="margin-top:15px;padding:12px 20px;font-size:16px;cursor:pointer"
+      >
+        Mask Aadhaar Number
+      </button>
+
+      <p id="errorMsg" style="color:red;margin-top:10px;"></p>
+    </div>
+
+    <!-- Result Card -->
+    <div id="resultBox" class="card" style="display:none;margin-top:30px;">
+      <h2>Masked Aadhaar Number</h2>
+
+      <p style="font-size:24px;font-family:monospace;margin:15px 0;">
+        <span id="maskedNumber"></span>
+      </p>
+
+      <button onclick="toggleView()">Show / Hide Original</button>
+      <button onclick="copyMasked()" style="margin-left:10px;">Copy Masked</button>
+
+      <p style="margin-top:15px;font-size:14px;">
+        <strong>Privacy Tip:</strong> Always share masked Aadhaar to protect your identity.
+      </p>
+    </div>
+
+    <!-- Ad Placeholder -->
+    <div class="ad-box">Advertisement</div>
+
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<div id="site-footer"></div>
+
+<!-- HEADER / FOOTER INCLUDE SCRIPT -->
+<script>
+fetch('/Home/includes/header.html')
+  .then(res => res.text())
+  .then(data => document.getElementById('site-header').innerHTML = data);
+
+fetch('/Home/includes/footer.html')
+  .then(res => res.text())
+  .then(data => document.getElementById('site-footer').innerHTML = data);
+</script>
+
+<!-- TOOL LOGIC -->
+<script>
+let originalAadhaar = "";
+let isShowingOriginal = false;
+
+function formatAadhaar(value) {
+  return value.replace(/\D/g, '')
+              .replace(/(.{4})/g, '$1 ')
+              .trim();
+}
+
+document.getElementById('aadhaarInput').addEventListener('input', function () {
+  this.value = formatAadhaar(this.value).slice(0, 14);
+});
+
+function maskAadhaar() {
+  const input = document.getElementById('aadhaarInput').value.replace(/\s/g, '');
+  const error = document.getElementById('errorMsg');
+
+  if (input.length !== 12 || !/^\d+$/.test(input)) {
+    error.textContent = "Please enter a valid 12-digit Aadhaar number.";
+    return;
+  }
+
+  error.textContent = "";
+  originalAadhaar = formatAadhaar(input);
+  const masked = "XXXX XXXX " + input.slice(-4);
+
+  document.getElementById('maskedNumber').textContent = masked;
+  document.getElementById('resultBox').style.display = "block";
+  isShowingOriginal = false;
+}
+
+function toggleView() {
+  const display = document.getElementById('maskedNumber');
+  if (isShowingOriginal) {
+    display.textContent = "XXXX XXXX " + originalAadhaar.replace(/\s/g, '').slice(-4);
+  } else {
+    display.textContent = originalAadhaar;
+  }
+  isShowingOriginal = !isShowingOriginal;
+}
+
+function copyMasked() {
+  const text = document.getElementById('maskedNumber').textContent;
+  navigator.clipboard.writeText(text);
+  alert("Masked Aadhaar number copied!");
+}
+</script>
+
+</body>
+</html>
