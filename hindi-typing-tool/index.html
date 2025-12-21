@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hindi Typing Tool - Type in Hindi with Roman Keyboard</title>
+  <title>Hindi Typing Tool - Type in Hindi</title>
   <style>
     * {
       margin: 0;
@@ -12,11 +12,10 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
       padding: 20px;
-      color: #333;
     }
 
     .container {
@@ -42,7 +41,6 @@
     .header p {
       color: #666;
       font-size: 16px;
-      line-height: 1.6;
     }
 
     .main-content {
@@ -69,14 +67,6 @@
       font-size: 20px;
       color: #333;
       margin-bottom: 15px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .textarea-wrapper {
-      position: relative;
-      display: block;
     }
 
     textarea {
@@ -101,58 +91,6 @@
     textarea[readonly] {
       background-color: #f8f9fa;
       cursor: not-allowed;
-    }
-
-    .suggestions-box {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: white;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-      max-height: 250px;
-      overflow-y: auto;
-      z-index: 1000;
-      display: none;
-      margin-top: 5px;
-    }
-
-    .suggestions-box.active {
-      display: block;
-    }
-
-    .suggestion-item {
-      padding: 12px 15px;
-      cursor: pointer;
-      border-bottom: 1px solid #f0f0f0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: background-color 0.2s ease;
-    }
-
-    .suggestion-item:last-child {
-      border-bottom: none;
-    }
-
-    .suggestion-item:hover,
-    .suggestion-item.active {
-      background-color: #f0f4ff;
-    }
-
-    .suggestion-devanagari {
-      font-size: 18px;
-      font-weight: 600;
-      color: #333;
-      min-width: 60px;
-    }
-
-    .suggestion-roman {
-      font-size: 13px;
-      color: #999;
-      text-align: right;
     }
 
     .button-group {
@@ -271,24 +209,6 @@
       padding: 20px;
       margin-top: 40px;
     }
-
-    .scrollbar-hidden::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .scrollbar-hidden::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 10px;
-    }
-
-    .scrollbar-hidden::-webkit-scrollbar-thumb {
-      background: #888;
-      border-radius: 10px;
-    }
-
-    .scrollbar-hidden::-webkit-scrollbar-thumb:hover {
-      background: #555;
-    }
   </style>
 </head>
 <body>
@@ -296,25 +216,20 @@
 <div class="container">
   <div class="header">
     <h1>🇮🇳 Hindi Typing Tool</h1>
-    <p>Type in Hindi using Roman (English) Keyboard | Like EasyHindiTyping.com</p>
+    <p>Type in Hindi using Roman (English) Keyboard</p>
   </div>
 
   <div class="main-content">
     <div class="box">
-      <h2><span>📝</span> Type in English (Roman)</h2>
-      <div class="textarea-wrapper">
-        <textarea 
-          id="englishInput" 
-          placeholder="Type: aap kaise hain&#10;mera bharat mahan hai"
-          oninput="handleInput()"
-          onkeydown="handleKeyboard(event)"></textarea>
-        <div class="suggestions-box scrollbar-hidden" id="suggestionsBox"></div>
-      </div>
-      <p class="hint-text">💡 Type English, it converts to Hindi. Press Backspace at word end to see letter options.</p>
+      <h2>📝 Type in English (Roman)</h2>
+      <textarea 
+        id="englishInput" 
+        placeholder="Type here: aap kaise hain&#10;mera bharat mahan hai&#10;namaste&#10;dhanyavaad"></textarea>
+      <p class="hint-text">💡 Type English and it converts to Hindi. Delete and edit freely.</p>
     </div>
 
     <div class="box">
-      <h2><span>🔤</span> Hindi Output (देवनागरी)</h2>
+      <h2>🔤 Hindi Output (देवनागरी)</h2>
       <textarea 
         id="hindiOutput" 
         placeholder="यहाँ हिंदी टेक्स्ट दिखेगा..."
@@ -325,29 +240,30 @@
         <button class="btn-secondary" onclick="downloadText()">⬇️ Download</button>
         <button class="btn-secondary" onclick="clearAll()">🗑️ Clear</button>
       </div>
-      <div class="success-message" id="successMsg">✓ Copied!</div>
+      <div class="success-message" id="successMsg">✓ Copied to clipboard!</div>
     </div>
   </div>
 
   <div class="info-box">
     <h2>📖 How to Use</h2>
-    <p><strong>Just type English text and it converts to Hindi automatically!</strong></p>
+    <p><strong>Just type English and it automatically converts to Hindi!</strong></p>
     
-    <p><strong>Examples:</strong></p>
+    <p><strong>Working Examples:</strong></p>
     <ul>
       <li><span class="code-example">aap kaise hain</span> → आप कैसे हैं</li>
       <li><span class="code-example">mera bharat mahan hai</span> → मेरा भारत महान है</li>
       <li><span class="code-example">namaste</span> → नमस्ते</li>
       <li><span class="code-example">dhanyavaad</span> → धन्यवाद</li>
+      <li><span class="code-example">shukriya</span> → शुक्रिया</li>
       <li><span class="code-example">rajasthan</span> → राजस्थान</li>
+      <li><span class="code-example">sarkaari</span> → सरकारी</li>
     </ul>
 
-    <p><strong>Tips:</strong></p>
+    <p><strong>Phonetic Rules:</strong></p>
     <ul>
-      <li>✓ Backspace works normally to delete</li>
-      <li>✓ Press Backspace at word end for letter options</li>
-      <li>✓ Use arrow keys (↑↓) to navigate suggestions</li>
-      <li>✓ Press Enter to select, Escape to close</li>
+      <li><strong>Vowels:</strong> a, aa, i, ii, u, uu, oo, e, ai, o, au</li>
+      <li><strong>Consonants:</strong> k, kh, g, gh, ch, chh, j, jh, t, th, d, dh, p, ph, b, bh, m, y, r, l, v, w, s, sh, h</li>
+      <li><strong>Combinations:</strong> kh=ख, gh=घ, ch=च, chh=छ, sh=श, th=ठ, dh=ढ, ph=फ</li>
     </ul>
   </div>
 
@@ -357,338 +273,143 @@
 </div>
 
 <script>
-const DEVANAGARI_MAP = {
+const HINDI_MAP = {
+  // Double vowels first (longer sequences)
   'aa': 'आ', 'ii': 'ई', 'uu': 'ऊ', 'oo': 'ऊ', 'ee': 'ई',
+  
+  // Single vowels
   'a': 'अ', 'i': 'इ', 'u': 'उ', 
   'e': 'ए', 'o': 'ओ',
   'ai': 'ऐ', 'au': 'औ', 'ao': 'औ',
   'ri': 'ऋ', 'rri': 'ऋ',
   'an': 'अं', 'am': 'अं', 'ah': 'अः',
   
-  'kh': 'ख', 'gh': 'घ', 'ng': 'ङ',
-  'k': 'क', 'g': 'ग',
+  // Three letter combinations
+  'chh': 'छ', 'jh': 'झ', 'dh': 'ढ', 'th': 'ठ', 'ny': 'ञ', 'ng': 'ङ',
+  'ksh': 'क्ष', 'gya': 'ज्ञ', 'jna': 'ज्ञ', 'shr': 'श्र',
   
-  'chh': 'छ', 'jh': 'झ', 'ny': 'ञ',
-  'ch': 'च', 'j': 'ज',
+  // Two letter combinations
+  'kh': 'ख', 'gh': 'घ', 'ch': 'च', 'sh': 'श', 'ph': 'फ', 'bh': 'भ',
+  'ka': 'क', 'ki': 'कि', 'ku': 'कु', 'ke': 'के', 'ko': 'को',
+  'ga': 'ग', 'gi': 'गि', 'gu': 'गु', 'ge': 'गे', 'go': 'गो',
+  'ta': 'त', 'ti': 'ति', 'tu': 'तु', 'te': 'ते', 'to': 'तो',
+  'da': 'द', 'di': 'दि', 'du': 'दु', 'de': 'दे', 'do': 'दो',
+  'pa': 'प', 'pi': 'पि', 'pu': 'पु', 'pe': 'पे', 'po': 'पो',
+  'ba': 'ब', 'bi': 'बि', 'bu': 'बु', 'be': 'बे', 'bo': 'बो',
+  'ma': 'म', 'mi': 'मि', 'mu': 'मु', 'me': 'मे', 'mo': 'मो',
+  'ya': 'य', 'yi': 'यि', 'yu': 'यु', 'ye': 'ये', 'yo': 'यो',
+  'ra': 'र', 'ri': 'रि', 'ru': 'रु', 're': 'रे', 'ro': 'रो',
+  'la': 'ल', 'li': 'लि', 'lu': 'लु', 'le': 'ले', 'lo': 'लो',
+  'va': 'व', 'vi': 'वि', 'vu': 'वु', 've': 'वे', 'vo': 'वो',
+  'wa': 'व', 'wi': 'वि', 'wu': 'वु', 'we': 'वे', 'wo': 'वो',
+  'sa': 'स', 'si': 'सि', 'su': 'सु', 'se': 'से', 'so': 'सो',
+  'ha': 'ह', 'hi': 'हि', 'hu': 'हु', 'he': 'हे', 'ho': 'हो',
+  'ja': 'ज', 'ji': 'जि', 'ju': 'जु', 'je': 'जे', 'jo': 'जो',
+  'tha': 'थ', 'thi': 'थि', 'thu': 'थु', 'the': 'थे', 'tho': 'थो',
+  'pha': 'फ', 'phi': 'फि', 'phu': 'फु', 'phe': 'फे', 'pho': 'फो',
+  'sha': 'श', 'shi': 'शि', 'shu': 'शु', 'she': 'शे', 'sho': 'शो',
+  'ss': 'ष', 'nn': 'ण', 'dd': 'ड', 'tt': 'ट', 'f': 'फ',
   
-  'tt': 'ट', 'thh': 'ठ', 'ddh': 'ढ', 'nn': 'ण',
-  'dd': 'ड', 'dh': 'ढ', 'th': 'ठ',
-  
-  'ta': 'त', 'tha': 'थ', 'da': 'द', 'dha': 'ध', 'na': 'न',
+  // Single consonants
+  'k': 'क', 'g': 'ग', 'ch': 'च', 'j': 'ज', 
   't': 'त', 'd': 'ड', 'n': 'न',
-  
-  'ph': 'फ', 'f': 'फ', 'bh': 'भ',
-  'p': 'प', 'b': 'ब',
-  
-  'm': 'म', 'y': 'य', 'r': 'र', 'l': 'ल',
-  
-  'v': 'व', 'w': 'व', 'va': 'व', 'wa': 'व',
-  
-  'sh': 'श', 'ss': 'ष', 's': 'स', 'h': 'ह',
-  
-  'ksh': 'क्ष', 'xa': 'क्ष', 'tr': 'त्र', 'thr': 'त्र',
-  'gya': 'ज्ञ', 'jna': 'ज्ञ', 'gna': 'ज्ञ',
-  'shr': 'श्र', 'shree': 'श्री', 'shri': 'श्री',
-  'shn': 'श्न', 'sty': 'स्त्य', 'str': 'स्त्र',
+  'p': 'प', 'b': 'ब', 'm': 'म',
+  'y': 'य', 'r': 'र', 'l': 'ल', 'v': 'व', 'w': 'व',
+  's': 'स', 'h': 'ह',
   
   '.': '।'
 };
 
-const LETTER_ALTERNATIVES = {
-  'a': [
-    { dev: 'अ', roman: 'a' },
-    { dev: 'आ', roman: 'aa' },
-    { dev: 'ा', roman: 'matra aa' }
-  ],
-  'i': [
-    { dev: 'इ', roman: 'i' },
-    { dev: 'ई', roman: 'ii' },
-    { dev: 'ि', roman: 'matra i' },
-    { dev: 'ी', roman: 'matra ii' }
-  ],
-  'u': [
-    { dev: 'उ', roman: 'u' },
-    { dev: 'ऊ', roman: 'uu/oo' },
-    { dev: 'ु', roman: 'matra u' },
-    { dev: 'ू', roman: 'matra uu' }
-  ],
-  'e': [
-    { dev: 'ए', roman: 'e/ae' },
-    { dev: 'ऐ', roman: 'ai' },
-    { dev: 'े', roman: 'matra e' },
-    { dev: 'ै', roman: 'matra ai' }
-  ],
-  'o': [
-    { dev: 'ओ', roman: 'o' },
-    { dev: 'औ', roman: 'au/ao' },
-    { dev: 'ो', roman: 'matra o' },
-    { dev: 'ौ', roman: 'matra au' }
-  ],
-  'k': [
-    { dev: 'क', roman: 'k' },
-    { dev: 'ख', roman: 'kh' },
-    { dev: 'ग', roman: 'g' },
-    { dev: 'घ', roman: 'gh' }
-  ],
-  'c': [
-    { dev: 'च', roman: 'ch' },
-    { dev: 'छ', roman: 'chh' },
-    { dev: 'ज', roman: 'j' },
-    { dev: 'झ', roman: 'jh' }
-  ],
-  't': [
-    { dev: 'त', roman: 't (dental)' },
-    { dev: 'ट', roman: 'tt (retroflex)' },
-    { dev: 'थ', roman: 'th' },
-    { dev: 'ठ', roman: 'thh' }
-  ],
-  'd': [
-    { dev: 'द', roman: 'd (dental)' },
-    { dev: 'ड', roman: 'dd (retroflex)' },
-    { dev: 'ध', roman: 'dh' },
-    { dev: 'ढ', roman: 'ddh' }
-  ],
-  'n': [
-    { dev: 'न', roman: 'n (dental)' },
-    { dev: 'ण', roman: 'nn (retroflex)' },
-    { dev: 'ं', roman: 'anusvara' }
-  ],
-  'p': [
-    { dev: 'प', roman: 'p' },
-    { dev: 'फ', roman: 'ph/f' }
-  ],
-  'b': [
-    { dev: 'ब', roman: 'b' },
-    { dev: 'भ', roman: 'bh' }
-  ],
-  'm': [
-    { dev: 'म', roman: 'm' },
-    { dev: 'ं', roman: 'anusvara' }
-  ],
-  'y': [
-    { dev: 'य', roman: 'y' }
-  ],
-  'r': [
-    { dev: 'र', roman: 'r' },
-    { dev: 'ृ', roman: 'ri' }
-  ],
-  'l': [
-    { dev: 'ल', roman: 'l' },
-    { dev: 'ळ', roman: 'retroflex l' }
-  ],
-  'v': [
-    { dev: 'व', roman: 'v/w' },
-    { dev: 'ब', roman: 'b' }
-  ],
-  's': [
-    { dev: 'स', roman: 's' },
-    { dev: 'श', roman: 'sh' },
-    { dev: 'ष', roman: 'sh (retroflex)' }
-  ],
-  'h': [
-    { dev: 'ह', roman: 'h' },
-    { dev: 'ः', roman: 'visarga' }
-  ],
-  'j': [
-    { dev: 'ज', roman: 'j' },
-    { dev: 'झ', roman: 'jh' },
-    { dev: 'ज्ञ', roman: 'gya' }
-  ],
-  'g': [
-    { dev: 'ग', roman: 'g' },
-    { dev: 'घ', roman: 'gh' }
-  ],
-  'f': [
-    { dev: 'फ', roman: 'ph/f' }
-  ],
-  'w': [
-    { dev: 'व', roman: 'w/v' }
-  ]
-};
+// Reverse sort by key length to match longest first
+const SORTED_HINDI_MAP = {};
+Object.keys(HINDI_MAP)
+  .sort((a, b) => b.length - a.length)
+  .forEach(key => {
+    SORTED_HINDI_MAP[key] = HINDI_MAP[key];
+  });
 
-let currentSuggestions = [];
-let activeIndex = -1;
-let lastBackspacedChar = '';
-let lastBackspacedPos = -1;
-let showingSuggestions = false;
-
-function transliterateText(text) {
-  const words = text.toLowerCase().split(/(\s+)/);
+function convertToHindi(romanText) {
+  if (!romanText) return '';
+  
+  const words = romanText.toLowerCase().split(/(\s+)/);
+  
   return words.map(word => {
-    if (/\s/.test(word)) return word;
-    return transliterateWord(word);
+    if (/^\s+$/.test(word)) return word;
+    return convertWord(word);
   }).join('');
 }
 
-function transliterateWord(word) {
+function convertWord(word) {
   let result = '';
   let i = 0;
-
+  
   while (i < word.length) {
-    let matched = false;
+    let found = false;
     
-    for (let len = Math.min(5, word.length - i); len > 0; len--) {
-      const chunk = word.substr(i, len);
-      if (DEVANAGARI_MAP[chunk]) {
-        result += DEVANAGARI_MAP[chunk];
+    for (let len = Math.min(5, word.length - i); len >= 1; len--) {
+      const chunk = word.substring(i, i + len);
+      
+      if (SORTED_HINDI_MAP[chunk]) {
+        result += SORTED_HINDI_MAP[chunk];
         i += len;
-        matched = true;
+        found = true;
         break;
       }
     }
-
-    if (!matched) {
+    
+    if (!found) {
       result += word[i];
       i++;
     }
   }
-
+  
   return result;
 }
 
-function handleInput() {
-  const english = document.getElementById('englishInput');
-  const hindi = document.getElementById('hindiOutput');
-  const suggestionsBox = document.getElementById('suggestionsBox');
+const englishInput = document.getElementById('englishInput');
+const hindiOutput = document.getElementById('hindiOutput');
 
-  hindi.value = transliterateText(english.value);
-  
-  if (showingSuggestions) {
-    suggestionsBox.classList.remove('active');
-    showingSuggestions = false;
-  }
-}
+englishInput.addEventListener('input', function() {
+  hindiOutput.value = convertToHindi(this.value);
+});
 
-function handleKeyboard(event) {
-  const suggestionsBox = document.getElementById('suggestionsBox');
-  const input = event.target;
-  
-  if (event.key === 'Backspace') {
-    const pos = input.selectionStart;
-    
-    if (pos > 0) {
-      const charBefore = input.value[pos - 1].toLowerCase();
-      const isEndOfWord = pos === input.value.length || /\s/.test(input.value[pos]);
-      
-      if (isEndOfWord && LETTER_ALTERNATIVES[charBefore]) {
-        event.preventDefault();
-        lastBackspacedChar = charBefore;
-        lastBackspacedPos = pos - 1;
-        showLetterAlternatives(charBefore);
-        showingSuggestions = true;
-        return;
-      }
-    }
-    
-    showingSuggestions = false;
+englishInput.addEventListener('keydown', function(e) {
+  if (e.key === 'Backspace' || e.key === 'Delete' || e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
     setTimeout(() => {
-      handleInput();
+      hindiOutput.value = convertToHindi(englishInput.value);
     }, 0);
-    return;
   }
-
-  if (showingSuggestions && suggestionsBox.classList.contains('active')) {
-    const items = suggestionsBox.querySelectorAll('.suggestion-item');
-    
-    if (event.key === 'ArrowDown') {
-      event.preventDefault();
-      activeIndex = (activeIndex + 1) % items.length;
-      updateActiveSuggestion(items);
-    } else if (event.key === 'ArrowUp') {
-      event.preventDefault();
-      activeIndex = (activeIndex - 1 + items.length) % items.length;
-      updateActiveSuggestion(items);
-    } else if (event.key === 'Enter') {
-      event.preventDefault();
-      if (activeIndex >= 0) {
-        selectLetterAlternative(currentSuggestions[activeIndex]);
-      }
-    } else if (event.key === 'Escape') {
-      event.preventDefault();
-      suggestionsBox.classList.remove('active');
-      showingSuggestions = false;
-    } else {
-      showingSuggestions = false;
-      suggestionsBox.classList.remove('active');
-    }
-  }
-}
-
-function showLetterAlternatives(char) {
-  const suggestionsBox = document.getElementById('suggestionsBox');
-  suggestionsBox.innerHTML = '';
-  currentSuggestions = LETTER_ALTERNATIVES[char] || [];
-  activeIndex = -1;
-
-  currentSuggestions.forEach((item) => {
-    const div = document.createElement('div');
-    div.className = 'suggestion-item';
-    
-    const devSpan = document.createElement('span');
-    devSpan.className = 'suggestion-devanagari';
-    devSpan.textContent = item.dev;
-    
-    const romanSpan = document.createElement('span');
-    romanSpan.className = 'suggestion-roman';
-    romanSpan.textContent = item.roman;
-    
-    div.appendChild(devSpan);
-    div.appendChild(romanSpan);
-    
-    div.addEventListener('mousedown', (e) => {
-      e.preventDefault();
-      selectLetterAlternative(item);
-    });
-    
-    suggestionsBox.appendChild(div);
-  });
-
-  suggestionsBox.classList.add('active');
-}
-
-function updateActiveSuggestion(items) {
-  items.forEach(item => item.classList.remove('active'));
-  if (activeIndex >= 0 && items[activeIndex]) {
-    items[activeIndex].classList.add('active');
-    items[activeIndex].scrollIntoView({ block: 'nearest' });
-  }
-}
-
-function selectLetterAlternative(item) {
-  const input = document.getElementById('englishInput');
-  const value = input.value;
-  
-  const before = value.substring(0, lastBackspacedPos);
-  const after = value.substring(lastBackspacedPos + 1);
-  
-  input.value = before + item.dev + after;
-  input.selectionStart = input.selectionEnd = before.length + item.dev.length;
-
-  handleInput();
-  
-  document.getElementById('suggestionsBox').classList.remove('active');
-  showingSuggestions = false;
-}
+});
 
 function copyHindi() {
-  const hindi = document.getElementById('hindiOutput');
-  hindi.select();
-  document.execCommand('copy');
+  const text = hindiOutput.value;
+  if (!text.trim()) {
+    alert('Nothing to copy!');
+    return;
+  }
   
-  const msg = document.getElementById('successMsg');
-  msg.classList.add('show');
-  setTimeout(() => msg.classList.remove('show'), 2000);
+  navigator.clipboard.writeText(text).then(() => {
+    const msg = document.getElementById('successMsg');
+    msg.classList.add('show');
+    setTimeout(() => msg.classList.remove('show'), 2000);
+  }).catch(() => {
+    hindiOutput.select();
+    document.execCommand('copy');
+    const msg = document.getElementById('successMsg');
+    msg.classList.add('show');
+    setTimeout(() => msg.classList.remove('show'), 2000);
+  });
 }
 
 function downloadText() {
-  const hindi = document.getElementById('hindiOutput').value;
-  if (!hindi.trim()) {
+  const text = hindiOutput.value;
+  if (!text.trim()) {
     alert('Please type something first!');
     return;
   }
 
   const element = document.createElement('a');
-  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(hindi));
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
   element.setAttribute('download', 'hindi_text.txt');
   element.style.display = 'none';
   document.body.appendChild(element);
@@ -697,10 +418,9 @@ function downloadText() {
 }
 
 function clearAll() {
-  document.getElementById('englishInput').value = '';
-  document.getElementById('hindiOutput').value = '';
-  document.getElementById('suggestionsBox').classList.remove('active');
-  showingSuggestions = false;
+  englishInput.value = '';
+  hindiOutput.value = '';
+  englishInput.focus();
 }
 </script>
 
