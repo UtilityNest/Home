@@ -40,6 +40,43 @@
     .actions button{
       flex:1;
     }
+
+    /* Suggestion box just under textarea */
+    .suggestion-wrapper{
+      position:relative;
+      margin-top:4px;
+    }
+    #letterSuggestions{
+      position:absolute;
+      left:0;
+      right:0;
+      top:100%;
+      margin-top:4px;
+      background:#ffffff;
+      border:1px solid #d1d5db;
+      border-radius:6px;
+      box-shadow:0 8px 20px rgba(0,0,0,0.08);
+      display:none;
+      z-index:1000;
+      max-height:200px;
+      overflow-y:auto;
+      font-size:15px;
+    }
+    .letter-suggestion-item{
+      padding:6px 10px;
+      cursor:pointer;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .letter-suggestion-item span.roman{
+      color:#6b7280;
+      font-size:13px;
+    }
+    .letter-suggestion-item:hover,
+    .letter-suggestion-item.active{
+      background:#e5f3ff;
+    }
   </style>
 </head>
 
@@ -80,10 +117,15 @@
   <div class="card gradient-card">
     <h2>Type in English</h2>
 
-    <textarea
-      id="englishInput"
-      placeholder="Type here (e.g. mera bharat mahan hai)"
-      oninput="convertToHindi()"></textarea>
+    <div class="suggestion-wrapper">
+      <textarea
+        id="englishInput"
+        placeholder="Type here (e.g. mera bharat mahan hai)"
+        oninput="handleInput(event)"
+        onkeydown="handleLetterSuggestionKeys(event)"></textarea>
+
+      <div id="letterSuggestions"></div>
+    </div>
 
     <p class="hint">
       Example: <strong>mera bharat mahan hai</strong> → मेरा भारत महान है।
@@ -139,105 +181,441 @@
   <p class="copy">© 2025 UtilityNest</p>
 </footer>
 
-<!-- ADVANCED PHONETIC TRANSLITERATION SCRIPT -->
+<!-- ADVANCED PHONETIC TRANSLITERATION + LETTER SUGGESTIONS -->
 <script>
-const consonants = {
-  "k":"क","kh":"ख","g":"ग","gh":"घ","ch":"च","chh":"छ",
-  "j":"ज","jh":"झ","t":"त","th":"थ","d":"द","dh":"ध",
-  "n":"न","p":"प","ph":"फ","b":"ब","bh":"भ","m":"म",
-  "y":"य","r":"र","l":"ल","v":"व","s":"स","sh":"श","h":"ह"
+// ----- FULL TOKEN MAP (same as your working version) -----
+const FULL_MAP = {
+  "ka":"क","kaa":"का","ki":"कि","kee":"की","ku":"कु","koo":"कू","ke":"के",
+  "kai":"कै","ko":"को","kau":"कौ","kam":"कं","kah":"कः",
+
+  "kha":"ख","khaa":"खा","khi":"खि","khee":"खी","khu":"खु","khoo":"खू",
+  "khe":"खे","khai":"खै","kho":"खो","khau":"खौ","kham":"खं","khah":"खः",
+
+  "ga":"ग","gaa":"गा","gi":"गि","gee":"गी","gu":"गु","goo":"गू",
+  "ge":"गे","gai":"गै","go":"गो","gau":"गौ","gam":"गं","gah":"गः",
+
+  "gha":"घ","ghaa":"घा","ghi":"घि","ghee":"घी","ghu":"घु","ghoo":"घू",
+  "ghe":"घे","ghai":"घै","gho":"घो","ghau":"घौ","gham":"घं","ghah":"घः",
+
+  "cha":"च","chaa":"चा","chi":"चि","chee":"ची","chu":"चु","choo":"चू",
+  "che":"चे","chai":"चै","cho":"चो","chau":"चौ","cham":"चं","chah":"चः",
+
+  "chha":"छ","chhaa":"छा","chhi":"छि","chhee":"छी","chhu":"छु","chhoo":"छू",
+  "chhe":"छे","chhai":"छै","chho":"छो","chhou":"छौ","chham":"छं","chhah":"छः",
+
+  "ja":"ज","jaa":"जा","ji":"जि","jee":"जी","ju":"जु","joo":"जू",
+  "je":"जे","jai":"जै","jo":"जो","jau":"जौ","jam":"जं","jah":"जः",
+
+  "jha":"झ","jhaa":"झा","jhi":"झि","jhee":"झी","jhu":"झु","jhoo":"झू",
+  "jhe":"झे","jhai":"झै","jho":"झो","jhau":"झौ","jham":"झं","jhah":"झः",
+
+  "tra":"त्र","traa":"त्रा","tri":"त्रि","tree":"त्री","tru":"त्रु","troo":"त्रू",
+  "tre":"त्रे","trai":"त्रै","tro":"त्रो","trau":"ञौ","tram":"ञं","trah":"ञः",
+
+  "ta":"ट","taa":"टा","ti":"टि","tee":"टी","tu":"टु","too":"टू",
+  "te":"टे","tai":"टै","to":"टो","tau":"टौ","tam":"टं","tah":"टः",
+
+  "tha":"ठ","thaa":"ठा","thi":"ठि","thee":"ठी","thu":"ठु","thoo":"ठू",
+  "the":"ठे","thai":"ठै","tho":"ठो","thau":"ठौ","tham":"ठं","thah":"ठः",
+
+  "da":"ड","daa":"डा","di":"डि","dee":"डी","du":"डु","doo":"डू",
+  "de":"डे","dai":"डै","do":"डो","dau":"डौ","dam":"डं","dah":"डः",
+
+  "dha":"ढ","dhaa":"ढा","dhi":"ढि","dhee":"ढी","dhu":"ढु","dhoo":"ढू",
+  "dhe":"ढे","dhai":"ढै","dhao":"ढो","dhau":"ढौ","dham":"ढं","dhah":"ढः",
+
+  "na":"ण","naa":"णा","ni":"णि","nee":"णी","nu":"णु","noo":"णू",
+  "ne":"णे","nai":"णै","no":"णो","nau":"णौ","nam":"णं","nah":"णः",
+
+  "t":"त","taa2":"ता","ti2":"ति","tee2":"ती","tu2":"तु","too2":"तू",
+  "te2":"ते","tai2":"तै","to2":"तो","tau2":"तौ","tam2":"तं","tah2":"तः",
+
+  "tha2":"थ","thaa2":"था","thi2":"थि","thee2":"थी","thu2":"थु","thoo2":"थू",
+  "the2":"थे","thai2":"थै","tho2":"थो","thau2":"थौ","tham2":"थं","thah2":"थः",
+
+  "d":"द","daa2":"दा","di2":"दि","dee2":"दी","du2":"दु","doo2":"दू",
+  "de2":"दे","dai2":"दै","do2":"दो","dau2":"दौ","dam2":"दं","dah2":"दः",
+
+  "Dha":"ध","dhaa2":"धा","dhi2":"धि","dhee2":"धी","dhu2":"धु","dhoo2":"धू",
+  "dhe2":"धे","dhai2":"धै","dho2":"धो","dhau2":"धौ","dham2":"धं","dhah2":"धः",
+
+  "na2":"न","naa2":"ना","ni2":"नि","nee2":"नी","nu2":"नु","noo2":"नू",
+  "ne2":"ने","nai2":"नै","no2":"नो","nau2":"नौ","nam2":"नं","nah2":"नः",
+
+  "pa":"प","paa":"पा","pi":"पि","pee":"पी","pu":"पु","poo":"पू",
+  "pe":"पे","pai":"पै","po":"पो","pau":"पौ","pam":"पं","pah":"पः",
+
+  "pha":"फ","phaa":"फा","phi":"फि","phee":"फी","phu":"फु","phoo":"फू",
+  "phe":"फे","pahi":"फै","pho":"फो","phau":"फौ","pham":"फं","phah":"फः",
+
+  "ba":"ब","baa":"बा","bi":"बि","bee":"बी","bu":"बु","boo":"बू",
+  "be":"बे","bai":"बै","bo":"बो","bau":"बौ","bam":"बं","bah":"बः",
+
+  "bha":"भ","bhaa":"भा","bhi":"भि","bhee":"भी","bhu":"भु","bhoo":"भू",
+  "bhe":"भे","bhai":"भै","bho":"भो","bhau":"भौ","bham":"भं","bhah":"भः",
+
+  "ma":"म","maa":"मा","mi":"मि","mee":"मी","mu":"मु","moo":"मू",
+  "me":"मे","mai":"मै","mo":"मो","mau":"मौ","mam":"मं","mah":"मः",
+
+  "ya":"य","yaa":"या","yi":"यि","yee":"यी","yu":"यु","yoo":"यू",
+  "ye":"ये","yai":"यै","yo":"यो","yau":"यौ","yam":"यं","yah":"यः",
+
+  "ra":"र","raa":"रा","ri":"रि","ree":"री","ru":"रु","roo":"रू",
+  "re":"रे","rai":"रै","ro":"रो","rau":"रौ","ram":"रं","rah":"रः",
+
+  "la":"ल","laa":"ला","li":"लि","lee":"ली","lu":"लु","loo":"लू",
+  "le":"ले","lai":"लै","lo":"लो","lau":"लौ","lam":"लं","lah":"लः",
+
+  "va":"व","vaa":"वा","vi":"वि","vee":"वी","vu":"वु","voo":"वू",
+  "ve":"वे","vai":"वै","vo":"वो","vau":"वौ","vam":"वं","vah":"वः",
+
+  "sha":"श","shaa":"शा","shi":"शि","shee":"शी","shu":"शु","shoo":"शू",
+  "she":"शे","shai":"शै","sho":"शो","shau":"शौ","sham":"शं","shah":"शः",
+
+  "sa":"स","saa":"सा","si":"सि","see":"सी","su":"सु","soo":"सू",
+  "se":"से","sai":"सै","so":"सो","sau":"सौ","sam":"सं","sah":"सः",
+
+  "ha":"ह","haa":"हा","hi":"हि","hee":"ही","hu":"हु","hoo":"हू",
+  "he":"हे","hai":"है","ho":"हो","hau":"हौ","ham":"हं","hah":"हः",
+
+  "lla":"ळ","llaa":"ळा","lli":"ळि","llee":"ळी","llu":"ळु","lloo":"ळू",
+  "lle":"ळे","llai":"ळै","llo":"ळो","llou":"ळौ","llam":"ळं","llah":"ळः",
+
+  "ksha":"क्ष","kshaa":"क्षा","kshi":"क्षि","kshee":"क्षी","kshu":"क्षु","kshoo":"क्षू",
+  "kshe":"क्षे","kshai":"क्षै","ksho":"क्षो","kshau":"क्षौ","ksham":"क्षं","kshah":"क्षः",
+
+  "dnya":"ज्ञ","dnyaa":"ज्ञा","Dnyi":"ज्ञि","Dnyee":"ज्ञी","dnyu":"ज्ञु","dnyoo":"ज्ञू",
+  "dnye":"ज्ञे","dnyai":"ज्ञै","dnyo":"ज्ञो","dnyau":"ज्ञौ","dnyam":"ज्ञं","dnyah":"ज्ञः"
 };
 
-const vowels = {
-  "aa":"ा","i":"ि","ii":"ी","u":"ु","uu":"ू",
-  "e":"े","ai":"ै","o":"ो","au":"ौ"
-};
-
-const standaloneVowels = {
-  "a":"अ","aa":"आ","i":"इ","ii":"ई","u":"उ","uu":"ऊ",
+// Standalone vowels
+const STANDALONE_VOWELS = {
+  "a":"अ","aa":"आ","i":"इ","ee":"ई","u":"उ","oo":"ऊ",
   "e":"ए","ai":"ऐ","o":"ओ","au":"औ"
 };
 
+// Per-letter suggestion list for each roman key
+const LETTER_SUGGESTIONS = {
+  "k": [
+    {dev:"क", roman:"ka"},
+    {dev:"क्", roman:"k (halant)"},
+    {dev:"कं", roman:"kam (anusvara)"},
+    {dev:"कँ", roman:"kã (chandrabindu)"},
+    {dev:"कः", roman:"kah (visarga)"}
+  ],
+  "g": [
+    {dev:"ग", roman:"ga"},
+    {dev:"ग्", roman:"g (halant)"},
+    {dev:"गं", roman:"gam (anusvara)"},
+    {dev:"गँ", roman:"gã (chandrabindu)"},
+    {dev:"गः", roman:"gah (visarga)"}
+  ],
+  "c": [
+    {dev:"च", roman:"ca/cha"},
+    {dev:"च्", roman:"c (halant)"},
+    {dev:"चं", roman:"cam (anusvara)"},
+    {dev:"चँ", roman:"cã (chandrabindu)"},
+    {dev:"चः", roman:"cah (visarga)"}
+  ],
+  "j": [
+    {dev:"ज", roman:"ja"},
+    {dev:"ज्", roman:"j (halant)"},
+    {dev:"जं", roman:"jam (anusvara)"},
+    {dev:"जँ", roman:"jã (chandrabindu)"},
+    {dev:"जः", roman:"jah (visarga)"}
+  ],
+  "t": [
+    {dev:"त", roman:"ta (dental)"},
+    {dev:"ट", roman:"Ta (retroflex)"},
+    {dev:"त्", roman:"t (halant)"},
+    {dev:"ट्", roman:"T (halant)"},
+    {dev:"तं", roman:"tam (anusvara)"},
+    {dev:"तँ", roman:"tã (chandrabindu)"},
+    {dev:"तः", roman:"tah (visarga)"}
+  ],
+  "d": [
+    {dev:"द", roman:"da (dental)"},
+    {dev:"ड", roman:"Da (retroflex)"},
+    {dev:"द्", roman:"d (halant)"},
+    {dev:"ड्", roman:"D (halant)"},
+    {dev:"दं", roman:"dam (anusvara)"},
+    {dev:"दँ", roman:"dã (chandrabindu)"},
+    {dev:"दः", roman:"dah (visarga)"}
+  ],
+  "n": [
+    {dev:"न", roman:"na (dental)"},
+    {dev:"ण", roman:"Na (retroflex)"},
+    {dev:"न्", roman:"n (halant)"},
+    {dev:"ण्", roman:"N (halant)"},
+    {dev:"ं", roman:"anusvara (generic nasal)"},
+    {dev:"ँ", roman:"chandrabindu (nasalization)"},
+    {dev:"नं", roman:"nam (anusvara)"},
+    {dev:"नः", roman:"nah (visarga)"},
+    {dev:"n", roman:"keep n as roman"}
+  ],
+  "p": [
+    {dev:"प", roman:"pa"},
+    {dev:"प्", roman:"p (halant)"},
+    {dev:"पं", roman:"pam (anusvara)"},
+    {dev:"पँ", roman:"pã (chandrabindu)"},
+    {dev:"पः", roman:"pah (visarga)"}
+  ],
+  "b": [
+    {dev:"ब", roman:"ba"},
+    {dev:"भ", roman:"bha"},
+    {dev:"ब्", roman:"b (halant)"},
+    {dev:"भ्", roman:"bh (halant)"},
+    {dev:"बं", roman:"bam (anusvara)"},
+    {dev:"बँ", roman:"bã (chandrabindu)"},
+    {dev:"बः", roman:"bah (visarga)"}
+  ],
+  "m": [
+    {dev:"म", roman:"ma"},
+    {dev:"म्", roman:"m (halant)"},
+    {dev:"ं", roman:"anusvara"},
+    {dev:"ँ", roman:"chandrabindu"},
+    {dev:"मं", roman:"mam (anusvara)"},
+    {dev:"मः", roman:"mah (visarga)"}
+  ],
+  "y": [
+    {dev:"य", roman:"ya"},
+    {dev:"य्", roman:"y (halant)"},
+    {dev:"यं", roman:"yam (anusvara)"},
+    {dev:"यँ", roman:"yã (chandrabindu)"},
+    {dev:"यः", roman:"yah (visarga)"}
+  ],
+  "r": [
+    {dev:"र", roman:"ra"},
+    {dev:"र्", roman:"r (halant)"},
+    {dev:"रं", roman:"ram (anusvara)"},
+    {dev:"रँ", roman:"rã (chandrabindu)"},
+    {dev:"रः", roman:"rah (visarga)"}
+  ],
+  "l": [
+    {dev:"ल", roman:"la"},
+    {dev:"ळ", roman:"ḷa"},
+    {dev:"ल्", roman:"l (halant)"},
+    {dev:"ळ्", roman:"ḷ (halant)"},
+    {dev:"लं", roman:"lam (anusvara)"},
+    {dev:"लँ", roman:"lã (chandrabindu)"},
+    {dev:"लः", roman:"lah (visarga)"}
+  ],
+  "v": [
+    {dev:"व", roman:"va/wa"},
+    {dev:"व्", roman:"v (halant)"},
+    {dev:"वं", roman:"vam (anusvara)"},
+    {dev:"वँ", roman:"vã (chandrabindu)"},
+    {dev:"वः", roman:"vah (visarga)"}
+  ],
+  "s": [
+    {dev:"स", roman:"sa"},
+    {dev:"श", roman:"sha"},
+    {dev:"ष", roman:"Sha"},
+    {dev:"स्", roman:"s (halant)"},
+    {dev:"सं", roman:"sam (anusvara)"},
+    {dev:"सँ", roman:"sã (chandrabindu)"},
+    {dev:"सः", roman:"sah (visarga)"}
+  ],
+  "h": [
+    {dev:"ह", roman:"ha"},
+    {dev:"ः", roman:"visarga"},
+    {dev:"ह्", roman:"h (halant)"},
+    {dev:"हं", roman:"ham (anusvara)"},
+    {dev:"हँ", roman:"hã (chandrabindu)"}
+  ],
+  "x": [
+    {dev:"ं", roman:"anusvara"},
+    {dev:"ँ", roman:"chandrabindu"},
+    {dev:"ः", roman:"visarga"}
+  ],
+  "a": [
+    {dev:"अ", roman:"a"},
+    {dev:"आ", roman:"aa"},
+    {dev:"ा", roman:"aa matra"},
+    {dev:"ॅ", roman:"short a (optional)"}
+  ],
+  "i": [
+    {dev:"इ", roman:"i"},
+    {dev:"ई", roman:"ii"},
+    {dev:"ि", roman:"i matra (before)"},
+    {dev:"ी", roman:"ii matra"}
+  ],
+  "u": [
+    {dev:"उ", roman:"u"},
+    {dev:"ऊ", roman:"uu"},
+    {dev:"ु", roman:"u matra"},
+    {dev:"ू", roman:"uu matra"}
+  ],
+  "e": [
+    {dev:"ए", roman:"e"},
+    {dev:"ऐ", roman:"ai"},
+    {dev:"े", roman:"e matra"},
+    {dev:"ै", roman:"ai matra"}
+  ],
+  "o": [
+    {dev:"ओ", roman:"o"},
+    {dev:"औ", roman:"au"},
+    {dev:"ो", roman:"o matra"},
+    {dev:"ौ", roman:"au matra"}
+  ]
+};
+
+// Helper: find longest token
+function matchToken(str, i){
+  let maxLen = Math.min(5, str.length - i);
+  for(let len = maxLen; len > 0; len--){
+    const sub = str.substr(i, len);
+    if(FULL_MAP[sub]) return { token: sub, val: FULL_MAP[sub], len };
+    if(STANDALONE_VOWELS[sub]) return { token: sub, val: STANDALONE_VOWELS[sub], len };
+  }
+  return null;
+}
+
+// Transliterate single word
 function transliterateWord(word){
   let out = "";
   let i = 0;
-
   while(i < word.length){
-    let c3 = word.substr(i,3);
-    let c2 = word.substr(i,2);
-    let c1 = word.substr(i,1);
-
-    if(consonants[c2]){
-      out += consonants[c2];
-      i += 2;
-
-      let v2 = word.substr(i,2);
-      let v1 = word.substr(i,1);
-
-      if(vowels[v2]){
-        out += vowels[v2];
-        i += 2;
-      } else if(vowels[v1]){
-        out += vowels[v1];
-        i += 1;
-      }
-      continue;
-    }
-
-    if(consonants[c1]){
-      out += consonants[c1];
+    const m = matchToken(word, i);
+    if(m){
+      out += m.val;
+      i += m.len;
+    }else{
+      out += word[i];
       i++;
-
-      let v2 = word.substr(i,2);
-      let v1 = word.substr(i,1);
-
-      if(vowels[v2]){
-        out += vowels[v2];
-        i += 2;
-      } else if(vowels[v1]){
-        out += vowels[v1];
-        i += 1;
-      }
-      continue;
     }
-
-    if(standaloneVowels[c2]){
-      out += standaloneVowels[c2];
-      i += 2;
-      continue;
-    }
-
-    if(standaloneVowels[c1]){
-      out += standaloneVowels[c1];
-      i++;
-      continue;
-    }
-
-    out += word[i];
-    i++;
   }
-
   return out;
 }
 
+// Convert entire textarea
 function convertToHindi(){
   const input = document.getElementById("englishInput").value.toLowerCase();
-  const words = input.split(/\s+/);
-  let output = [];
+  const parts = input.split(/(\s+)/);
+  let result = "";
 
-  words.forEach(w => {
-    output.push(transliterateWord(w));
+  parts.forEach(part => {
+    if(part.trim() === ""){
+      result += part;
+    }else{
+      result += transliterateWord(part);
+    }
   });
 
-  let finalText = output.join(" ");
-
-  if(finalText && !/[।!?]$/.test(finalText)){
-    finalText += "।";
-  }
-
-  document.getElementById("hindiOutput").value = finalText;
+  document.getElementById("hindiOutput").value = result;
 }
 
+// ===== Letter suggestion logic =====
+let letterSuggestionsList = [];
+let letterActiveIndex = -1;
+
+function getCurrentCharInfo(textarea){
+  const pos = textarea.selectionStart;
+  const value = textarea.value;
+  const char = pos > 0 ? value[pos - 1] : "";
+  return {char, pos};
+}
+
+// called on input
+function handleInput(e){
+  convertToHindi();
+  showLetterSuggestions(e);
+}
+
+// show suggestions for last typed roman letter
+function showLetterSuggestions(e){
+  const ta = e.target;
+  const info = getCurrentCharInfo(ta);
+  const ch = info.char.toLowerCase();
+  const box = document.getElementById("letterSuggestions");
+
+  box.innerHTML = "";
+  box.style.display = "none";
+  letterSuggestionsList = [];
+  letterActiveIndex = -1;
+
+  if(!ch || !LETTER_SUGGESTIONS[ch]) return;
+
+  const options = LETTER_SUGGESTIONS[ch];
+
+  options.forEach(opt => {
+    const div = document.createElement("div");
+    div.className = "letter-suggestion-item";
+
+    const devSpan = document.createElement("span");
+    devSpan.textContent = opt.dev;
+
+    const romanSpan = document.createElement("span");
+    romanSpan.className = "roman";
+    romanSpan.textContent = opt.roman;
+
+    div.appendChild(devSpan);
+    div.appendChild(romanSpan);
+
+    div.addEventListener("mousedown", function(ev){
+      ev.preventDefault();
+      applyLetterSuggestion(opt.dev, ch);
+    });
+
+    box.appendChild(div);
+  });
+
+  letterSuggestionsList = options;
+  box.style.display = "block";
+}
+
+// replace last roman char with chosen Devanagari
+function applyLetterSuggestion(devChar, romanChar){
+  const ta = document.getElementById("englishInput");
+  const pos = ta.selectionStart;
+  const value = ta.value;
+
+  const before = value.substring(0, pos - 1);
+  const after  = value.substring(pos);
+
+  ta.value = before + devChar + after;
+
+  const newPos = before.length + devChar.length;
+  ta.selectionStart = ta.selectionEnd = newPos;
+
+  document.getElementById("letterSuggestions").style.display = "none";
+  convertToHindi();
+}
+
+// keyboard navigation: ↑ ↓ Enter Esc
+function handleLetterSuggestionKeys(e){
+  const box = document.getElementById("letterSuggestions");
+  if(box.style.display === "none") return;
+
+  const items = box.querySelectorAll(".letter-suggestion-item");
+  if(items.length === 0) return;
+
+  if(e.key === "ArrowDown"){
+    e.preventDefault();
+    letterActiveIndex = (letterActiveIndex + 1) % items.length;
+  }else if(e.key === "ArrowUp"){
+    e.preventDefault();
+    letterActiveIndex = (letterActiveIndex - 1 + items.length) % items.length;
+  }else if(e.key === "Enter"){
+    if(letterActiveIndex >= 0){
+      e.preventDefault();
+      const chosen = letterSuggestionsList[letterActiveIndex];
+      const lastChar = getCurrentCharInfo(document.getElementById("englishInput")).char.toLowerCase();
+      applyLetterSuggestion(chosen.dev, lastChar);
+      return;
+    }
+  }else if(e.key === "Escape"){
+    box.style.display = "none";
+    return;
+  }else{
+    return;
+  }
+
+  items.forEach(el => el.classList.remove("active"));
+  if(letterActiveIndex >= 0) items[letterActiveIndex].classList.add("active");
+}
+
+// COPY & CLEAR
 function copyHindi(){
   const out = document.getElementById("hindiOutput");
   out.select();
@@ -248,6 +626,7 @@ function copyHindi(){
 function clearText(){
   document.getElementById("englishInput").value = "";
   document.getElementById("hindiOutput").value = "";
+  document.getElementById("letterSuggestions").style.display = "none";
 }
 </script>
 
