@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Advanced Salary Calculator - Calculate Tax, Deductions, Take-Home</title>
+  <title>Advanced Salary Calculator - Tax & Take-Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <style>
@@ -45,19 +45,14 @@
       border-bottom: 1px solid #e5e7eb;
     }
 
-    .breadcrumb a {
-      color: #667eea;
-      text-decoration: none;
-    }
-
     .section {
-      max-width: 1300px;
+      max-width: 1400px;
       margin: 30px auto;
       padding: 0 20px;
     }
 
     .section h1 {
-      font-size: 36px;
+      font-size: 32px;
       margin-bottom: 15px;
       color: white;
       text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
@@ -67,15 +62,15 @@
     .card {
       background: white;
       border-radius: 12px;
-      padding: 28px;
+      padding: 24px;
       margin-bottom: 24px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.12);
       border: 1px solid #e5e7eb;
     }
 
     .card h2 {
-      font-size: 22px;
-      margin-bottom: 20px;
+      font-size: 20px;
+      margin-bottom: 16px;
       color: #1f2937;
       font-weight: 700;
     }
@@ -94,7 +89,7 @@
     }
 
     .tab-button {
-      padding: 14px 22px;
+      padding: 12px 18px;
       background: none;
       border: none;
       font-size: 14px;
@@ -131,7 +126,7 @@
     }
 
     .form-group {
-      margin-bottom: 22px;
+      margin-bottom: 18px;
     }
 
     .form-group label {
@@ -139,12 +134,12 @@
       font-size: 14px;
       font-weight: 700;
       color: #1f2937;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .form-group input, .form-group select {
       width: 100%;
-      padding: 11px 14px;
+      padding: 10px 12px;
       border: 2px solid #e5e7eb;
       border-radius: 8px;
       font-size: 14px;
@@ -156,54 +151,94 @@
     .form-group input:focus, .form-group select:focus {
       outline: none;
       border-color: #667eea;
-      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
       background: #f9fafb;
     }
 
     .input-help {
-      font-size: 12px;
+      font-size: 11px;
       color: #9ca3af;
       margin-top: 4px;
     }
 
-    .slider-container {
-      margin-top: 10px;
+    .conversion-box {
+      background: #fef9c3;
+      border: 1px solid #facc15;
+      padding: 12px 14px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      font-size: 13px;
     }
 
-    input[type="range"] {
-      width: 100%;
-      height: 7px;
-      border-radius: 4px;
-      background: #e5e7eb;
-      outline: none;
-      -webkit-appearance: none;
-      appearance: none;
+    .conversion-box h4 {
+      color: #92400e;
+      font-size: 13px;
+      margin-bottom: 8px;
+      font-weight: 700;
     }
 
-    input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      cursor: pointer;
-      box-shadow: 0 2px 6px rgba(102, 126, 234, 0.4);
+    .conversion-row {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 10px;
+      margin-bottom: 6px;
     }
 
-    input[type="range"]::-moz-range-thumb {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      cursor: pointer;
+    .conversion-input {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .conversion-input input {
+      flex: 1;
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid #fbbf24;
+      font-size: 13px;
+    }
+
+    .conversion-input button {
+      padding: 8px 10px;
+      border-radius: 6px;
       border: none;
-      box-shadow: 0 2px 6px rgba(102, 126, 234, 0.4);
+      background: #f59e0b;
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .toggle-group {
+      display: inline-flex;
+      gap: 0;
+      background: #f3f4f6;
+      border-radius: 999px;
+      padding: 3px;
+      margin-top: 4px;
+    }
+
+    .toggle-btn {
+      padding: 5px 10px;
+      border: none;
+      background: transparent;
+      color: #6b7280;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      border-radius: 999px;
+    }
+
+    .toggle-btn.active {
+      background: white;
+      color: #667eea;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
     }
 
     .grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 24px;
+      gap: 18px;
     }
 
     @media (max-width: 768px) {
@@ -215,8 +250,8 @@
     .results-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-top: 24px;
+      gap: 14px;
+      margin-top: 20px;
     }
 
     @media (max-width: 1024px) {
@@ -233,29 +268,24 @@
 
     .result-box {
       background: linear-gradient(135deg, #f3f4f6 0%, #f9fafb 100%);
-      border-left: 5px solid #667eea;
-      padding: 18px;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border-left: 4px solid #667eea;
+      padding: 14px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
       transition: all 0.3s;
-    }
-
-    .result-box:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 16px rgba(102, 126, 234, 0.15);
     }
 
     .result-label {
       font-size: 11px;
       color: #6b7280;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
-      margin-bottom: 8px;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
       font-weight: 700;
     }
 
     .result-value {
-      font-size: 28px;
+      font-size: 22px;
       font-weight: 800;
       color: #667eea;
       font-family: 'Courier New', monospace;
@@ -271,94 +301,17 @@
 
     .result-box.warning {
       border-left-color: #f59e0b;
-      background: linear-gradient(135deg, #fef3c7 0%, #fef9e7 100%);
-    }
-
-    .result-box.warning .result-value {
-      color: #d97706;
     }
 
     .result-box.danger {
       border-left-color: #ef4444;
     }
 
-    .result-box.danger .result-value {
-      color: #dc2626;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-      margin-top: 16px;
-    }
-
-    table thead {
-      background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-      border-bottom: 2px solid #d1d5db;
-    }
-
-    table th {
-      padding: 14px;
-      text-align: left;
-      font-weight: 700;
-      color: #1f2937;
-    }
-
-    table td {
-      padding: 12px 14px;
-      border-bottom: 1px solid #e5e7eb;
-    }
-
-    table tbody tr:hover {
-      background: linear-gradient(90deg, #f3f4f6 0%, #f9fafb 100%);
-    }
-
-    .actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 28px;
-      flex-wrap: wrap;
-    }
-
-    .actions button {
-      flex: 1;
-      min-width: 140px;
-      padding: 12px 18px;
-      border: 2px solid #e5e7eb;
-      border-radius: 8px;
-      background: white;
-      color: #374151;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    .actions button:hover {
-      border-color: #667eea;
-      color: #667eea;
-      background: #f3f4f6;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border-color: #667eea;
-    }
-
-    .btn-primary:hover {
-      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
-      transform: translateY(-2px);
-    }
-
     .breakdown-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-top: 20px;
+      gap: 14px;
+      margin-top: 18px;
     }
 
     @media (max-width: 768px) {
@@ -368,68 +321,63 @@
     }
 
     .breakdown-item {
-      background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
-      padding: 16px;
-      border-radius: 10px;
-      border-left: 5px solid #667eea;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      background: #f9fafb;
+      border-radius: 8px;
+      padding: 12px;
+      border-left: 4px solid #667eea;
     }
 
     .breakdown-label {
       font-size: 11px;
       color: #6b7280;
       text-transform: uppercase;
-      margin-bottom: 6px;
       font-weight: 700;
-      letter-spacing: 0.5px;
+      margin-bottom: 4px;
     }
 
     .breakdown-value {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 800;
-      color: #1f2937;
       font-family: 'Courier New', monospace;
     }
 
     .info-box {
-      background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 100%);
-      border-left: 5px solid #0284c7;
-      padding: 14px;
+      background: #e0f2fe;
+      border-left: 4px solid #0284c7;
+      padding: 12px;
       border-radius: 8px;
-      margin-top: 16px;
       font-size: 12px;
+      margin-top: 14px;
       color: #0c4a6e;
-      line-height: 1.8;
     }
 
     .comparison-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 16px;
-      margin-top: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin-top: 16px;
     }
 
     .comparison-card {
-      background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%);
-      border: 2px solid #667eea;
-      padding: 16px;
+      background: #eef2ff;
       border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+      border: 1px solid #c7d2fe;
+      padding: 12px;
     }
 
     .comparison-card h4 {
-      color: #667eea;
       font-size: 13px;
-      margin-bottom: 12px;
+      color: #4f46e5;
+      margin-bottom: 8px;
       font-weight: 700;
     }
 
     .comparison-item {
       display: flex;
       justify-content: space-between;
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(102, 126, 234, 0.2);
       font-size: 12px;
+      padding: 4px 0;
+      border-bottom: 1px dashed #e5e7eb;
     }
 
     .comparison-item:last-child {
@@ -442,74 +390,104 @@
     }
 
     .comparison-value {
-      color: #1f2937;
-      font-weight: 700;
       font-family: 'Courier New', monospace;
+      font-weight: 700;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-top: 14px;
+    }
+
+    table th, table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: left;
+    }
+
+    table thead {
+      background: #f3f4f6;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .actions button {
+      flex: 1;
+      min-width: 120px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 2px solid #e5e7eb;
+      background: white;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #374151;
+    }
+
+    .actions button:hover {
+      border-color: #667eea;
+      color: #667eea;
+      background: #f3f4f6;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-color: #667eea;
+    }
+
+    .btn-primary:hover {
+      color: white;
+    }
+
+    .chart-container {
+      margin-top: 16px;
+      padding: 16px;
+      background: #f9fafb;
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .chart-container h3 {
+      font-size: 14px;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    canvas {
+      max-width: 100%;
+      border-radius: 6px;
     }
 
     .toast {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: #4f46e5;
       color: white;
-      padding: 14px 22px;
-      border-radius: 10px;
-      box-shadow: 0 6px 16px rgba(102, 126, 234, 0.3);
-      z-index: 1000;
-      animation: slideIn 0.3s ease;
-      font-weight: 700;
-    }
-
-    @keyframes slideIn {
-      from { transform: translateX(400px); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-
-    .chart-container {
-      margin-top: 24px;
-      padding: 20px;
-      background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
-      border-radius: 10px;
-      border: 1px solid #e5e7eb;
-    }
-
-    .chart-container h3 {
-      font-size: 16px;
-      margin-bottom: 16px;
-      color: #1f2937;
-      font-weight: 700;
-    }
-
-    canvas {
-      max-width: 100%;
-      height: auto;
+      padding: 10px 14px;
       border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(15,23,42,0.4);
+      z-index: 1000;
     }
 
     footer {
       background: white;
-      border-top: 3px solid #667eea;
-      padding: 28px 20px;
-      margin-top: 50px;
-      text-align: center;
+      border-top: 2px solid #e5e7eb;
+      padding: 18px 20px;
+      margin-top: 30px;
+      font-size: 11px;
       color: #6b7280;
-      font-size: 12px;
-      box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
-    }
-
-    @media (max-width: 768px) {
-      .section h1 {
-        font-size: 28px;
-      }
-
-      .card {
-        padding: 18px;
-      }
-
-      .result-value {
-        font-size: 22px;
-      }
+      text-align: center;
     }
   </style>
 </head>
@@ -519,215 +497,229 @@
   <a href="#">💰 Advanced Salary Calculator</a>
 </header>
 
-<nav class="breadcrumb">
-  📊 Financial Calculators › Salary Calculator
-</nav>
+<div class="breadcrumb">
+  📊 Salary · Tax · Deductions · Take-Home
+</div>
 
 <section class="section">
-  <h1>💼 Advanced Salary Calculator with Income Tax</h1>
+  <h1>Advanced Salary Calculator with Tax (India)</h1>
 
   <div class="card gradient-card">
-    <h2>Calculate Salary, Tax, Deductions & Take-Home Pay</h2>
+    <h2>Basic Details & Salary Structure</h2>
 
     <div class="tabs">
-      <button class="tab-button active" onclick="switchTab(event, 'basic')">📋 Basic</button>
-      <button class="tab-button" onclick="switchTab(event, 'tax')">📊 Tax Calculation</button>
-      <button class="tab-button" onclick="switchTab(event, 'deductions')">🔍 Deductions</button>
-      <button class="tab-button" onclick="switchTab(event, 'comparison')">📈 Comparison</button>
+      <button class="tab-button active" onclick="switchTab(event,'basic')">📋 Basic</button>
+      <button class="tab-button" onclick="switchTab(event,'tax')">📊 Tax</button>
+      <button class="tab-button" onclick="switchTab(event,'deductions')">🔍 Deductions</button>
+      <button class="tab-button" onclick="switchTab(event,'summary')">📈 Summary</button>
     </div>
 
     <!-- BASIC TAB -->
     <div id="basic" class="tab-content active">
+      <div class="conversion-box">
+        <h4>⚡ Salary Conversion</h4>
+        <div class="conversion-row">
+          <div class="conversion-input">
+            <input type="number" id="monthlyInput" placeholder="Monthly salary (₹)">
+            <button onclick="convertMonthlyToYearly()">→ Yearly</button>
+          </div>
+          <div style="font-size:12px; color:#92400e; font-weight:700;">
+            Yearly: ₹<span id="convertedYearly">0</span>
+          </div>
+        </div>
+        <div class="conversion-row">
+          <div class="conversion-input">
+            <input type="number" id="yearlyInput" placeholder="Annual salary (₹)">
+            <button onclick="convertYearlyToMonthly()">→ Monthly</button>
+          </div>
+          <div style="font-size:12px; color:#92400e; font-weight:700;">
+            Monthly: ₹<span id="convertedMonthly">0</span>
+          </div>
+        </div>
+      </div>
+
       <div class="grid-2">
         <div>
           <div class="form-group">
-            <label>Designation/Position</label>
-            <input type="text" id="designation" placeholder="e.g., Engineer, Manager" value="Software Engineer">
+            <label>Designation / Post</label>
+            <input type="text" id="designation" value="Employee">
           </div>
 
           <div class="form-group">
-            <label>Annual Basic Salary (₹)</label>
-            <input type="number" id="basicSalary" value="600000" min="0" oninput="calculate()">
-            <div class="input-help">Basic salary excluding allowances</div>
-            <div class="slider-container">
-              <input type="range" id="basicSlider" min="100000" max="100000000" value="600000" step="10000" oninput="syncBasic()">
+            <label>
+              Basic Salary
+              <span class="input-help">(Choose Monthly or Yearly)</span>
+            </label>
+            <div class="toggle-group">
+              <button class="toggle-btn active" data-basic-mode="monthly" onclick="setBasicMode(event,'monthly')">Monthly</button>
+              <button class="toggle-btn" data-basic-mode="yearly" onclick="setBasicMode(event,'yearly')">Yearly</button>
             </div>
           </div>
 
           <div class="form-group">
-            <label>House Rent Allowance - HRA (₹/month)</label>
-            <input type="number" id="hra" value="30000" min="0" oninput="calculate()">
-            <div class="input-help">Monthly HRA component</div>
+            <label id="basicLabel">Monthly Basic (₹)</label>
+            <input type="number" id="basicSalary" value="50000" min="0" oninput="calculate()">
           </div>
 
           <div class="form-group">
-            <label>Dearness Allowance - DA (₹/month)</label>
+            <label>
+              HRA (House Rent Allowance)
+            </label>
+            <div class="toggle-group">
+              <button class="toggle-btn active" data-hra-mode="fixed" onclick="setHRAMode(event,'fixed')">₹ Fixed</button>
+              <button class="toggle-btn" data-hra-mode="percent" onclick="setHRAMode(event,'percent')">% of Basic</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label id="hraLabel">HRA (₹/month)</label>
+            <input type="number" id="hra" value="15000" min="0" oninput="calculate()">
+            <div id="hraInfo" class="input-help"></div>
+          </div>
+
+          <div class="form-group">
+            <label>DA (Dearness Allowance)</label>
+            <div class="toggle-group">
+              <button class="toggle-btn active" data-da-mode="fixed" onclick="setDAMode(event,'fixed')">₹ Fixed</button>
+              <button class="toggle-btn" data-da-mode="percent" onclick="setDAMode(event,'percent')">% of Basic</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label id="daLabel">DA (₹/month)</label>
             <input type="number" id="da" value="10000" min="0" oninput="calculate()">
-            <div class="input-help">Monthly DA component</div>
-          </div>
-
-          <div class="form-group">
-            <label>Conveyance Allowance (₹/month)</label>
-            <input type="number" id="conveyance" value="1600" min="0" oninput="calculate()">
-            <div class="input-help">Monthly conveyance/travel allowance</div>
-          </div>
-
-          <div class="form-group">
-            <label>Medical Allowance (₹/month)</label>
-            <input type="number" id="medical" value="3000" min="0" oninput="calculate()">
-            <div class="input-help">Monthly medical allowance</div>
+            <div id="daInfo" class="input-help"></div>
           </div>
         </div>
 
         <div>
           <div class="form-group">
+            <label>Conveyance Allowance (₹/month)</label>
+            <input type="number" id="conveyance" value="1600" min="0" oninput="calculate()">
+          </div>
+
+          <div class="form-group">
+            <label>Medical Allowance (₹/month)</label>
+            <input type="number" id="medical" value="3000" min="0" oninput="calculate()">
+          </div>
+
+          <div class="form-group">
             <label>Other Allowances (₹/month)</label>
             <input type="number" id="other" value="0" min="0" oninput="calculate()">
-            <div class="input-help">Any other monthly allowances</div>
+          </div>
+
+          <div class="form-group">
+            <label>Months in Year</label>
+            <input type="number" id="months" value="12" min="1" max="12" oninput="calculate()">
+            <div class="input-help">Use 12 for full year, or less if partial year</div>
           </div>
 
           <div class="form-group">
             <label>Financial Year</label>
             <select id="financialYear" onchange="calculate()">
-              <option value="2024-25" selected>2024-25 (Current)</option>
-              <option value="2023-24">2023-24</option>
-              <option value="2022-23">2022-23</option>
+              <option value="2024-25">FY 2024-25</option>
+              <option value="2025-26" selected>FY 2025-26</option>
             </select>
-            <div class="input-help">Select financial year for tax calculation</div>
           </div>
 
           <div class="form-group">
             <label>Age Category</label>
             <select id="ageCategory" onchange="calculate()">
-              <option value="general" selected>General (Below 60 years)</option>
-              <option value="senior">Senior Citizen (60-80 years)</option>
-              <option value="super">Super Senior (Above 80 years)</option>
+              <option value="normal">Below 60</option>
+              <option value="senior">60 - 80</option>
+              <option value="super">Above 80</option>
             </select>
-            <div class="input-help">Different tax slabs apply for different age groups</div>
           </div>
 
           <div class="form-group">
-            <label>Regime</label>
+            <label>Tax Regime</label>
             <select id="regime" onchange="calculate()">
-              <option value="new" selected>New Tax Regime (Default)</option>
-              <option value="old">Old Tax Regime</option>
-              <option value="both">Show Both</option>
+              <option value="new" selected>New Regime</option>
+              <option value="old">Old Regime</option>
+              <option value="compare">Compare Both</option>
             </select>
-            <div class="input-help">Choose tax regime for calculation</div>
-          </div>
-
-          <div class="form-group">
-            <label>Number of Months</label>
-            <input type="number" id="months" value="12" min="1" max="12" step="1" oninput="calculate()">
-            <div class="input-help">Number of working months in year</div>
           </div>
         </div>
       </div>
 
       <div class="results-grid">
         <div class="result-box">
-          <div class="result-label">Monthly Gross Salary</div>
-          <div class="result-value">₹<span id="monthlyGross">0</span></div>
+          <div class="result-label">Basic / Month</div>
+          <div class="result-value">₹<span id="basicMonthlyOut">0</span></div>
         </div>
         <div class="result-box">
-          <div class="result-label">Annual Gross Salary</div>
-          <div class="result-value">₹<span id="annualGross">0</span></div>
+          <div class="result-label">Gross / Month</div>
+          <div class="result-value">₹<span id="grossMonthlyOut">0</span></div>
         </div>
         <div class="result-box">
-          <div class="result-label">Total Allowances/Month</div>
-          <div class="result-value">₹<span id="totalAllowances">0</span></div>
+          <div class="result-label">Gross / Year</div>
+          <div class="result-value">₹<span id="grossAnnualOut">0</span></div>
         </div>
         <div class="result-box success">
-          <div class="result-label">Gross Earnings/Month</div>
-          <div class="result-value">₹<span id="totalEarnings">0</span></div>
+          <div class="result-label">Total Allowances / Month</div>
+          <div class="result-value">₹<span id="allowancesMonthlyOut">0</span></div>
         </div>
       </div>
 
       <div class="breakdown-grid">
         <div class="breakdown-item">
-          <div class="breakdown-label">Monthly Basic</div>
-          <div class="breakdown-value">₹<span id="breakBasic">0</span></div>
-        </div>
-        <div class="breakdown-item">
           <div class="breakdown-label">Annual Basic</div>
-          <div class="breakdown-value">₹<span id="breakAnnualBasic">0</span></div>
+          <div class="breakdown-value">₹<span id="basicAnnualOut">0</span></div>
         </div>
         <div class="breakdown-item">
-          <div class="breakdown-label">Total Allowances (Annual)</div>
-          <div class="breakdown-value">₹<span id="breakAllowances">0</span></div>
+          <div class="breakdown-label">Annual Allowances</div>
+          <div class="breakdown-value">₹<span id="allowancesAnnualOut">0</span></div>
+        </div>
+        <div class="breakdown-item">
+          <div class="breakdown-label">Effective Gross (Months ×)</div>
+          <div class="breakdown-value">₹<span id="effectiveGrossOut">0</span></div>
         </div>
       </div>
 
       <div class="info-box">
-        💡 <strong>Gross Salary = Basic + HRA + DA + Conveyance + Medical + Other Allowances</strong><br>
-        Standard tax slabs apply for FY 2024-25. Enter exact monthly amounts for accurate calculation.
+        Gross = Basic + HRA + DA + Conveyance + Medical + Other Allowances per month, multiplied by number of months.
       </div>
     </div>
 
-    <!-- TAX CALCULATION TAB -->
+    <!-- TAX TAB -->
     <div id="tax" class="tab-content">
       <div class="grid-2">
         <div>
           <div class="form-group">
-            <label>Investment under Section 80C (₹)</label>
-            <input type="number" id="section80c" value="0" min="0" max="1500000" oninput="calculate()">
-            <div class="input-help">ELSS, PPF, LIC, NSC, etc. (Max ₹1,50,000)</div>
+            <label>80C Investments (₹)</label>
+            <input type="number" id="sec80c" value="0" min="0" oninput="calculate()">
+            <div class="input-help">PF, PPF, ELSS, LIC, etc. (Old regime)</div>
           </div>
-
           <div class="form-group">
-            <label>Investment under Section 80CCD (₹)</label>
-            <input type="number" id="section80ccd" value="0" min="0" max="2000000" oninput="calculate()">
-            <div class="input-help">NPS contribution (Max ₹2,00,000)</div>
+            <label>80D Mediclaim (₹)</label>
+            <input type="number" id="sec80d" value="0" min="0" oninput="calculate()">
           </div>
-
           <div class="form-group">
-            <label>Home Loan Interest (₹)</label>
-            <input type="number" id="homeLoanInterest" value="0" min="0" max="2000000" oninput="calculate()">
-            <div class="input-help">Section 24 - Home loan interest (Max ₹2,00,000)</div>
+            <label>Home Loan Interest - Sec 24 (₹)</label>
+            <input type="number" id="sec24" value="0" min="0" oninput="calculate()">
           </div>
-
           <div class="form-group">
-            <label>Mediclaim Premium (₹)</label>
-            <input type="number" id="mediclaim" value="0" min="0" max="1000000" oninput="calculate()">
-            <div class="input-help">Health insurance premium (Section 80D)</div>
-          </div>
-
-          <div class="form-group">
-            <label>Rent Paid (₹)</label>
-            <input type="number" id="rentPaid" value="0" min="0" oninput="calculate()">
-            <div class="input-help">For HRA exemption calculation</div>
+            <label>Education Loan Interest - 80E (₹)</label>
+            <input type="number" id="sec80e" value="0" min="0" oninput="calculate()">
           </div>
         </div>
-
         <div>
           <div class="form-group">
-            <label>Education Loan Interest (₹)</label>
-            <input type="number" id="educationLoan" value="0" min="0" max="500000" oninput="calculate()">
-            <div class="input-help">Section 80E - No upper limit</div>
+            <label>Donations - 80G (₹)</label>
+            <input type="number" id="sec80g" value="0" min="0" oninput="calculate()">
           </div>
-
           <div class="form-group">
-            <label>Donation under 80G (₹)</label>
-            <input type="number" id="section80g" value="0" min="0" oninput="calculate()">
-            <div class="input-help">50% or 100% deduction eligible donations</div>
+            <label>Savings Interest - 80TTA (₹)</label>
+            <input type="number" id="sec80tta" value="0" min="0" oninput="calculate()">
           </div>
-
-          <div class="form-group">
-            <label>Interest on Savings Account (₹)</label>
-            <input type="number" id="savingsInterest" value="0" min="0" oninput="calculate()">
-            <div class="input-help">Section 80TTA - Max ₹10,000</div>
-          </div>
-
           <div class="form-group">
             <label>Standard Deduction (₹)</label>
-            <input type="number" id="standardDeduction" value="75000" min="0" max="75000" oninput="calculate()">
-            <div class="input-help">FY 2024-25: ₹75,000 (salaried)</div>
+            <input type="number" id="standardDeduction" value="75000" min="0" oninput="calculate()">
+            <div class="input-help">New regime: 75,000 (latest); Old: 50,000–75,000 depending on FY.[web:104][web:108][web:114]</div>
           </div>
-
           <div class="form-group">
-            <label>Surcharge %</label>
-            <input type="number" id="surcharge" value="0" min="0" max="37" step="0.1" oninput="calculate()">
-            <div class="input-help">Applied if income exceeds certain limit</div>
+            <label>Surcharge % (if applicable)</label>
+            <input type="number" id="surchargePct" value="0" min="0" max="37" step="0.1" oninput="calculate()">
           </div>
         </div>
       </div>
@@ -735,20 +727,29 @@
       <div class="results-grid">
         <div class="result-box">
           <div class="result-label">Taxable Income</div>
-          <div class="result-value">₹<span id="taxableIncome">0</span></div>
+          <div class="result-value">₹<span id="taxableIncomeOut">0</span></div>
         </div>
         <div class="result-box">
-          <div class="result-label">Income Tax (New)</div>
-          <div class="result-value">₹<span id="incomeTaxNew">0</span></div>
+          <div class="result-label">Tax (New Regime)</div>
+          <div class="result-value">₹<span id="taxNewOut">0</span></div>
         </div>
         <div class="result-box warning">
-          <div class="result-label">Income Tax (Old)</div>
-          <div class="result-value">₹<span id="incomeTaxOld">0</span></div>
+          <div class="result-label">Tax (Old Regime)</div>
+          <div class="result-value">₹<span id="taxOldOut">0</span></div>
         </div>
         <div class="result-box danger">
-          <div class="result-label">Total Tax Payable</div>
-          <div class="result-value">₹<span id="totalTax">0</span></div>
+          <div class="result-label">Total Tax (Selected)</div>
+          <div class="result-value">₹<span id="taxSelectedOut">0</span></div>
         </div>
+      </div>
+
+      <div class="chart-container">
+        <h3>New vs Old Regime (Annual Tax)</h3>
+        <canvas id="taxChart" width="600" height="220"></canvas>
+      </div>
+
+      <div class="info-box">
+        New regime slabs FY 2025-26 (India) are relaxed with 0–30% in multiple bands, while old regime keeps classic 2.5L/5L/10L slabs.[web:104][web:112]
       </div>
     </div>
 
@@ -757,506 +758,600 @@
       <div class="grid-2">
         <div>
           <div class="form-group">
-            <label>Provident Fund - EPF (% of Basic)</label>
-            <input type="number" id="pf" value="12" min="0" max="100" step="0.1" oninput="calculate()">
-            <div class="input-help">Employee contribution percentage</div>
+            <label>PF (EPF) % of Basic</label>
+            <input type="number" id="pfPct" value="12" min="0" max="100" step="0.1" oninput="calculate()">
           </div>
-
           <div class="form-group">
-            <label>Employee State Insurance - ESI (%)</label>
-            <input type="number" id="esi" value="0.75" min="0" max="10" step="0.01" oninput="calculate()">
-            <div class="input-help">Applies if salary below ₹21,000</div>
+            <label>ESI % (on gross)</label>
+            <input type="number" id="esiPct" value="0.75" min="0" max="10" step="0.01" oninput="calculate()">
+            <div class="input-help">Only if gross ≤ 21,000 approx.</div>
           </div>
-
           <div class="form-group">
-            <label>Professional Tax (₹)</label>
-            <input type="number" id="professionalTax" value="200" min="0" max="5000" oninput="calculate()">
-            <div class="input-help">Varies by state and salary</div>
+            <label>Professional Tax (₹/month)</label>
+            <input type="number" id="ptax" value="200" min="0" oninput="calculate()">
           </div>
-
           <div class="form-group">
             <label>Loan EMI (₹/month)</label>
-            <input type="number" id="loanEmi" value="0" min="0" oninput="calculate()">
-            <div class="input-help">Personal/car/education loan</div>
-          </div>
-
-          <div class="form-group">
-            <label>Union Fee (₹/month)</label>
-            <input type="number" id="unionFee" value="0" min="0" oninput="calculate()">
-            <div class="input-help">If applicable</div>
+            <input type="number" id="emi" value="0" min="0" oninput="calculate()">
           </div>
         </div>
-
         <div>
           <div class="form-group">
-            <label>Voluntary Contribution (₹/month)</label>
-            <input type="number" id="voluntaryFund" value="0" min="0" oninput="calculate()">
-            <div class="input-help">Voluntary contributions to funds</div>
+            <label>Insurance / Policy (₹/month)</label>
+            <input type="number" id="insurance" value="0" min="0" oninput="calculate()">
           </div>
-
           <div class="form-group">
-            <label>Life Insurance Premium (₹/month)</label>
-            <input type="number" id="lifeInsurance" value="0" min="0" oninput="calculate()">
-            <div class="input-help">Monthly insurance deduction</div>
+            <label>Other Statutory (₹/month)</label>
+            <input type="number" id="otherStat" value="0" min="0" oninput="calculate()">
           </div>
-
           <div class="form-group">
-            <label>Lunch Deduction (₹/month)</label>
-            <input type="number" id="lunch" value="0" min="0" oninput="calculate()">
-            <div class="input-help">Office canteen deduction</div>
-          </div>
-
-          <div class="form-group">
-            <label>Other Statutory Deductions (₹/month)</label>
-            <input type="number" id="other_deductions" value="0" min="0" oninput="calculate()">
-            <div class="input-help">Any other mandatory deductions</div>
-          </div>
-
-          <div class="form-group">
-            <label>Other Voluntary Deductions (₹/month)</label>
-            <input type="number" id="other_voluntary" value="0" min="0" oninput="calculate()">
-            <div class="input-help">Any optional deductions</div>
+            <label>Other Voluntary (₹/month)</label>
+            <input type="number" id="otherVol" value="0" min="0" oninput="calculate()">
           </div>
         </div>
       </div>
 
       <div class="results-grid">
         <div class="result-box">
-          <div class="result-label">Monthly PF Deduction</div>
-          <div class="result-value">₹<span id="pfAmount">0</span></div>
+          <div class="result-label">PF / Month</div>
+          <div class="result-value">₹<span id="pfOut">0</span></div>
         </div>
         <div class="result-box">
-          <div class="result-label">Monthly ESI Deduction</div>
-          <div class="result-value">₹<span id="esiAmount">0</span></div>
+          <div class="result-label">ESI / Month</div>
+          <div class="result-value">₹<span id="esiOut">0</span></div>
         </div>
         <div class="result-box">
-          <div class="result-label">Total Statutory Deductions</div>
-          <div class="result-value">₹<span id="totalStatutory">0</span></div>
+          <div class="result-label">Total Deductions / Month</div>
+          <div class="result-value">₹<span id="deductionsMonthlyOut">0</span></div>
         </div>
         <div class="result-box success">
-          <div class="result-label">Monthly Net Salary</div>
-          <div class="result-value">₹<span id="monthlySalary">0</span></div>
+          <div class="result-label">Net Take-Home / Month</div>
+          <div class="result-value">₹<span id="netMonthlyOut">0</span></div>
         </div>
       </div>
 
       <div class="breakdown-grid">
         <div class="breakdown-item">
-          <div class="breakdown-label">Total Earnings/Month</div>
-          <div class="breakdown-value">₹<span id="breakEarnings">0</span></div>
+          <div class="breakdown-label">Net Annual (After Tax)</div>
+          <div class="breakdown-value">₹<span id="netAnnualOut">0</span></div>
         </div>
         <div class="breakdown-item">
-          <div class="breakdown-label">Total Deductions/Month</div>
-          <div class="breakdown-value">₹<span id="breakDeductions">0</span></div>
+          <div class="breakdown-label">Tax / Year (Selected)</div>
+          <div class="breakdown-value">₹<span id="taxYearOut">0</span></div>
         </div>
         <div class="breakdown-item">
-          <div class="breakdown-label">Net Take-Home/Month</div>
-          <div class="breakdown-value">₹<span id="breakTakeHome">0</span></div>
+          <div class="breakdown-label">Effective Tax %</div>
+          <div class="breakdown-value"><span id="taxEffectivePctOut">0</span>%</div>
         </div>
       </div>
     </div>
 
-    <!-- COMPARISON TAB -->
-    <div id="comparison" class="tab-content">
-      <h3>Salary & Tax Comparison</h3>
+    <!-- SUMMARY TAB -->
+    <div id="summary" class="tab-content">
       <div class="comparison-grid">
         <div class="comparison-card">
-          <h4>📊 Monthly Breakdown</h4>
+          <h4>Monthly View</h4>
           <div class="comparison-item">
-            <span class="comparison-label">Basic Salary</span>
-            <span class="comparison-value">₹<span id="comp1">0</span></span>
+            <span class="comparison-label">Basic</span>
+            <span class="comparison-value">₹<span id="sumBasicM">0</span></span>
           </div>
           <div class="comparison-item">
-            <span class="comparison-label">Total Allowances</span>
-            <span class="comparison-value">₹<span id="comp2">0</span></span>
+            <span class="comparison-label">Allowances</span>
+            <span class="comparison-value">₹<span id="sumAllowM">0</span></span>
           </div>
           <div class="comparison-item">
-            <span class="comparison-label">Gross Salary</span>
-            <span class="comparison-value">₹<span id="comp3">0</span></span>
+            <span class="comparison-label">Gross</span>
+            <span class="comparison-value">₹<span id="sumGrossM">0</span></span>
           </div>
           <div class="comparison-item">
-            <span class="comparison-label">Total Deductions</span>
-            <span class="comparison-value">₹<span id="comp4">0</span></span>
+            <span class="comparison-label">Deductions</span>
+            <span class="comparison-value">₹<span id="sumDedM">0</span></span>
           </div>
-          <div class="comparison-item" style="border-bottom: 2px solid rgba(102, 126, 234, 0.3); padding: 12px 0; font-weight: 700;">
-            <span class="comparison-label">Net Salary</span>
-            <span class="comparison-value">₹<span id="comp5">0</span></span>
+          <div class="comparison-item">
+            <span class="comparison-label">Net Take-Home</span>
+            <span class="comparison-value">₹<span id="sumNetM">0</span></span>
           </div>
         </div>
 
         <div class="comparison-card">
-          <h4>💰 Annual Breakdown</h4>
+          <h4>Annual View</h4>
           <div class="comparison-item">
-            <span class="comparison-label">Gross Income (Annual)</span>
-            <span class="comparison-value">₹<span id="comp6">0</span></span>
+            <span class="comparison-label">Basic</span>
+            <span class="comparison-value">₹<span id="sumBasicA">0</span></span>
           </div>
           <div class="comparison-item">
-            <span class="comparison-label">Less: Deductions</span>
-            <span class="comparison-value">₹<span id="comp7">0</span></span>
+            <span class="comparison-label">Allowances</span>
+            <span class="comparison-value">₹<span id="sumAllowA">0</span></span>
           </div>
           <div class="comparison-item">
-            <span class="comparison-label">Taxable Income</span>
-            <span class="comparison-value">₹<span id="comp8">0</span></span>
+            <span class="comparison-label">Gross</span>
+            <span class="comparison-value">₹<span id="sumGrossA">0</span></span>
           </div>
           <div class="comparison-item">
-            <span class="comparison-label">Income Tax</span>
-            <span class="comparison-value">₹<span id="comp9">0</span></span>
+            <span class="comparison-label">Tax (Selected)</span>
+            <span class="comparison-value">₹<span id="sumTaxA">0</span></span>
           </div>
-          <div class="comparison-item" style="border-bottom: 2px solid rgba(102, 126, 234, 0.3); padding: 12px 0; font-weight: 700;">
-            <span class="comparison-label">Net Annual Income</span>
-            <span class="comparison-value">₹<span id="comp10">0</span></span>
+          <div class="comparison-item">
+            <span class="comparison-label">Net After Tax</span>
+            <span class="comparison-value">₹<span id="sumNetA">0</span></span>
           </div>
         </div>
 
         <div class="comparison-card">
-          <h4>📈 Percentage Breakdown</h4>
+          <h4>Percentages</h4>
           <div class="comparison-item">
-            <span class="comparison-label">PF (% of Basic)</span>
-            <span class="comparison-value"><span id="comp11">0</span>%</span>
+            <span class="comparison-label">PF % of Basic</span>
+            <span class="comparison-value"><span id="sumPfPct">0</span>%</span>
           </div>
           <div class="comparison-item">
-            <span class="comparison-label">Tax Rate (% of Income)</span>
-            <span class="comparison-value"><span id="comp12">0</span>%</span>
+            <span class="comparison-label">Tax % of Gross</span>
+            <span class="comparison-value"><span id="sumTaxPct">0</span>%</span>
           </div>
           <div class="comparison-item">
-            <span class="comparison-label">Deduction Rate</span>
-            <span class="comparison-value"><span id="comp13">0</span>%</span>
+            <span class="comparison-label">Deductions % of Gross</span>
+            <span class="comparison-value"><span id="sumDedPct">0</span>%</span>
           </div>
           <div class="comparison-item">
-            <span class="comparison-label">Take-Home % of Gross</span>
-            <span class="comparison-value"><span id="comp14">0</span>%</span>
-          </div>
-          <div class="comparison-item">
-            <span class="comparison-label">Effective Tax Rate</span>
-            <span class="comparison-value"><span id="comp15">0</span>%</span>
+            <span class="comparison-label">Net % of Gross</span>
+            <span class="comparison-value"><span id="sumNetPct">0</span>%</span>
           </div>
         </div>
       </div>
 
-      <h3 style="margin-top: 28px;">Summary Sheet</h3>
+      <h3 style="margin-top:16px; font-size:14px;">Summary Table</h3>
       <table>
         <thead>
           <tr>
-            <th>Description</th>
+            <th>Component</th>
             <th>Monthly (₹)</th>
             <th>Annual (₹)</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><strong>Basic Salary</strong></td>
-            <td>₹<span id="sumM1">0</span></td>
-            <td>₹<span id="sumA1">0</span></td>
+            <td>Basic</td>
+            <td>₹<span id="tblBasicM">0</span></td>
+            <td>₹<span id="tblBasicA">0</span></td>
           </tr>
           <tr>
-            <td><strong>Total Allowances</strong></td>
-            <td>₹<span id="sumM2">0</span></td>
-            <td>₹<span id="sumA2">0</span></td>
+            <td>Allowances</td>
+            <td>₹<span id="tblAllowM">0</span></td>
+            <td>₹<span id="tblAllowA">0</span></td>
           </tr>
           <tr>
-            <td><strong>Gross Salary</strong></td>
-            <td>₹<span id="sumM3">0</span></td>
-            <td>₹<span id="sumA3">0</span></td>
+            <td>Gross</td>
+            <td>₹<span id="tblGrossM">0</span></td>
+            <td>₹<span id="tblGrossA">0</span></td>
           </tr>
           <tr>
-            <td><strong>Income Tax</strong></td>
-            <td>₹<span id="sumM7">0</span></td>
-            <td>₹<span id="sumA7">0</span></td>
+            <td>Deductions (incl. tax)</td>
+            <td>₹<span id="tblDedM">0</span></td>
+            <td>₹<span id="tblDedA">0</span></td>
           </tr>
-          <tr>
-            <td><strong>PF Deduction</strong></td>
-            <td>₹<span id="sumM4">0</span></td>
-            <td>₹<span id="sumA4">0</span></td>
-          </tr>
-          <tr style="background: linear-gradient(90deg, #e0e7ff 0%, #f3e8ff 100%); font-weight: 700;">
-            <td><strong>NET TAKE-HOME SALARY</strong></td>
-            <td>₹<span id="sumM9">0</span></td>
-            <td>₹<span id="sumA9">0</span></td>
+          <tr style="font-weight:700; background:#eef2ff;">
+            <td>Net Take-Home</td>
+            <td>₹<span id="tblNetM">0</span></td>
+            <td>₹<span id="tblNetA">0</span></td>
           </tr>
         </tbody>
       </table>
-    </div>
 
-    <div class="actions">
-      <button class="btn-primary" onclick="reset()">🔄 Reset All</button>
-      <button onclick="downloadReport()">📥 Download</button>
-      <button onclick="printReport()">🖨️ Print</button>
-      <button onclick="copyResults()">📋 Copy</button>
+      <div class="actions">
+        <button class="btn-primary" onclick="resetAll()">Reset</button>
+        <button onclick="copyResults()">Copy</button>
+        <button onclick="printSummary()">Print</button>
+      </div>
     </div>
   </div>
 
-  <!-- Chart Section -->
   <div class="card chart-container">
-    <h3>📊 Salary Composition</h3>
-    <canvas id="salaryChart" width="800" height="300"></canvas>
-  </div>
-
-  <!-- Tax Comparison Chart -->
-  <div class="card chart-container">
-    <h3>📊 New vs Old Tax Regime</h3>
-    <canvas id="taxChart" width="800" height="300"></canvas>
+    <h3>Monthly Salary Composition</h3>
+    <canvas id="salaryChart" width="600" height="220"></canvas>
   </div>
 
 </section>
 
 <footer>
-  <p>© 2025 Advanced Salary Calculator | Tax calculations based on FY 2024-25 rules | For reference only</p>
+  Based on Indian income tax slabs FY 2025-26. For legal/tax filing, always confirm with CA or official IT tools.[web:104][web:107][web:112]
 </footer>
 
 <script>
-// ========== UTILITY FUNCTIONS ==========
-function formatNumber(n) {
-  return Math.round(n).toLocaleString('en-IN');
+let basicMode = 'monthly';   // 'monthly' or 'yearly'
+let hraMode = 'fixed';       // 'fixed' or 'percent'
+let daMode  = 'fixed';       // 'fixed' or 'percent'
+
+// ---------- UTIL ----------
+function formatINR(v) {
+  return Math.round(v).toLocaleString('en-IN');
 }
 
-function switchTab(e, tab) {
+function switchTab(e, id) {
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-  document.getElementById(tab).classList.add('active');
+  document.getElementById(id).classList.add('active');
   e.target.classList.add('active');
 }
 
-function syncBasic() {
-  document.getElementById('basicSalary').value = document.getElementById('basicSlider').value;
+// ---------- MODES ----------
+function setBasicMode(e, mode) {
+  basicMode = mode;
+  document.querySelectorAll('[data-basic-mode]').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  const label = document.getElementById('basicLabel');
+  label.textContent = mode === 'monthly' ? 'Monthly Basic (₹)' : 'Annual Basic (₹)';
   calculate();
 }
 
-document.getElementById('basicSalary')?.addEventListener('input', function() {
-  document.getElementById('basicSlider').value = this.value;
-});
+function setHRAMode(e, mode) {
+  hraMode = mode;
+  document.querySelectorAll('[data-hra-mode]').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  const label = document.getElementById('hraLabel');
+  const input = document.getElementById('hra');
+  if (mode === 'fixed') {
+    label.textContent = 'HRA (₹/month)';
+    input.value = 15000;
+  } else {
+    label.textContent = 'HRA (% of Basic)';
+    input.value = 30;
+  }
+  calculate();
+}
 
-// ========== MAIN CALCULATION ==========
+function setDAMode(e, mode) {
+  daMode = mode;
+  document.querySelectorAll('[data-da-mode]').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  const label = document.getElementById('daLabel');
+  const input = document.getElementById('da');
+  if (mode === 'fixed') {
+    label.textContent = 'DA (₹/month)';
+    input.value = 10000;
+  } else {
+    label.textContent = 'DA (% of Basic)';
+    input.value = 20;
+  }
+  calculate();
+}
+
+// ---------- CONVERSIONS ----------
+function convertMonthlyToYearly() {
+  const m = parseFloat(document.getElementById('monthlyInput').value) || 0;
+  const y = m * 12;
+  document.getElementById('convertedYearly').textContent = formatINR(y);
+  showToast('Converted monthly to yearly');
+}
+
+function convertYearlyToMonthly() {
+  const y = parseFloat(document.getElementById('yearlyInput').value) || 0;
+  const m = y / 12;
+  document.getElementById('convertedMonthly').textContent = formatINR(m);
+  showToast('Converted yearly to monthly');
+}
+
+// ---------- TAX HELPERS (India FY25-26) ----------
+function taxNewRegime(income) {
+  // Slabs from ClearTax / other references for FY 2025-26 new regime.[web:104][web:112]
+  let tax = 0;
+  const slabs = [
+    {limit: 400000, rate: 0},
+    {limit: 800000, rate: 0.05},
+    {limit: 1200000, rate: 0.10},
+    {limit: 1600000, rate: 0.15},
+    {limit: 2000000, rate: 0.20},
+    {limit: 2400000, rate: 0.25},
+    {limit: Infinity, rate: 0.30}
+  ];
+  let prev = 0;
+  for (let i = 0; i < slabs.length; i++) {
+    const slab = slabs[i];
+    if (income > slab.limit) {
+      tax += (slab.limit - prev) * slab.rate;
+      prev = slab.limit;
+    } else {
+      tax += (income - prev) * slab.rate;
+      break;
+    }
+  }
+  return Math.max(0, tax);
+}
+
+function taxOldRegime(income, ageCategory) {
+  // Old slabs unchanged as per references.[web:104][web:110][web:112]
+  let basicExempt = 250000;
+  if (ageCategory === 'senior') basicExempt = 300000;
+  if (ageCategory === 'super') basicExempt = 500000;
+  if (income <= basicExempt) return 0;
+
+  let tax = 0;
+  const slabs = [
+    {limit: basicExempt, rate: 0},
+    {limit: 500000, rate: 0.05},
+    {limit: 1000000, rate: 0.20},
+    {limit: Infinity, rate: 0.30}
+  ];
+  let prev = 0;
+  for (let i = 0; i < slabs.length; i++) {
+    const slab = slabs[i];
+    const effLimit = slab.limit;
+    if (income > effLimit) {
+      tax += (effLimit - prev) * slab.rate;
+      prev = effLimit;
+    } else {
+      tax += (income - prev) * slab.rate;
+      break;
+    }
+  }
+  return Math.max(0, tax);
+}
+
+// ---------- MAIN CALC ----------
 function calculate() {
-  const basicAnnual = parseFloat(document.getElementById('basicSalary').value) || 0;
-  const basicMonthly = basicAnnual / 12;
-  const hra = parseFloat(document.getElementById('hra').value) || 0;
-  const da = parseFloat(document.getElementById('da').value) || 0;
-  const conveyance = parseFloat(document.getElementById('conveyance').value) || 0;
-  const medical = parseFloat(document.getElementById('medical').value) || 0;
-  const otherAllowances = parseFloat(document.getElementById('other').value) || 0;
+  // BASIC & ALLOWANCES
+  const basicInput = parseFloat(document.getElementById('basicSalary').value) || 0;
   const months = parseFloat(document.getElementById('months').value) || 12;
 
-  const grossMonthly = basicMonthly + hra + da + conveyance + medical + otherAllowances;
-  const grossAnnual = grossMonthly * months;
+  const basicMonthly = basicMode === 'monthly' ? basicInput : basicInput / 12;
+  const basicAnnual = basicMonthly * 12;
 
-  document.getElementById('monthlyGross').textContent = formatNumber(basicMonthly);
-  document.getElementById('annualGross').textContent = formatNumber(basicAnnual);
-  document.getElementById('totalAllowances').textContent = formatNumber(hra + da + conveyance + medical + otherAllowances);
-  document.getElementById('totalEarnings').textContent = formatNumber(grossMonthly);
-  document.getElementById('breakBasic').textContent = formatNumber(basicMonthly);
-  document.getElementById('breakAnnualBasic').textContent = formatNumber(basicAnnual);
-  document.getElementById('breakAllowances').textContent = formatNumber((hra + da + conveyance + medical + otherAllowances) * months);
+  const hraRaw = parseFloat(document.getElementById('hra').value) || 0;
+  const daRaw  = parseFloat(document.getElementById('da').value) || 0;
 
-  // TAX CALCULATION
-  const section80c = parseFloat(document.getElementById('section80c').value) || 0;
-  const section80ccd = parseFloat(document.getElementById('section80ccd').value) || 0;
-  const homeLoanInterest = parseFloat(document.getElementById('homeLoanInterest').value) || 0;
-  const mediclaim = parseFloat(document.getElementById('mediclaim').value) || 0;
-  const educationLoan = parseFloat(document.getElementById('educationLoan').value) || 0;
-  const section80g = parseFloat(document.getElementById('section80g').value) || 0;
-  const savingsInterest = parseFloat(document.getElementById('savingsInterest').value) || 0;
-  const standardDeduction = parseFloat(document.getElementById('standardDeduction').value) || 0;
-  const regime = document.getElementById('regime').value;
-  const ageCategory = document.getElementById('ageCategory').value;
+  let hraMonthly, daMonthly;
+  if (hraMode === 'fixed') {
+    hraMonthly = hraRaw;
+    document.getElementById('hraInfo').textContent = '';
+  } else {
+    hraMonthly = basicMonthly * (hraRaw / 100);
+    document.getElementById('hraInfo').textContent = `= ₹${formatINR(hraMonthly)} / month`;
+  }
 
-  let totalDeductions = section80c + section80ccd + homeLoanInterest + mediclaim + educationLoan + section80g + Math.min(savingsInterest, 10000);
-  let taxableIncome = grossAnnual - totalDeductions - standardDeduction;
-  taxableIncome = Math.max(0, taxableIncome);
+  if (daMode === 'fixed') {
+    daMonthly = daRaw;
+    document.getElementById('daInfo').textContent = '';
+  } else {
+    daMonthly = basicMonthly * (daRaw / 100);
+    document.getElementById('daInfo').textContent = `= ₹${formatINR(daMonthly)} / month`;
+  }
 
-  let incomeTaxNew = calculateTaxNew(taxableIncome, ageCategory);
-  let incomeTaxOld = calculateTaxOld(taxableIncome, ageCategory);
+  const conveyance = parseFloat(document.getElementById('conveyance').value) || 0;
+  const medical    = parseFloat(document.getElementById('medical').value) || 0;
+  const otherAll   = parseFloat(document.getElementById('other').value) || 0;
 
-  const surchargeRate = parseFloat(document.getElementById('surcharge').value) || 0;
-  const selectedTax = regime === 'both' ? incomeTaxNew : (regime === 'new' ? incomeTaxNew : incomeTaxOld);
-  const surchargeAmount = selectedTax * (surchargeRate / 100);
-  const cess = (selectedTax + surchargeAmount) * 0.04;
-  const totalTax = selectedTax + surchargeAmount + cess;
-  const monthlyTax = totalTax / months;
+  const allowancesMonthly = hraMonthly + daMonthly + conveyance + medical + otherAll;
+  const grossMonthly = basicMonthly + allowancesMonthly;
+  const grossAnnual  = grossMonthly * 12;
+  const effectiveGross = grossMonthly * months;
 
-  document.getElementById('taxableIncome').textContent = formatNumber(taxableIncome);
-  document.getElementById('incomeTaxNew').textContent = formatNumber(incomeTaxNew);
-  document.getElementById('incomeTaxOld').textContent = formatNumber(incomeTaxOld);
-  document.getElementById('totalTax').textContent = formatNumber(totalTax);
+  // Update basic tab
+  document.getElementById('basicMonthlyOut').textContent    = formatINR(basicMonthly);
+  document.getElementById('grossMonthlyOut').textContent    = formatINR(grossMonthly);
+  document.getElementById('grossAnnualOut').textContent     = formatINR(grossAnnual);
+  document.getElementById('allowancesMonthlyOut').textContent = formatINR(allowancesMonthly);
+  document.getElementById('basicAnnualOut').textContent     = formatINR(basicAnnual);
+  document.getElementById('allowancesAnnualOut').textContent= formatINR(allowancesMonthly * 12);
+  document.getElementById('effectiveGrossOut').textContent  = formatINR(effectiveGross);
 
-  // DEDUCTIONS
-  const pf = (parseFloat(document.getElementById('pf').value) || 12) / 100;
-  const esi = (parseFloat(document.getElementById('esi').value) || 0.75) / 100;
-  const professionalTax = parseFloat(document.getElementById('professionalTax').value) || 0;
-  const loanEmi = parseFloat(document.getElementById('loanEmi').value) || 0;
-  const unionFee = parseFloat(document.getElementById('unionFee').value) || 0;
-  const voluntaryFund = parseFloat(document.getElementById('voluntaryFund').value) || 0;
-  const lifeInsurance = parseFloat(document.getElementById('lifeInsurance').value) || 0;
-  const lunch = parseFloat(document.getElementById('lunch').value) || 0;
-  const otherStatutory = parseFloat(document.getElementById('other_deductions').value) || 0;
-  const otherVoluntary = parseFloat(document.getElementById('other_voluntary').value) || 0;
+  // TAX INPUTS
+  const sec80c   = parseFloat(document.getElementById('sec80c').value) || 0;
+  const sec80d   = parseFloat(document.getElementById('sec80d').value) || 0;
+  const sec24    = parseFloat(document.getElementById('sec24').value) || 0;
+  const sec80e   = parseFloat(document.getElementById('sec80e').value) || 0;
+  const sec80g   = parseFloat(document.getElementById('sec80g').value) || 0;
+  const sec80tta = parseFloat(document.getElementById('sec80tta').value) || 0;
+  const stdDed   = parseFloat(document.getElementById('standardDeduction').value) || 0;
+  const surchargePct = parseFloat(document.getElementById('surchargePct').value) || 0;
+  const ageCat   = document.getElementById('ageCategory').value;
+  const regime   = document.getElementById('regime').value;
 
-  const pfAmount = basicMonthly * pf;
-  const esiAmount = basicMonthly < 21000 ? basicMonthly * esi : 0;
-  const totalStatutory = pfAmount + esiAmount + professionalTax + otherStatutory;
-  const totalOtherDeductions = loanEmi + unionFee + voluntaryFund + lifeInsurance + lunch + otherVoluntary;
-  const totalMonthlyDeductions = totalStatutory + totalOtherDeductions + monthlyTax;
-  const monthlySalary = grossMonthly - totalMonthlyDeductions;
+  let deductionsOld = sec80c + sec80d + sec24 + sec80e + sec80g + Math.min(sec80tta,10000);
+  deductionsOld = Math.min(deductionsOld, grossAnnual); // safety
 
-  document.getElementById('pfAmount').textContent = formatNumber(pfAmount);
-  document.getElementById('esiAmount').textContent = formatNumber(esiAmount);
-  document.getElementById('totalStatutory').textContent = formatNumber(totalStatutory);
-  document.getElementById('totalMonthlyDeductions').textContent = formatNumber(totalMonthlyDeductions);
-  document.getElementById('monthlySalary').textContent = formatNumber(monthlySalary);
-  document.getElementById('breakEarnings').textContent = formatNumber(grossMonthly);
-  document.getElementById('breakDeductions').textContent = formatNumber(totalMonthlyDeductions);
-  document.getElementById('breakTakeHome').textContent = formatNumber(monthlySalary);
+  const taxableNew = Math.max(0, grossAnnual - stdDed);                         // no 80C etc
+  const taxableOld = Math.max(0, grossAnnual - stdDed - deductionsOld);
 
-  // COMPARISON
-  document.getElementById('comp1').textContent = formatNumber(basicMonthly);
-  document.getElementById('comp2').textContent = formatNumber(hra + da + conveyance + medical + otherAllowances);
-  document.getElementById('comp3').textContent = formatNumber(grossMonthly);
-  document.getElementById('comp4').textContent = formatNumber(totalMonthlyDeductions);
-  document.getElementById('comp5').textContent = formatNumber(monthlySalary);
-  document.getElementById('comp6').textContent = formatNumber(grossAnnual);
-  document.getElementById('comp7').textContent = formatNumber(totalDeductions + standardDeduction);
-  document.getElementById('comp8').textContent = formatNumber(taxableIncome);
-  document.getElementById('comp9').textContent = formatNumber(totalTax);
-  document.getElementById('comp10').textContent = formatNumber(grossAnnual - totalMonthlyDeductions * months);
+  const taxNewRaw = taxNewRegime(taxableNew);
+  const taxOldRaw = taxOldRegime(taxableOld, ageCat);
 
-  const pf_pct = basicAnnual > 0 ? (pfAmount * 12 / basicAnnual * 100) : 0;
-  const tax_pct = grossAnnual > 0 ? (totalTax / grossAnnual * 100) : 0;
-  const deduction_pct = grossMonthly > 0 ? (totalMonthlyDeductions / grossMonthly * 100) : 0;
-  const takeHome_pct = grossMonthly > 0 ? (monthlySalary / grossMonthly * 100) : 0;
-  const effective_tax = grossAnnual > 0 ? (totalTax / grossAnnual * 100) : 0;
+  const surchargeNew = taxNewRaw * (surchargePct/100);
+  const surchargeOld = taxOldRaw * (surchargePct/100);
 
-  document.getElementById('comp11').textContent = pf_pct.toFixed(2);
-  document.getElementById('comp12').textContent = tax_pct.toFixed(2);
-  document.getElementById('comp13').textContent = deduction_pct.toFixed(2);
-  document.getElementById('comp14').textContent = takeHome_pct.toFixed(2);
-  document.getElementById('comp15').textContent = effective_tax.toFixed(2);
+  const cessNew = (taxNewRaw + surchargeNew) * 0.04;
+  const cessOld = (taxOldRaw + surchargeOld) * 0.04;
+
+  const taxNewTotal = taxNewRaw + surchargeNew + cessNew;
+  const taxOldTotal = taxOldRaw + surchargeOld + cessOld;
+
+  // Select regime
+  let taxSelected = taxNewTotal;
+  if (regime === 'old') taxSelected = taxOldTotal;
+  if (regime === 'compare') taxSelected = Math.min(taxNewTotal, taxOldTotal);
+
+  document.getElementById('taxableIncomeOut').textContent = formatINR(regime === 'old' ? taxableOld : taxableNew);
+  document.getElementById('taxNewOut').textContent        = formatINR(taxNewTotal);
+  document.getElementById('taxOldOut').textContent        = formatINR(taxOldTotal);
+  document.getElementById('taxSelectedOut').textContent   = formatINR(taxSelected);
+
+  // DEDUCTION TAB
+  const pfPct  = (parseFloat(document.getElementById('pfPct').value) || 0) / 100;
+  const esiPct = (parseFloat(document.getElementById('esiPct').value) || 0) / 100;
+  const ptax   = parseFloat(document.getElementById('ptax').value) || 0;
+  const emi    = parseFloat(document.getElementById('emi').value) || 0;
+  const ins    = parseFloat(document.getElementById('insurance').value) || 0;
+  const otherS = parseFloat(document.getElementById('otherStat').value) || 0;
+  const otherV = parseFloat(document.getElementById('otherVol').value) || 0;
+
+  const pfMonthly  = basicMonthly * pfPct;
+  const esiMonthly = grossMonthly <= 21000 ? grossMonthly * esiPct : 0;
+  const deductionsMonthly = pfMonthly + esiMonthly + ptax + emi + ins + otherS + otherV + (taxSelected/12);
+  const netMonthly = grossMonthly - deductionsMonthly;
+  const netAnnual  = netMonthly * 12;
+
+  document.getElementById('pfOut').textContent   = formatINR(pfMonthly);
+  document.getElementById('esiOut').textContent  = formatINR(esiMonthly);
+  document.getElementById('deductionsMonthlyOut').textContent = formatINR(deductionsMonthly);
+  document.getElementById('netMonthlyOut').textContent = formatINR(netMonthly);
+  document.getElementById('netAnnualOut').textContent  = formatINR(netAnnual);
+  document.getElementById('taxYearOut').textContent    = formatINR(taxSelected);
+  const effTaxPct = grossAnnual > 0 ? (taxSelected / grossAnnual * 100) : 0;
+  document.getElementById('taxEffectivePctOut').textContent = effTaxPct.toFixed(2);
 
   // SUMMARY
-  document.getElementById('sumM1').textContent = formatNumber(basicMonthly);
-  document.getElementById('sumA1').textContent = formatNumber(basicAnnual);
-  document.getElementById('sumM2').textContent = formatNumber(hra + da + conveyance + medical + otherAllowances);
-  document.getElementById('sumA2').textContent = formatNumber((hra + da + conveyance + medical + otherAllowances) * months);
-  document.getElementById('sumM3').textContent = formatNumber(grossMonthly);
-  document.getElementById('sumA3').textContent = formatNumber(grossAnnual);
-  document.getElementById('sumM4').textContent = formatNumber(pfAmount);
-  document.getElementById('sumA4').textContent = formatNumber(pfAmount * months);
-  document.getElementById('sumM7').textContent = formatNumber(monthlyTax);
-  document.getElementById('sumA7').textContent = formatNumber(totalTax);
-  document.getElementById('sumM9').textContent = formatNumber(monthlySalary);
-  document.getElementById('sumA9').textContent = formatNumber(monthlySalary * months);
+  document.getElementById('sumBasicM').textContent = formatINR(basicMonthly);
+  document.getElementById('sumAllowM').textContent = formatINR(allowancesMonthly);
+  document.getElementById('sumGrossM').textContent = formatINR(grossMonthly);
+  document.getElementById('sumDedM').textContent   = formatINR(deductionsMonthly);
+  document.getElementById('sumNetM').textContent   = formatINR(netMonthly);
 
-  updateSalaryChart(basicMonthly, hra + da + conveyance + medical + otherAllowances, totalMonthlyDeductions, monthlySalary);
-  updateTaxChart(incomeTaxNew, incomeTaxOld);
+  document.getElementById('sumBasicA').textContent = formatINR(basicAnnual);
+  document.getElementById('sumAllowA').textContent = formatINR(allowancesMonthly*12);
+  document.getElementById('sumGrossA').textContent = formatINR(grossAnnual);
+  document.getElementById('sumTaxA').textContent   = formatINR(taxSelected);
+  document.getElementById('sumNetA').textContent   = formatINR(netAnnual);
+
+  const pfRatio   = basicAnnual > 0 ? (pfMonthly*12/basicAnnual*100) : 0;
+  const taxRatio  = grossAnnual > 0 ? (taxSelected/grossAnnual*100) : 0;
+  const dedRatio  = grossMonthly > 0 ? (deductionsMonthly/grossMonthly*100) : 0;
+  const netRatio  = grossMonthly > 0 ? (netMonthly/grossMonthly*100) : 0;
+
+  document.getElementById('sumPfPct').textContent  = pfRatio.toFixed(2);
+  document.getElementById('sumTaxPct').textContent = taxRatio.toFixed(2);
+  document.getElementById('sumDedPct').textContent = dedRatio.toFixed(2);
+  document.getElementById('sumNetPct').textContent = netRatio.toFixed(2);
+
+  document.getElementById('tblBasicM').textContent = formatINR(basicMonthly);
+  document.getElementById('tblBasicA').textContent = formatINR(basicAnnual);
+  document.getElementById('tblAllowM').textContent = formatINR(allowancesMonthly);
+  document.getElementById('tblAllowA').textContent = formatINR(allowancesMonthly*12);
+  document.getElementById('tblGrossM').textContent = formatINR(grossMonthly);
+  document.getElementById('tblGrossA').textContent = formatINR(grossAnnual);
+  document.getElementById('tblDedM').textContent   = formatINR(deductionsMonthly);
+  document.getElementById('tblDedA').textContent   = formatINR(deductionsMonthly*12);
+  document.getElementById('tblNetM').textContent   = formatINR(netMonthly);
+  document.getElementById('tblNetA').textContent   = formatINR(netAnnual);
+
+  drawSalaryChart(basicMonthly, allowancesMonthly, deductionsMonthly, netMonthly);
+  drawTaxChart(taxNewTotal, taxOldTotal);
 }
 
-// TAX CALCULATION
-function calculateTaxNew(income, ageCategory) {
-  if (income <= 400000) return 0;
-  let tax = 0;
-  if (income <= 500000) tax = (income - 400000) * 0.05;
-  else if (income <= 750000) tax = 5000 + (income - 500000) * 0.10;
-  else if (income <= 1000000) tax = 30000 + (income - 750000) * 0.15;
-  else if (income <= 1250000) tax = 67500 + (income - 1000000) * 0.20;
-  else if (income <= 1500000) tax = 117500 + (income - 1250000) * 0.25;
-  else tax = 180000 + (income - 1500000) * 0.30;
-  if (ageCategory === 'super' && income <= 500000) tax = 0;
-  return tax;
-}
+// ---------- CHARTS ----------
+function drawSalaryChart(basic, allow, ded, net) {
+  const c = document.getElementById('salaryChart');
+  const ctx = c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
 
-function calculateTaxOld(income, ageCategory) {
-  let limit = 250000;
-  if (ageCategory === 'senior') limit = 500000;
-  if (income <= limit) return 0;
-  let tax = 0;
-  const adj = income - limit;
-  if (adj <= 250000) tax = adj * 0.05;
-  else if (adj <= 500000) tax = 12500 + (adj - 250000) * 0.20;
-  else if (adj <= 1000000) tax = 112500 + (adj - 500000) * 0.30;
-  else tax = 262500 + (adj - 1000000) * 0.45;
-  return tax;
-}
-
-// CHARTS
-function updateSalaryChart(basic, allowances, deductions, takeHome) {
-  const canvas = document.getElementById('salaryChart');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  const gross = basic + allowances;
-  const barWidth = 60, spacing = 100, maxHeight = 200, maxValue = gross * 1.2, startX = 60;
   const data = [
-    { label: 'Basic', value: basic, color: '#667eea' },
-    { label: 'Allowances', value: allowances, color: '#764ba2' },
-    { label: 'Deductions', value: -deductions, color: '#f59e0b' },
-    { label: 'Take-Home', value: takeHome, color: '#10b981' }
+    {label:'Basic', value:basic, color:'#4f46e5'},
+    {label:'Allowances', value:allow, color:'#a855f7'},
+    {label:'Deductions', value:ded, color:'#f97316'},
+    {label:'Net', value:net, color:'#22c55e'}
   ];
-  data.forEach((d, i) => {
-    const x = startX + i * spacing;
-    const barHeight = Math.abs(d.value) / maxValue * maxHeight;
-    const y = 200 - barHeight;
+  const maxVal = Math.max(...data.map(d=>Math.abs(d.value))) || 1;
+  const maxHeight = 150;
+  const barWidth = 50;
+  const gap = 40;
+  let x = 40;
+  data.forEach(d=>{
+    const h = Math.abs(d.value)/maxVal*maxHeight;
+    const y = 180 - h;
     ctx.fillStyle = d.color;
-    ctx.fillRect(x, y, barWidth, barHeight);
-    ctx.fillStyle = '#1f2937';
-    ctx.font = 'bold 12px Arial';
+    ctx.fillRect(x,y,barWidth,h);
+    ctx.fillStyle = '#111827';
+    ctx.font = '11px Arial';
     ctx.textAlign = 'center';
-    ctx.fillText('₹' + formatNumber(Math.abs(d.value)), x + barWidth / 2, y - 10);
-    ctx.fillText(d.label, x + barWidth / 2, 280);
+    ctx.fillText('₹'+formatINR(d.value), x+barWidth/2, y-6);
+    ctx.fillText(d.label, x+barWidth/2, 200);
+    x += barWidth + gap;
   });
 }
 
-function updateTaxChart(taxNew, taxOld) {
-  const canvas = document.getElementById('taxChart');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  const maxTax = Math.max(taxNew, taxOld) * 1.3;
-  const barWidth = 80, spacing = 200, maxHeight = 200, startX = 80;
+function drawTaxChart(tNew, tOld) {
+  const c = document.getElementById('taxChart');
+  const ctx = c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
+  const maxVal = Math.max(tNew, tOld) || 1;
+  const maxHeight = 150;
+  const barWidth = 70;
+  const gap = 80;
+  const startX = 80;
+
   const data = [
-    { label: 'New Regime', value: taxNew, color: '#667eea' },
-    { label: 'Old Regime', value: taxOld, color: '#764ba2' }
+    {label:'New', value:tNew, color:'#4f46e5'},
+    {label:'Old', value:tOld, color:'#a855f7'}
   ];
-  data.forEach((d, i) => {
-    const x = startX + i * spacing;
-    const barHeight = d.value / maxTax * maxHeight;
-    const y = 200 - barHeight;
+  data.forEach((d,i)=>{
+    const h = d.value/maxVal*maxHeight;
+    const x = startX + i*(barWidth+gap);
+    const y = 180 - h;
     ctx.fillStyle = d.color;
-    ctx.fillRect(x, y, barWidth, barHeight);
-    ctx.fillStyle = '#1f2937';
-    ctx.font = 'bold 12px Arial';
+    ctx.fillRect(x,y,barWidth,h);
+    ctx.fillStyle = '#111827';
+    ctx.font = '11px Arial';
     ctx.textAlign = 'center';
-    ctx.fillText('₹' + formatNumber(d.value), x + barWidth / 2, y - 10);
-    ctx.fillText(d.label, x + barWidth / 2, 280);
+    ctx.fillText('₹'+formatINR(d.value), x+barWidth/2, y-6);
+    ctx.fillText(d.label, x+barWidth/2, 200);
   });
 }
 
-// ACTIONS
-function reset() {
-  document.getElementById('basicSalary').value = 600000;
-  document.getElementById('hra').value = 30000;
-  document.getElementById('da').value = 10000;
+// ---------- OTHER ACTIONS ----------
+function resetAll() {
+  basicMode = 'monthly';
+  hraMode  = 'fixed';
+  daMode   = 'fixed';
+  document.getElementById('basicSalary').value = 50000;
+  document.getElementById('hra').value = 15000;
+  document.getElementById('da').value  = 10000;
   document.getElementById('conveyance').value = 1600;
   document.getElementById('medical').value = 3000;
   document.getElementById('other').value = 0;
+  document.getElementById('months').value = 12;
+  document.getElementById('sec80c').value = 0;
+  document.getElementById('sec80d').value = 0;
+  document.getElementById('sec24').value  = 0;
+  document.getElementById('sec80e').value = 0;
+  document.getElementById('sec80g').value = 0;
+  document.getElementById('sec80tta').value = 0;
+  document.getElementById('standardDeduction').value = 75000;
+  document.getElementById('surchargePct').value = 0;
+  document.getElementById('pfPct').value = 12;
+  document.getElementById('esiPct').value = 0.75;
+  document.getElementById('ptax').value = 200;
+  document.getElementById('emi').value = 0;
+  document.getElementById('insurance').value = 0;
+  document.getElementById('otherStat').value = 0;
+  document.getElementById('otherVol').value = 0;
+  document.getElementById('regime').value = 'new';
+
+  document.querySelectorAll('[data-basic-mode]').forEach(b=>b.classList.remove('active'));
+  document.querySelector('[data-basic-mode="monthly"]').classList.add('active');
+  document.querySelectorAll('[data-hra-mode]').forEach(b=>b.classList.remove('active'));
+  document.querySelector('[data-hra-mode="fixed"]').classList.add('active');
+  document.querySelectorAll('[data-da-mode]').forEach(b=>b.classList.remove('active'));
+  document.querySelector('[data-da-mode="fixed"]').classList.add('active');
+
+  document.getElementById('basicLabel').textContent = 'Monthly Basic (₹)';
+  document.getElementById('hraLabel').textContent = 'HRA (₹/month)';
+  document.getElementById('daLabel').textContent = 'DA (₹/month)';
+
   calculate();
 }
 
-function downloadReport() {
-  const text = `SALARY REPORT\nGross: ₹${document.getElementById('totalEarnings').textContent}\nTax: ₹${document.getElementById('totalTax').textContent}\nNet: ₹${document.getElementById('monthlySalary').textContent}`;
-  const a = document.createElement('a');
-  a.href = 'data:text/plain,' + encodeURIComponent(text);
-  a.download = 'salary_report.txt';
-  a.click();
-  showToast('Downloaded!');
-}
-
-function printReport() {
-  const w = window.open();
-  w.document.write(`<h1>Salary Report</h1><p>Gross: ₹${document.getElementById('totalEarnings').textContent}</p><p>Net: ₹${document.getElementById('monthlySalary').textContent}</p>`);
-  w.print();
-}
-
 function copyResults() {
-  const text = `Gross: ₹${document.getElementById('totalEarnings').textContent} | Net: ₹${document.getElementById('monthlySalary').textContent}`;
+  const gross = document.getElementById('grossMonthlyOut').textContent;
+  const net   = document.getElementById('netMonthlyOut').textContent;
+  const tax   = document.getElementById('taxSelectedOut').textContent;
+  const text = `Gross / Month: ₹${gross} | Net / Month: ₹${net} | Annual Tax: ₹${tax}`;
   navigator.clipboard.writeText(text);
-  showToast('Copied!');
+  showToast('Results copied');
+}
+
+function printSummary() {
+  const w = window.open('', '_blank');
+  w.document.write('<h2>Salary Summary</h2>');
+  w.document.write(`<p>Gross / Month: ₹${document.getElementById('grossMonthlyOut').textContent}</p>`);
+  w.document.write(`<p>Net / Month: ₹${document.getElementById('netMonthlyOut').textContent}</p>`);
+  w.document.write(`<p>Annual Tax: ₹${document.getElementById('taxSelectedOut').textContent}</p>`);
+  w.print();
 }
 
 function showToast(msg) {
@@ -1264,7 +1359,7 @@ function showToast(msg) {
   t.className = 'toast';
   t.textContent = msg;
   document.body.appendChild(t);
-  setTimeout(() => t.remove(), 2500);
+  setTimeout(()=>t.remove(), 2200);
 }
 
 window.addEventListener('load', calculate);
