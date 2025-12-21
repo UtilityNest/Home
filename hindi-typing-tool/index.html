@@ -2,9 +2,9 @@
 <html lang="hi">
 <head>
   <meta charset="UTF-8">
-  <title>Hindi Typing Tool – Type English, Get Hindi | UtilityNest</title>
+  <title>Hindi Typing Tool – Type English to Hindi | UtilityNest</title>
 
-  <meta name="description" content="Free Hindi Typing Tool to type Hindi using English keyboard. Real-time English to Hindi transliteration. No login, fast and secure.">
+  <meta name="description" content="Free Hindi Typing Tool to type Hindi using English keyboard. Accurate phonetic typing with correct Hindi words. Fast, secure and real-time.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <base href="/Home/">
 
@@ -69,23 +69,25 @@
 
   <h1>Hindi Typing Tool</h1>
   <p>
-    इस फ्री Hindi Typing Tool की मदद से आप
+    इस Hindi Typing Tool की मदद से आप
     <strong>English keyboard</strong> से
-    <strong>Hindi में टाइप</strong> कर सकते हैं।
-    जैसे ही आप इंग्लिश में लिखेंगे, टेक्स्ट
-    अपने-आप हिंदी में बदल जाएगा।
+    <strong>सही हिंदी शब्द</strong> टाइप कर सकते हैं।
+    जैसे ही आप टाइप करेंगे, टेक्स्ट अपने-आप
+    सही हिंदी में बदल जाएगा।
   </p>
 
-  <!-- TOOL CARD -->
+  <!-- INPUT -->
   <div class="card gradient-card">
     <h2>Type in English</h2>
 
     <textarea
       id="englishInput"
-      placeholder="Type here in English (e.g. mera bharat mahan hai)"
+      placeholder="Type here (e.g. mera bharat mahan hai)"
       oninput="convertToHindi()"></textarea>
 
-    <p class="hint">Example: <strong>mera bharat mahan hai</strong> → मेरा भारत महान है</p>
+    <p class="hint">
+      Example: <strong>mera bharat mahan hai</strong> → मेरा भारत महान है।
+    </p>
   </div>
 
   <!-- OUTPUT -->
@@ -94,7 +96,7 @@
 
     <textarea
       id="hindiOutput"
-      placeholder="यहाँ हिंदी टेक्स्ट दिखाई देगा..."
+      placeholder="यहाँ सही हिंदी टेक्स्ट दिखाई देगा..."
       readonly></textarea>
 
     <div class="actions">
@@ -108,10 +110,10 @@
     <h2>About Hindi Typing Tool</h2>
     <p>
       यह टूल छात्रों, प्रतियोगी परीक्षाओं,
-      ब्लॉगर्स और हिंदी कंटेंट लिखने वालों के
-      लिए बेहद उपयोगी है। इसमें किसी भी
-      प्रकार का डेटा सर्वर पर सेव नहीं होता,
-      जिससे आपकी प्राइवेसी पूरी तरह सुरक्षित रहती है।
+      ब्लॉगर्स और हिंदी कंटेंट क्रिएटर्स के लिए
+      बेहद उपयोगी है। यह टूल पूरी तरह
+      ब्राउज़र में काम करता है और आपका
+      डेटा कहीं सेव नहीं करता।
     </p>
   </div>
 
@@ -137,53 +139,103 @@
   <p class="copy">© 2025 UtilityNest</p>
 </footer>
 
-<!-- TRANSLITERATION SCRIPT -->
+<!-- ADVANCED PHONETIC TRANSLITERATION SCRIPT -->
 <script>
-const map = {
-  "aa":"आ","ai":"ऐ","au":"औ","ee":"ई","oo":"ऊ",
-  "a":"अ","i":"इ","u":"उ","e":"ए","o":"ओ",
-
-  "ka":"क","kha":"ख","ga":"ग","gha":"घ","cha":"च",
-  "chha":"छ","ja":"ज","jha":"झ","ta":"त","tha":"थ",
-  "da":"द","dha":"ध","na":"न",
-
-  "pa":"प","pha":"फ","ba":"ब","bha":"भ","ma":"म",
-  "ya":"य","ra":"र","la":"ल","va":"व","sa":"स",
-  "sha":"श","ha":"ह",
-
-  "k":"क","g":"ग","c":"च","j":"ज","t":"त","d":"द",
-  "n":"न","p":"प","b":"ब","m":"म","y":"य","r":"र",
-  "l":"ल","v":"व","s":"स","h":"ह"
+const consonants = {
+  "k":"क","kh":"ख","g":"ग","gh":"घ","ch":"च","chh":"छ",
+  "j":"ज","jh":"झ","t":"त","th":"थ","d":"द","dh":"ध",
+  "n":"न","p":"प","ph":"फ","b":"ब","bh":"भ","m":"म",
+  "y":"य","r":"र","l":"ल","v":"व","s":"स","sh":"श","h":"ह"
 };
 
-function convertToHindi(){
-  let text = document.getElementById("englishInput").value.toLowerCase();
-  let output = "";
+const vowels = {
+  "aa":"ा","i":"ि","ii":"ी","u":"ु","uu":"ू",
+  "e":"े","ai":"ै","o":"ो","au":"ौ"
+};
+
+const standaloneVowels = {
+  "a":"अ","aa":"आ","i":"इ","ii":"ई","u":"उ","uu":"ऊ",
+  "e":"ए","ai":"ऐ","o":"ओ","au":"औ"
+};
+
+function transliterateWord(word){
+  let out = "";
   let i = 0;
 
-  while(i < text.length){
-    let two = text.substr(i,2);
-    let three = text.substr(i,3);
+  while(i < word.length){
+    let c3 = word.substr(i,3);
+    let c2 = word.substr(i,2);
+    let c1 = word.substr(i,1);
 
-    if(map[three]){
-      output += map[three];
-      i += 3;
-    }
-    else if(map[two]){
-      output += map[two];
+    if(consonants[c2]){
+      out += consonants[c2];
       i += 2;
+
+      let v2 = word.substr(i,2);
+      let v1 = word.substr(i,1);
+
+      if(vowels[v2]){
+        out += vowels[v2];
+        i += 2;
+      } else if(vowels[v1]){
+        out += vowels[v1];
+        i += 1;
+      }
+      continue;
     }
-    else if(map[text[i]]){
-      output += map[text[i]];
+
+    if(consonants[c1]){
+      out += consonants[c1];
       i++;
+
+      let v2 = word.substr(i,2);
+      let v1 = word.substr(i,1);
+
+      if(vowels[v2]){
+        out += vowels[v2];
+        i += 2;
+      } else if(vowels[v1]){
+        out += vowels[v1];
+        i += 1;
+      }
+      continue;
     }
-    else{
-      output += text[i];
+
+    if(standaloneVowels[c2]){
+      out += standaloneVowels[c2];
+      i += 2;
+      continue;
+    }
+
+    if(standaloneVowels[c1]){
+      out += standaloneVowels[c1];
       i++;
+      continue;
     }
+
+    out += word[i];
+    i++;
   }
 
-  document.getElementById("hindiOutput").value = output;
+  return out;
+}
+
+function convertToHindi(){
+  const input = document.getElementById("englishInput").value.toLowerCase();
+  const words = input.split(/\s+/);
+  let output = [];
+
+  words.forEach(w => {
+    output.push(transliterateWord(w));
+  });
+
+  let finalText = output.join(" ");
+
+  if(finalText && !/[।!?]$/.test(finalText)){
+    finalText += "।";
+  }
+
+  document.getElementById("hindiOutput").value = finalText;
 }
 
 function copyHindi(){
