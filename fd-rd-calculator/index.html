@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FD & RD Calculator - Calculate Fixed & Recurring Deposit Returns | UtilityNest</title>
+  <meta name="description" content="Free FD & RD Calculator to calculate returns on Fixed Deposits and Recurring Deposits. Calculate final amount, total interest, maturity value.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background-color: #f9fafb;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+
+    header {
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 16px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header a:first-child {
+      font-size: 20px;
+      font-weight: bold;
+      color: #16a34a;
+      text-decoration: none;
+      margin-right: 30px;
+    }
+
+    header nav {
+      display: inline-flex;
+      gap: 20px;
+    }
+
+    header nav a {
+      color: #6b7280;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    header nav a:hover {
+      color: #16a34a;
+    }
+
+    @media (max-width: 768px) {
+      header nav {
+        display: none;
+      }
+    }
+
+    .breadcrumb {
+      padding: 10px 20px;
+      font-size: 13px;
+      color: #9ca3af;
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .breadcrumb a {
+      color: #16a34a;
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    .section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+
+    .section h1 {
+      font-size: 28px;
+      margin-bottom: 15px;
+      color: #1f2937;
+    }
+
+    .section > p {
+      font-size: 15px;
+      color: #6b7280;
+      margin-bottom: 25px;
+      line-height: 1.7;
+    }
+
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 20px;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: #1f2937;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: #6b7280;
+      line-height: 1.7;
+    }
+
+    .gradient-card {
+      background: linear-gradient(135deg, #f0fdf4 0%, #f0f9ff 100%);
+      border: 2px solid #16a34a;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid #e5e7eb;
+      margin-bottom: 20px;
+    }
+
+    .tab-button {
+      padding: 12px 20px;
+      background: none;
+      border: none;
+      font-size: 14px;
+      font-weight: 500;
+      color: #6b7280;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+    }
+
+    .tab-button:hover {
+      color: #16a34a;
+    }
+
+    .tab-button.active {
+      color: #16a34a;
+      border-bottom-color: #16a34a;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: #1f2937;
+      margin-bottom: 8px;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 2px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: #16a34a;
+      box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+    }
+
+    .input-help {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-top: 4px;
+    }
+
+    .slider-container {
+      margin-top: 8px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #d1d5db;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #16a34a;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      background: #15803d;
+      box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.2);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #16a34a;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    input[type="range"]::-moz-range-thumb:hover {
+      background: #15803d;
+      box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.2);
+    }
+
+    .calculator-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .calculator-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .results-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .result-box {
+      background: #f3f4f6;
+      border-left: 4px solid #16a34a;
+      padding: 15px;
+      border-radius: 6px;
+    }
+
+    .result-label {
+      font-size: 12px;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 5px;
+    }
+
+    .result-value {
+      font-size: 24px;
+      font-weight: 600;
+      color: #16a34a;
+    }
+
+    .result-box.highlight {
+      border-left-color: #f59e0b;
+    }
+
+    .result-box.highlight .result-value {
+      color: #f59e0b;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      margin-top: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    table thead {
+      background: #f3f4f6;
+      border-bottom: 2px solid #d1d5db;
+    }
+
+    table th {
+      padding: 12px 8px;
+      text-align: left;
+      font-weight: 600;
+      color: #1f2937;
+    }
+
+    table td {
+      padding: 10px 8px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    table tbody tr:hover {
+      background: #f9fafb;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .actions button {
+      flex: 1;
+      min-width: 140px;
+      padding: 10px 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      background: white;
+      color: #374151;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .actions button:hover {
+      border-color: #16a34a;
+      color: #16a34a;
+      background: #f0fdf4;
+    }
+
+    .btn-primary {
+      background: #16a34a;
+      color: white;
+      border-color: #16a34a;
+    }
+
+    .btn-primary:hover {
+      background: #15803d;
+      border-color: #15803d;
+    }
+
+    .chart-container {
+      margin-top: 30px;
+      padding: 20px;
+      background: #f9fafb;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .chart-container h3 {
+      font-size: 16px;
+      margin-bottom: 15px;
+      color: #1f2937;
+    }
+
+    footer {
+      background: white;
+      border-top: 1px solid #e5e7eb;
+      padding: 30px 20px;
+      margin-top: 40px;
+    }
+
+    .footer-grid {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .footer-grid h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 12px;
+    }
+
+    .footer-grid a {
+      display: block;
+      font-size: 13px;
+      color: #6b7280;
+      text-decoration: none;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+
+    .footer-grid a:hover {
+      color: #16a34a;
+    }
+
+    .copy {
+      max-width: 1000px;
+      margin: 0 auto;
+      font-size: 13px;
+      color: #9ca3af;
+      text-align: center;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #16a34a;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .formula-box {
+      background: #f9fafb;
+      padding: 15px;
+      border-radius: 6px;
+      border-left: 4px solid #16a34a;
+      margin-top: 15px;
+      font-family: monospace;
+      font-size: 12px;
+      color: #374151;
+      overflow-x: auto;
+    }
+
+    .comparison-box {
+      background: #f0fdf4;
+      padding: 15px;
+      border-radius: 6px;
+      border-left: 4px solid #16a34a;
+      margin-top: 15px;
+    }
+
+    .comparison-box h4 {
+      color: #16a34a;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .comparison-item {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .comparison-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .comparison-label {
+      font-size: 13px;
+      color: #6b7280;
+      font-weight: 500;
+    }
+
+    .comparison-value {
+      font-size: 13px;
+      color: #1f2937;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="">UtilityNest</a>
+  <nav>
+    <a href="government-tools/">Government</a>
+    <a href="finance-calculators/">Finance</a>
+    <a href="student-tools/">Student</a>
+    <a href="utility-tools/">Utility</a>
+    <a href="hindi-tools/">Hindi</a>
+  </nav>
+</header>
+
+<nav class="breadcrumb">
+  <a href="">Home</a> › <a href="finance-calculators/">Finance Calculators</a> › FD & RD Calculator
+</nav>
+
+<section class="section">
+  <h1>FD & RD Calculator</h1>
+  <p>Use our advanced FD & RD Calculator to calculate returns on Fixed Deposits and Recurring Deposits. Get instant results with detailed interest calculations, maturity values, and investment breakdowns. Supports quarterly, half-yearly, and yearly compounding.</p>
+
+  <div class="card gradient-card">
+    <h2>💰 Calculate FD & RD Returns</h2>
+
+    <div class="tabs">
+      <button class="tab-button active" onclick="switchTab(event, 'fd')">Fixed Deposit (FD)</button>
+      <button class="tab-button" onclick="switchTab(event, 'rd')">Recurring Deposit (RD)</button>
+      <button class="tab-button" onclick="switchTab(event, 'comparison')">FD vs RD</button>
+    </div>
+
+    <!-- FIXED DEPOSIT -->
+    <div id="fd" class="tab-content active">
+      <div class="calculator-grid">
+        <div>
+          <div class="form-group">
+            <label>Principal Amount (₹)</label>
+            <input type="number" id="fdPrincipal" placeholder="Enter principal amount" min="1000" max="100000000" value="100000" oninput="calculateFD()">
+            <div class="input-help">Min: ₹1,000 | Max: ₹10,00,00,000</div>
+            <div class="slider-container">
+              <input type="range" id="fdPrincipalSlider" min="1000" max="100000000" value="100000" step="10000" oninput="syncFDPrincipal()">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Annual Interest Rate (%)</label>
+            <input type="number" id="fdRate" placeholder="Enter annual interest rate" min="0.01" max="15" step="0.01" value="6.5" oninput="calculateFD()">
+            <div class="input-help">Min: 0.01% | Max: 15% (Typical: 4-8%)</div>
+            <div class="slider-container">
+              <input type="range" id="fdRateSlider" min="0.01" max="15" value="6.5" step="0.01" oninput="syncFDRate()">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Time Period (Years)</label>
+            <input type="number" id="fdYears" placeholder="Enter time period in years" min="0.25" max="50" step="0.25" value="5" oninput="calculateFD()">
+            <div class="input-help">Min: 3 Months (0.25) | Max: 50 Years</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <label>Compounding Frequency</label>
+            <select id="fdCompounding" onchange="calculateFD()">
+              <option value="1">Annually</option>
+              <option value="2">Semi-Annually</option>
+              <option value="4" selected>Quarterly</option>
+              <option value="12">Monthly</option>
+              <option value="365">Daily</option>
+            </select>
+            <div class="input-help">Frequency of interest compounding</div>
+          </div>
+
+          <div class="form-group">
+            <label>Tax Deduction - TDS (%)</label>
+            <input type="number" id="fdTax" placeholder="Enter TDS percentage" min="0" max="50" step="0.01" value="10" oninput="calculateFD()">
+            <div class="input-help">Min: 0% | Max: 50% (Typical: 10%)</div>
+          </div>
+
+          <div class="form-group">
+            <label>Inflation Rate (%) - Optional</label>
+            <input type="number" id="fdInflation" placeholder="Enter inflation rate" min="0" max="20" step="0.01" value="5" oninput="calculateFD()">
+            <div class="input-help">For real value calculation</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="results-grid">
+        <div class="result-box">
+          <div class="result-label">Principal Amount</div>
+          <div class="result-value">₹<span id="fdPrincipalResult">0</span></div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Total Interest Earned</div>
+          <div class="result-value">₹<span id="fdInterest">0</span></div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Tax/TDS Deducted</div>
+          <div class="result-value">₹<span id="fdTaxAmount">0</span></div>
+        </div>
+        <div class="result-box highlight">
+          <div class="result-label">Maturity Amount (Net)</div>
+          <div class="result-value">₹<span id="fdMaturity">0</span></div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Effective Annual Return</div>
+          <div class="result-value"><span id="fdEffectiveRate">0</span>%</div>
+        </div>
+        <div class="result-box highlight">
+          <div class="result-label">Real Value (After Inflation)</div>
+          <div class="result-value">₹<span id="fdRealValue">0</span></div>
+        </div>
+      </div>
+
+      <div class="formula-box">
+        A = P × (1 + R/N)^(N×T)<br>
+        Where: P = Principal, R = Annual Rate/100, N = Compounding Frequency, T = Time in Years
+      </div>
+    </div>
+
+    <!-- RECURRING DEPOSIT -->
+    <div id="rd" class="tab-content">
+      <div class="calculator-grid">
+        <div>
+          <div class="form-group">
+            <label>Monthly Deposit Amount (₹)</label>
+            <input type="number" id="rdMonthly" placeholder="Enter monthly deposit amount" min="100" max="1000000" value="10000" oninput="calculateRD()">
+            <div class="input-help">Min: ₹100 | Max: ₹10,00,000</div>
+            <div class="slider-container">
+              <input type="range" id="rdMonthlySlider" min="100" max="1000000" value="10000" step="100" oninput="syncRDMonthly()">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Time Period (Months)</label>
+            <input type="number" id="rdMonths" placeholder="Enter time period in months" min="1" max="600" value="60" oninput="calculateRD()">
+            <div class="input-help">Min: 1 Month | Max: 50 Years (600 Months)</div>
+            <div class="slider-container">
+              <input type="range" id="rdMonthsSlider" min="1" max="600" value="60" step="1" oninput="syncRDMonths()">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Annual Interest Rate (%)</label>
+            <input type="number" id="rdRate" placeholder="Enter annual interest rate" min="0.01" max="15" step="0.01" value="5.5" oninput="calculateRD()">
+            <div class="input-help">Min: 0.01% | Max: 15% (Typical: 3-7%)</div>
+            <div class="slider-container">
+              <input type="range" id="rdRateSlider" min="0.01" max="15" value="5.5" step="0.01" oninput="syncRDRate()">
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <label>Interest Compounding</label>
+            <select id="rdCompounding" onchange="calculateRD()">
+              <option value="1">Annually</option>
+              <option value="2">Semi-Annually</option>
+              <option value="4" selected>Quarterly</option>
+              <option value="12">Monthly</option>
+            </select>
+            <div class="input-help">Frequency of interest compounding</div>
+          </div>
+
+          <div class="form-group">
+            <label>Tax Deduction - TDS (%)</label>
+            <input type="number" id="rdTax" placeholder="Enter TDS percentage" min="0" max="50" step="0.01" value="10" oninput="calculateRD()">
+            <div class="input-help">Min: 0% | Max: 50% (Typical: 10%)</div>
+          </div>
+
+          <div class="form-group">
+            <label>Inflation Rate (%) - Optional</label>
+            <input type="number" id="rdInflation" placeholder="Enter inflation rate" min="0" max="20" step="0.01" value="5" oninput="calculateRD()">
+            <div class="input-help">For real value calculation</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="results-grid">
+        <div class="result-box">
+          <div class="result-label">Total Deposited</div>
+          <div class="result-value">₹<span id="rdDeposited">0</span></div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Total Interest Earned</div>
+          <div class="result-value">₹<span id="rdInterest">0</span></div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Tax/TDS Deducted</div>
+          <div class="result-value">₹<span id="rdTaxAmount">0</span></div>
+        </div>
+        <div class="result-box highlight">
+          <div class="result-label">Maturity Amount (Net)</div>
+          <div class="result-value">₹<span id="rdMaturity">0</span></div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Effective Annual Return</div>
+          <div class="result-value"><span id="rdEffectiveRate">0</span>%</div>
+        </div>
+        <div class="result-box highlight">
+          <div class="result-label">Real Value (After Inflation)</div>
+          <div class="result-value">₹<span id="rdRealValue">0</span></div>
+        </div>
+      </div>
+
+      <div class="formula-box">
+        M = R × [((1 + I)^N - 1) / I] × (1 + I)<br>
+        Where: R = Monthly Deposit, I = Monthly Rate, N = Number of Months
+      </div>
+    </div>
+
+    <!-- COMPARISON -->
+    <div id="comparison" class="tab-content">
+      <div class="comparison-box">
+        <h4>💡 FD vs RD Comparison</h4>
+        <div class="comparison-item">
+          <div class="comparison-label">Total Investment</div>
+          <div class="comparison-value">
+            FD: ₹<span id="compFDInvest">0</span> | RD: ₹<span id="compRDInvest">0</span>
+          </div>
+        </div>
+        <div class="comparison-item">
+          <div class="comparison-label">Total Interest Earned</div>
+          <div class="comparison-value">
+            FD: ₹<span id="compFDInterest">0</span> | RD: ₹<span id="compRDInterest">0</span>
+          </div>
+        </div>
+        <div class="comparison-item">
+          <div class="comparison-label">Tax Deducted</div>
+          <div class="comparison-value">
+            FD: ₹<span id="compFDTax">0</span> | RD: ₹<span id="compRDTax">0</span>
+          </div>
+        </div>
+        <div class="comparison-item">
+          <div class="comparison-label">Maturity Amount (Net)</div>
+          <div class="comparison-value">
+            FD: ₹<span id="compFDMaturity">0</span> | RD: ₹<span id="compRDMaturity">0</span>
+          </div>
+        </div>
+        <div class="comparison-item">
+          <div class="comparison-label">Which is Better?</div>
+          <div class="comparison-value">
+            <span id="compBetter">Calculate to see</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn-primary" onclick="resetCalculators()">🔄 Reset All</button>
+      <button onclick="downloadReport()">📥 Download Report</button>
+      <button onclick="printReport()">🖨️ Print</button>
+    </div>
+  </div>
+
+  <!-- Interest Schedule Table -->
+  <div class="card">
+    <h3>📊 Year-by-Year Interest Schedule (FD)</h3>
+    <div class="table-wrapper">
+      <table id="fdScheduleTable">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Beginning Balance (₹)</th>
+            <th>Interest Earned (₹)</th>
+            <th>Ending Balance (₹)</th>
+            <th>Cumulative Interest (₹)</th>
+          </tr>
+        </thead>
+        <tbody id="fdScheduleBody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Month-by-Month RD Schedule -->
+  <div class="card">
+    <h3>📊 Month-by-Month RD Schedule (First 12 Months)</h3>
+    <div class="table-wrapper">
+      <table id="rdScheduleTable">
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Monthly Deposit (₹)</th>
+            <th>Total Deposited (₹)</th>
+            <th>Interest Earned (₹)</th>
+            <th>Balance (₹)</th>
+          </tr>
+        </thead>
+        <tbody id="rdScheduleBody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Chart -->
+  <div class="card chart-container">
+    <h3>📈 Maturity Value Comparison</h3>
+    <canvas id="comparisonChart" width="400" height="200"></canvas>
+  </div>
+
+  <!-- Info -->
+  <div class="card">
+    <h2>About FD & RD Calculator</h2>
+    <p><strong>Fixed Deposit (FD):</strong> A lump-sum investment made for a fixed period. Interest is calculated on the principal and paid at maturity.</p>
+    <p style="margin-top: 12px;"><strong>Recurring Deposit (RD):</strong> Regular monthly deposits made for a fixed period. Interest is compounded and added to the principal.</p>
+    <p style="margin-top: 12px;"><strong>Key Features:</strong></p>
+    <ul style="margin-left: 20px; margin-top: 8px;">
+      <li>Multiple compounding frequencies (Annually, Semi-Annually, Quarterly, Monthly, Daily)</li>
+      <li>Tax deduction (TDS) calculation</li>
+      <li>Real value after inflation</li>
+      <li>Effective annual return calculation</li>
+      <li>Detailed year/month-by-month schedules</li>
+      <li>Works for all Indian banks and financial institutions</li>
+    </ul>
+    <p style="margin-top: 12px;"><strong>Supported Institutions:</strong> SBI, HDFC, ICICI, Axis Bank, PNB, BOI, and all other banks offering FD/RD.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h3>Finance Calculators</h3>
+      <a href="finance-calculators/fd-rd-calculator/">FD & RD Calculator</a>
+      <a href="finance-calculators/emi-calculator/">EMI Calculator</a>
+      <a href="finance-calculators/sip-calculator/">SIP Calculator</a>
+    </div>
+    <div>
+      <h3>Popular Tools</h3>
+      <a href="age-calculator/">Age Calculator</a>
+      <a href="student-tools/">Student Tools</a>
+    </div>
+  </div>
+  <p class="copy">© 2025 UtilityNest</p>
+</footer>
+
+<script>
+function formatNumber(num) {
+  return parseFloat(num).toLocaleString('en-IN');
+}
+
+function switchTab(event, tabName) {
+  const tabs = document.querySelectorAll('.tab-content');
+  tabs.forEach(tab => tab.classList.remove('active'));
+  const buttons = document.querySelectorAll('.tab-button');
+  buttons.forEach(btn => btn.classList.remove('active'));
+  document.getElementById(tabName).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// FIXED DEPOSIT
+function calculateFD() {
+  const principal = parseFloat(document.getElementById('fdPrincipal').value) || 0;
+  const rate = parseFloat(document.getElementById('fdRate').value) || 0;
+  const years = parseFloat(document.getElementById('fdYears').value) || 0;
+  const compounding = parseInt(document.getElementById('fdCompounding').value) || 1;
+  const taxRate = parseFloat(document.getElementById('fdTax').value) || 0;
+  const inflationRate = parseFloat(document.getElementById('fdInflation').value) || 0;
+
+  if (principal <= 0 || years <= 0) {
+    resetFDResults();
+    return;
+  }
+
+  const rateDecimal = rate / 100;
+  const maturityAmount = principal * Math.pow(1 + rateDecimal / compounding, compounding * years);
+  const interest = maturityAmount - principal;
+  const taxAmount = interest * (taxRate / 100);
+  const netMaturity = maturityAmount - taxAmount;
+  const effectiveRate = (Math.pow(1 + rateDecimal / compounding, compounding) - 1) * 100;
+  const realValue = netMaturity / Math.pow(1 + inflationRate / 100, years);
+
+  document.getElementById('fdPrincipalResult').textContent = formatNumber(principal.toFixed(2));
+  document.getElementById('fdInterest').textContent = formatNumber(interest.toFixed(2));
+  document.getElementById('fdTaxAmount').textContent = formatNumber(taxAmount.toFixed(2));
+  document.getElementById('fdMaturity').textContent = formatNumber(netMaturity.toFixed(2));
+  document.getElementById('fdEffectiveRate').textContent = effectiveRate.toFixed(2);
+  document.getElementById('fdRealValue').textContent = formatNumber(realValue.toFixed(2));
+
+  generateFDSchedule(principal, rate, years, compounding);
+  updateComparisonChart();
+}
+
+function generateFDSchedule(principal, rate, years, compounding) {
+  const tableBody = document.getElementById('fdScheduleBody');
+  tableBody.innerHTML = '';
+
+  const rateDecimal = rate / 100;
+  let balance = principal;
+  let cumulativeInterest = 0;
+
+  for (let year = 1; year <= Math.ceil(years); year++) {
+    const yearlyYears = Math.min(1, years - (year - 1));
+    const beginningBalance = balance;
+    const newBalance = beginningBalance * Math.pow(1 + rateDecimal / compounding, compounding * yearlyYears);
+    const yearlyInterest = newBalance - beginningBalance;
+    cumulativeInterest += yearlyInterest;
+    balance = newBalance;
+
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${year}</td>
+      <td>₹${formatNumber(beginningBalance.toFixed(2))}</td>
+      <td>₹${formatNumber(yearlyInterest.toFixed(2))}</td>
+      <td>₹${formatNumber(newBalance.toFixed(2))}</td>
+      <td>₹${formatNumber(cumulativeInterest.toFixed(2))}</td>
+    `;
+    tableBody.appendChild(row);
+  }
+}
+
+function resetFDResults() {
+  document.getElementById('fdPrincipalResult').textContent = '0';
+  document.getElementById('fdInterest').textContent = '0';
+  document.getElementById('fdTaxAmount').textContent = '0';
+  document.getElementById('fdMaturity').textContent = '0';
+  document.getElementById('fdEffectiveRate').textContent = '0';
+  document.getElementById('fdRealValue').textContent = '0';
+  document.getElementById('fdScheduleBody').innerHTML = '';
+}
+
+function syncFDPrincipal() {
+  document.getElementById('fdPrincipal').value = document.getElementById('fdPrincipalSlider').value;
+  calculateFD();
+}
+
+function syncFDRate() {
+  document.getElementById('fdRate').value = document.getElementById('fdRateSlider').value;
+  calculateFD();
+}
+
+document.getElementById('fdPrincipal').addEventListener('input', function() {
+  document.getElementById('fdPrincipalSlider').value = this.value;
+});
+document.getElementById('fdRate').addEventListener('input', function() {
+  document.getElementById('fdRateSlider').value = this.value;
+});
+
+// RECURRING DEPOSIT
+function calculateRD() {
+  const monthly = parseFloat(document.getElementById('rdMonthly').value) || 0;
+  const months = parseInt(document.getElementById('rdMonths').value) || 0;
+  const rate = parseFloat(document.getElementById('rdRate').value) || 0;
+  const compounding = parseInt(document.getElementById('rdCompounding').value) || 4;
+  const taxRate = parseFloat(document.getElementById('rdTax').value) || 0;
+  const inflationRate = parseFloat(document.getElementById('rdInflation').value) || 0;
+
+  if (monthly <= 0 || months <= 0) {
+    resetRDResults();
+    return;
+  }
+
+  const monthlyRate = rate / 12 / 100;
+  const totalDeposited = monthly * months;
+
+  let maturityAmount = 0;
+  if (monthlyRate === 0) {
+    maturityAmount = totalDeposited;
+  } else {
+    maturityAmount = monthly * (((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) * (1 + monthlyRate));
+  }
+
+  const interest = maturityAmount - totalDeposited;
+  const taxAmount = interest * (taxRate / 100);
+  const netMaturity = maturityAmount - taxAmount;
+  const effectiveRate = (Math.pow(1 + monthlyRate * 12, 12) - 1) * 100;
+  const years = months / 12;
+  const realValue = netMaturity / Math.pow(1 + inflationRate / 100, years);
+
+  document.getElementById('rdDeposited').textContent = formatNumber(totalDeposited.toFixed(2));
+  document.getElementById('rdInterest').textContent = formatNumber(interest.toFixed(2));
+  document.getElementById('rdTaxAmount').textContent = formatNumber(taxAmount.toFixed(2));
+  document.getElementById('rdMaturity').textContent = formatNumber(netMaturity.toFixed(2));
+  document.getElementById('rdEffectiveRate').textContent = effectiveRate.toFixed(2);
+  document.getElementById('rdRealValue').textContent = formatNumber(realValue.toFixed(2));
+
+  generateRDSchedule(monthly, rate, months);
+  updateComparison();
+  updateComparisonChart();
+}
+
+function generateRDSchedule(monthly, rate, totalMonths) {
+  const tableBody = document.getElementById('rdScheduleBody');
+  tableBody.innerHTML = '';
+
+  const monthlyRate = rate / 12 / 100;
+  let balance = 0;
+  let cumulativeDeposit = 0;
+
+  const monthsToShow = Math.min(12, totalMonths);
+
+  for (let month = 1; month <= monthsToShow; month++) {
+    balance = balance * (1 + monthlyRate) + monthly;
+    cumulativeDeposit += monthly;
+    const monthlyInterest = balance - cumulativeDeposit;
+
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${month}</td>
+      <td>₹${formatNumber(monthly.toFixed(2))}</td>
+      <td>₹${formatNumber(cumulativeDeposit.toFixed(2))}</td>
+      <td>₹${formatNumber(monthlyInterest.toFixed(2))}</td>
+      <td>₹${formatNumber(balance.toFixed(2))}</td>
+    `;
+    tableBody.appendChild(row);
+  }
+
+  if (totalMonths > 12) {
+    const noteRow = document.createElement('tr');
+    noteRow.innerHTML = `<td colspan="5" style="text-align: center; padding: 15px; background: #f0fdf4; color: #16a34a; font-size: 12px;">
+      Showing first 12 months only. Total period: ${totalMonths} months
+    </td>`;
+    tableBody.appendChild(noteRow);
+  }
+}
+
+function resetRDResults() {
+  document.getElementById('rdDeposited').textContent = '0';
+  document.getElementById('rdInterest').textContent = '0';
+  document.getElementById('rdTaxAmount').textContent = '0';
+  document.getElementById('rdMaturity').textContent = '0';
+  document.getElementById('rdEffectiveRate').textContent = '0';
+  document.getElementById('rdRealValue').textContent = '0';
+  document.getElementById('rdScheduleBody').innerHTML = '';
+}
+
+function syncRDMonthly() {
+  document.getElementById('rdMonthly').value = document.getElementById('rdMonthlySlider').value;
+  calculateRD();
+}
+
+function syncRDMonths() {
+  document.getElementById('rdMonths').value = document.getElementById('rdMonthsSlider').value;
+  calculateRD();
+}
+
+function syncRDRate() {
+  document.getElementById('rdRate').value = document.getElementById('rdRateSlider').value;
+  calculateRD();
+}
+
+document.getElementById('rdMonthly').addEventListener('input', function() {
+  document.getElementById('rdMonthlySlider').value = this.value;
+});
+document.getElementById('rdMonths').addEventListener('input', function() {
+  document.getElementById('rdMonthsSlider').value = this.value;
+});
+document.getElementById('rdRate').addEventListener('input', function() {
+  document.getElementById('rdRateSlider').value = this.value;
+});
+
+// COMPARISON
+function updateComparison() {
+  const fdMaturity = parseFloat(document.getElementById('fdMaturity').textContent.replace(/,/g, '')) || 0;
+  const rdMaturity = parseFloat(document.getElementById('rdMaturity').textContent.replace(/,/g, '')) || 0;
+  const fdInvest = parseFloat(document.getElementById('fdPrincipal').value) || 0;
+  const rdInvest = parseFloat(document.getElementById('rdMonthly').value) * parseInt(document.getElementById('rdMonths').value) || 0;
+  const fdInterest = parseFloat(document.getElementById('fdInterest').textContent.replace(/,/g, '')) || 0;
+  const rdInterest = parseFloat(document.getElementById('rdInterest').textContent.replace(/,/g, '')) || 0;
+  const fdTax = parseFloat(document.getElementById('fdTaxAmount').textContent.replace(/,/g, '')) || 0;
+  const rdTax = parseFloat(document.getElementById('rdTaxAmount').textContent.replace(/,/g, '')) || 0;
+
+  document.getElementById('compFDInvest').textContent = formatNumber(fdInvest.toFixed(2));
+  document.getElementById('compRDInvest').textContent = formatNumber(rdInvest.toFixed(2));
+  document.getElementById('compFDInterest').textContent = formatNumber(fdInterest.toFixed(2));
+  document.getElementById('compRDInterest').textContent = formatNumber(rdInterest.toFixed(2));
+  document.getElementById('compFDTax').textContent = formatNumber(fdTax.toFixed(2));
+  document.getElementById('compRDTax').textContent = formatNumber(rdTax.toFixed(2));
+  document.getElementById('compFDMaturity').textContent = formatNumber(fdMaturity.toFixed(2));
+  document.getElementById('compRDMaturity').textContent = formatNumber(rdMaturity.toFixed(2));
+
+  let better = 'Calculate to see';
+  if (fdMaturity > rdMaturity) {
+    better = '✅ FD is better (Higher maturity amount)';
+  } else if (rdMaturity > fdMaturity) {
+    better = '✅ RD is better (Higher maturity amount)';
+  } else if (fdMaturity !== 0 && rdMaturity !== 0) {
+    better = '⚖️ Both are equal';
+  }
+  document.getElementById('compBetter').textContent = better;
+}
+
+function updateComparisonChart() {
+  const canvas = document.getElementById('comparisonChart');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const fdMaturity = parseFloat(document.getElementById('fdMaturity').textContent.replace(/,/g, '')) || 0;
+  const rdMaturity = parseFloat(document.getElementById('rdMaturity').textContent.replace(/,/g, '')) || 0;
+
+  const width = canvas.width;
+  const height = canvas.height;
+  const padding = 40;
+  const chartWidth = width - padding * 2;
+  const chartHeight = height - padding * 2;
+
+  const maxAmount = Math.max(fdMaturity, rdMaturity) * 1.1;
+
+  ctx.strokeStyle = '#d1d5db';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(padding, height - padding);
+  ctx.lineTo(width - padding, height - padding);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(padding, padding);
+  ctx.lineTo(padding, height - padding);
+  ctx.stroke();
+
+  const barWidth = 40;
+  const barGap = 50;
+  
+  const fdBarHeight = (fdMaturity / maxAmount) * chartHeight;
+  ctx.fillStyle = '#16a34a';
+  ctx.fillRect(padding + 30, height - padding - fdBarHeight, barWidth, fdBarHeight);
+  
+  const rdBarHeight = (rdMaturity / maxAmount) * chartHeight;
+  ctx.fillStyle = '#3b82f6';
+  ctx.fillRect(padding + 30 + barGap + barWidth, height - padding - rdBarHeight, barWidth, rdBarHeight);
+
+  ctx.fillStyle = '#1f2937';
+  ctx.font = '12px Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText('FD', padding + 30 + barWidth/2, height - padding + 20);
+  ctx.fillText('RD', padding + 30 + barGap + barWidth + barWidth/2, height - padding + 20);
+  
+  ctx.textAlign = 'left';
+  ctx.fillText(`₹${formatNumber(fdMaturity.toFixed(0))}`, padding + 30 + barWidth + 10, height - padding - fdBarHeight - 10);
+  ctx.fillText(`₹${formatNumber(rdMaturity.toFixed(0))}`, padding + 30 + barGap + barWidth + barWidth + 10, height - padding - rdBarHeight - 10);
+}
+
+function resetCalculators() {
+  document.getElementById('fdPrincipal').value = 100000;
+  document.getElementById('fdRate').value = 6.5;
+  document.getElementById('fdYears').value = 5;
+  document.getElementById('fdCompounding').value = 4;
+  document.getElementById('fdTax').value = 10;
+  document.getElementById('fdInflation').value = 5;
+
+  document.getElementById('rdMonthly').value = 10000;
+  document.getElementById('rdMonths').value = 60;
+  document.getElementById('rdRate').value = 5.5;
+  document.getElementById('rdCompounding').value = 4;
+  document.getElementById('rdTax').value = 10;
+  document.getElementById('rdInflation').value = 5;
+
+  document.getElementById('fdPrincipalSlider').value = 100000;
+  document.getElementById('fdRateSlider').value = 6.5;
+  document.getElementById('rdMonthlySlider').value = 10000;
+  document.getElementById('rdMonthsSlider').value = 60;
+  document.getElementById('rdRateSlider').value = 5.5;
+
+  calculateFD();
+  calculateRD();
+}
+
+function downloadReport() {
+  let reportContent = 'FD & RD CALCULATOR REPORT\n';
+  reportContent += '='.repeat(80) + '\n\n';
+
+  reportContent += 'FIXED DEPOSIT (FD)\n';
+  reportContent += '-'.repeat(80) + '\n';
+  reportContent += `Principal Amount: ₹${document.getElementById('fdPrincipal').value}\n`;
+  reportContent += `Annual Interest Rate: ${document.getElementById('fdRate').value}%\n`;
+  reportContent += `Time Period: ${document.getElementById('fdYears').value} Years\n`;
+  reportContent += `Total Interest Earned: ₹${document.getElementById('fdInterest').textContent}\n`;
+  reportContent += `Tax/TDS Deducted: ₹${document.getElementById('fdTaxAmount').textContent}\n`;
+  reportContent += `Maturity Amount (Net): ₹${document.getElementById('fdMaturity').textContent}\n\n`;
+
+  reportContent += 'RECURRING DEPOSIT (RD)\n';
+  reportContent += '-'.repeat(80) + '\n';
+  reportContent += `Monthly Deposit: ₹${document.getElementById('rdMonthly').value}\n`;
+  reportContent += `Time Period: ${document.getElementById('rdMonths').value} Months\n`;
+  reportContent += `Annual Interest Rate: ${document.getElementById('rdRate').value}%\n`;
+  reportContent += `Total Deposited: ₹${document.getElementById('rdDeposited').textContent}\n`;
+  reportContent += `Total Interest Earned: ₹${document.getElementById('rdInterest').textContent}\n`;
+  reportContent += `Tax/TDS Deducted: ₹${document.getElementById('rdTaxAmount').textContent}\n`;
+  reportContent += `Maturity Amount (Net): ₹${document.getElementById('rdMaturity').textContent}\n`;
+
+  const element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(reportContent));
+  element.setAttribute('download', 'FD_RD_Report.txt');
+  element.style.display = 'none';
+  document.body.appendChild(element);
+  element.click();
+  document.body.removeChild(element);
+
+  showToast('Report downloaded successfully!');
+}
+
+function printReport() {
+  const printWindow = window.open('', '', 'height=800,width=1000');
+  
+  printWindow.document.write('<html><head><title>FD & RD Calculator Report</title>');
+  printWindow.document.write('<style>');
+  printWindow.document.write('body { font-family: Arial, sans-serif; margin: 20px; }');
+  printWindow.document.write('h2 { color: #16a34a; border-bottom: 2px solid #16a34a; padding-bottom: 10px; }');
+  printWindow.document.write('table { width: 100%; border-collapse: collapse; margin: 20px 0; }');
+  printWindow.document.write('td { padding: 8px; border-bottom: 1px solid #ddd; }');
+  printWindow.document.write('td:first-child { font-weight: bold; width: 40%; }');
+  printWindow.document.write('</style></head><body>');
+
+  printWindow.document.write('<h1>FD & RD CALCULATOR REPORT</h1>');
+
+  printWindow.document.write('<h2>Fixed Deposit (FD)</h2><table>');
+  printWindow.document.write(`<tr><td>Principal Amount:</td><td>₹${document.getElementById('fdPrincipal').value}</td></tr>`);
+  printWindow.document.write(`<tr><td>Annual Interest Rate:</td><td>${document.getElementById('fdRate').value}%</td></tr>`);
+  printWindow.document.write(`<tr><td>Time Period:</td><td>${document.getElementById('fdYears').value} Years</td></tr>`);
+  printWindow.document.write(`<tr><td>Total Interest Earned:</td><td>₹${document.getElementById('fdInterest').textContent}</td></tr>`);
+  printWindow.document.write(`<tr><td>Maturity Amount:</td><td>₹${document.getElementById('fdMaturity').textContent}</td></tr>`);
+  printWindow.document.write('</table>');
+
+  printWindow.document.write('<h2>Recurring Deposit (RD)</h2><table>');
+  printWindow.document.write(`<tr><td>Monthly Deposit:</td><td>₹${document.getElementById('rdMonthly').value}</td></tr>`);
+  printWindow.document.write(`<tr><td>Time Period:</td><td>${document.getElementById('rdMonths').value} Months</td></tr>`);
+  printWindow.document.write(`<tr><td>Annual Interest Rate:</td><td>${document.getElementById('rdRate').value}%</td></tr>`);
+  printWindow.document.write(`<tr><td>Total Deposited:</td><td>₹${document.getElementById('rdDeposited').textContent}</td></tr>`);
+  printWindow.document.write(`<tr><td>Maturity Amount:</td><td>₹${document.getElementById('rdMaturity').textContent}</td></tr>`);
+  printWindow.document.write('</table>');
+
+  printWindow.document.write('</body></html>');
+  printWindow.document.close();
+  printWindow.print();
+}
+
+function showToast(message) {
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = message;
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.remove();
+  }, 3000);
+}
+
+window.addEventListener('load', () => {
+  calculateFD();
+  calculateRD();
+  updateComparison();
+  updateComparisonChart();
+});
+</script>
+
+</body>
+</html>
