@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Advanced Gratuity Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: #1f2937;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    header {
+      background: white;
+      border-bottom: 2px solid #16a34a;
+      padding: 16px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    header a {
+      font-size: 24px;
+      font-weight: 700;
+      color: #16a34a;
+      text-decoration: none;
+    }
+
+    .breadcrumb {
+      padding: 10px 20px;
+      font-size: 13px;
+      color: #9ca3af;
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .breadcrumb a {
+      color: #16a34a;
+      text-decoration: none;
+    }
+
+    .section {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .section h1 {
+      font-size: 32px;
+      margin-bottom: 15px;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      border: 1px solid #e5e7eb;
+    }
+
+    .gradient-card {
+      background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%);
+      border: 2px solid #16a34a;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid #e5e7eb;
+      margin-bottom: 24px;
+      overflow-x: auto;
+    }
+
+    .tab-button {
+      padding: 12px 20px;
+      background: none;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      color: #6b7280;
+      cursor: pointer;
+      transition: all 0.3s;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      white-space: nowrap;
+    }
+
+    .tab-button:hover {
+      color: #16a34a;
+    }
+
+    .tab-button.active {
+      color: #16a34a;
+      border-bottom-color: #16a34a;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 8px;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 2px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.3s;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: #16a34a;
+      box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.1);
+    }
+
+    .input-help {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-top: 4px;
+    }
+
+    .slider-container {
+      margin-top: 10px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #d1d5db;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #16a34a;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #16a34a;
+      cursor: pointer;
+      border: none;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    @media (max-width: 1024px) {
+      .results-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .results-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .result-box {
+      background: linear-gradient(135deg, #f3f4f6 0%, #f9fafb 100%);
+      border-left: 5px solid #16a34a;
+      padding: 16px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: all 0.3s;
+    }
+
+    .result-box:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .result-label {
+      font-size: 11px;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .result-value {
+      font-size: 26px;
+      font-weight: 800;
+      color: #16a34a;
+      font-family: 'Courier New', monospace;
+    }
+
+    .result-box.highlight {
+      border-left-color: #f59e0b;
+      background: linear-gradient(135deg, #fef3c7 0%, #fef9e7 100%);
+    }
+
+    .result-box.highlight .result-value {
+      color: #d97706;
+    }
+
+    .result-box.danger {
+      border-left-color: #ef4444;
+    }
+
+    .result-box.danger .result-value {
+      color: #ef4444;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 16px;
+    }
+
+    table thead {
+      background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+      border-bottom: 2px solid #d1d5db;
+    }
+
+    table th {
+      padding: 12px;
+      text-align: left;
+      font-weight: 700;
+      color: #1f2937;
+    }
+
+    table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    table tbody tr:hover {
+      background: #f9fafb;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .actions button {
+      flex: 1;
+      min-width: 120px;
+      padding: 11px 16px;
+      border: 2px solid #d1d5db;
+      border-radius: 8px;
+      background: white;
+      color: #374151;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .actions button:hover {
+      border-color: #16a34a;
+      color: #16a34a;
+      background: #f0fdf4;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+      color: white;
+      border-color: #16a34a;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+      box-shadow: 0 6px 16px rgba(22, 163, 74, 0.3);
+    }
+
+    .formula-box {
+      background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+      padding: 14px;
+      border-radius: 8px;
+      border-left: 4px solid #16a34a;
+      margin-top: 16px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: #374151;
+      line-height: 1.6;
+    }
+
+    .alert {
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 12px;
+      font-size: 12px;
+    }
+
+    .alert-warning {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      color: #92400e;
+    }
+
+    .info-box {
+      background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 100%);
+      border-left: 4px solid #0284c7;
+      padding: 12px;
+      border-radius: 6px;
+      margin-top: 12px;
+      font-size: 12px;
+      color: #0c4a6e;
+      line-height: 1.6;
+    }
+
+    canvas {
+      max-width: 100%;
+      height: auto;
+    }
+
+    footer {
+      background: white;
+      border-top: 2px solid #e5e7eb;
+      padding: 24px 20px;
+      margin-top: 40px;
+      text-align: center;
+      color: #6b7280;
+      font-size: 12px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      animation: slideIn 0.3s ease;
+      font-weight: 600;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(400px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    .breakdown-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .breakdown-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .breakdown-item {
+      background: linear-gradient(135deg, #f3f4f6 0%, #f9fafb 100%);
+      padding: 14px;
+      border-radius: 8px;
+      border-left: 4px solid #16a34a;
+    }
+
+    .breakdown-label {
+      font-size: 11px;
+      color: #6b7280;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .breakdown-value {
+      font-size: 18px;
+      font-weight: 800;
+      color: #1f2937;
+      font-family: 'Courier New', monospace;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .comparison-card {
+      background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+      border: 2px solid #bbf7d0;
+      padding: 14px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .comparison-card h4 {
+      color: #16a34a;
+      font-size: 13px;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .comparison-card p {
+      font-size: 12px;
+      color: #374151;
+      margin: 4px 0;
+    }
+
+    @media (max-width: 768px) {
+      .section h1 {
+        font-size: 24px;
+      }
+
+      .card {
+        padding: 16px;
+      }
+
+      .result-value {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="#">💼 Gratuity Calculator</a>
+</header>
+
+<nav class="breadcrumb">
+  💰 Financial Calculator › Gratuity
+</nav>
+
+<section class="section">
+  <h1>🎯 Advanced Gratuity Calculator</h1>
+
+  <div class="card gradient-card">
+    <h2>Calculate Your Gratuity & Retirement Benefits</h2>
+
+    <div class="tabs">
+      <button class="tab-button active" onclick="switchTab(event, 'basic')">📊 Basic</button>
+      <button class="tab-button" onclick="switchTab(event, 'advanced')">⚙️ Advanced</button>
+      <button class="tab-button" onclick="switchTab(event, 'retirement')">📈 Retirement</button>
+      <button class="tab-button" onclick="switchTab(event, 'comparison')">🔍 Compare</button>
+    </div>
+
+    <!-- BASIC TAB -->
+    <div id="basic" class="tab-content active">
+      <div class="grid-2">
+        <div>
+          <div class="form-group">
+            <label>Employment Type</label>
+            <select id="empType" onchange="calculate()">
+              <option value="government">🏛️ Government Employee</option>
+              <option value="private" selected>🏢 Private Sector</option>
+              <option value="psu">🏭 Public Sector (PSU)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Basic Monthly Salary (₹)</label>
+            <input type="number" id="basicSalary" value="50000" min="0" oninput="calculate()">
+            <div class="input-help">Enter your monthly basic salary</div>
+            <div class="slider-container">
+              <input type="range" id="basicSlider" min="1000" max="50000000" value="50000" step="1000" oninput="syncBasic()">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Dearness Allowance - DA (%)</label>
+            <input type="number" id="da" value="40" min="0" max="200" step="0.1" oninput="calculate()">
+            <div class="input-help">DA as % of basic salary</div>
+            <div class="slider-container">
+              <input type="range" id="daSlider" min="0" max="200" value="40" step="0.5" oninput="syncDA()">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Years of Service</label>
+            <input type="number" id="years" value="25" min="0" max="60" step="0.5" oninput="calculate()">
+            <div class="input-help">Total years worked (min 5 years)</div>
+            <div class="slider-container">
+              <input type="range" id="yearsSlider" min="0" max="60" value="25" step="0.5" oninput="syncYears()">
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <label>Calculation Formula</label>
+            <select id="formula" onchange="calculate()">
+              <option value="act" selected>Gratuity Act 1972 (₹0.5×Salary×Years)</option>
+              <option value="15pay">15th Pay Commission (₹1×Salary×Years)</option>
+              <option value="pension">Pension Related (Salary×Years/300)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Service Bonus (₹)</label>
+            <input type="number" id="bonus" value="0" min="0" oninput="calculate()">
+            <div class="input-help">One-time service completion bonus</div>
+          </div>
+
+          <div class="form-group">
+            <label>Additional Benefits (₹)</label>
+            <input type="number" id="benefits" value="0" min="0" oninput="calculate()">
+            <div class="input-help">Medical, housing, other benefits</div>
+          </div>
+
+          <div class="form-group">
+            <label>Inflation Rate (%)</label>
+            <input type="number" id="inflation" value="5" min="0" max="20" step="0.1" oninput="calculate()">
+            <div class="input-help">For real value calculation</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="results-grid">
+        <div class="result-box">
+          <div class="result-label">Effective Salary</div>
+          <div class="result-value">₹<span id="effectiveSalary">0</span></div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Gross Gratuity</div>
+          <div class="result-value">₹<span id="grossGratuity">0</span></div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Total Benefits</div>
+          <div class="result-value">₹<span id="totalBenefits">0</span></div>
+        </div>
+        <div class="result-box highlight">
+          <div class="result-label">Total Gratuity</div>
+          <div class="result-value">₹<span id="totalGratuity">0</span></div>
+        </div>
+        <div class="result-box danger">
+          <div class="result-label">Tax Deduction</div>
+          <div class="result-value">₹<span id="tax">0</span></div>
+        </div>
+        <div class="result-box highlight">
+          <div class="result-label">NET Amount</div>
+          <div class="result-value">₹<span id="netAmount">0</span></div>
+        </div>
+      </div>
+
+      <div class="formula-box" id="formulaBox">
+        Gratuity = 0.5 × (Basic + DA) × Years
+      </div>
+
+      <div class="alert alert-warning">
+        ⚠️ <strong>Eligibility:</strong> Minimum 5 years continuous service required. Tax-free limit: ₹10 Lakh (Gratuity Act)
+      </div>
+    </div>
+
+    <!-- ADVANCED TAB -->
+    <div id="advanced" class="tab-content">
+      <div class="grid-2">
+        <div>
+          <div class="form-group">
+            <label>Tax Method</label>
+            <select id="taxMethod" onchange="calculate()">
+              <option value="standard" selected>Standard (₹10L exemption)</option>
+              <option value="no_tax">No Tax</option>
+              <option value="30percent">30% on Taxable Amount</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Additional Tax Rate (%)</label>
+            <input type="number" id="additionalTax" value="0" min="0" max="50" step="0.1" oninput="calculate()">
+          </div>
+
+          <div class="form-group">
+            <label>Investment Return Rate (%)</label>
+            <input type="number" id="returnRate" value="7" min="0" max="20" step="0.1" oninput="calculate()">
+          </div>
+
+          <div class="form-group">
+            <label>Forfeiture (%)</label>
+            <input type="number" id="forfeiture" value="0" min="0" max="100" step="1" oninput="calculate()">
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <label>Employee Contribution (₹/month)</label>
+            <input type="number" id="empContribution" value="0" min="0" oninput="calculate()">
+          </div>
+
+          <div class="form-group">
+            <label>Employer Contribution (%)</label>
+            <input type="number" id="empContributionRate" value="0" min="0" max="100" step="0.1" oninput="calculate()">
+          </div>
+
+          <div class="form-group">
+            <label>Future Inflation (%)</label>
+            <input type="number" id="futureInflation" value="5" min="0" max="20" step="0.1" oninput="calculate()">
+          </div>
+
+          <div class="form-group">
+            <label>Years Buffer</label>
+            <input type="number" id="buffer" value="0" min="0" max="10" step="1" oninput="calculate()">
+          </div>
+        </div>
+      </div>
+
+      <div class="results-grid">
+        <div class="result-box">
+          <div class="result-label">Tax-Free Limit</div>
+          <div class="result-value">₹<span id="taxFreeLimit">10,00,000</span></div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Taxable Amount</div>
+          <div class="result-value">₹<span id="taxableAmount">0</span></div>
+        </div>
+        <div class="result-box danger">
+          <div class="result-label">Total Tax</div>
+          <div class="result-value">₹<span id="totalTax">0</span></div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Forfeiture Amount</div>
+          <div class="result-value">₹<span id="forfeitureAmount">0</span></div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Real Value (Inflation Adjusted)</div>
+          <div class="result-value">₹<span id="realValue">0</span></div>
+        </div>
+        <div class="result-box highlight">
+          <div class="result-label">Final Net Amount</div>
+          <div class="result-value">₹<span id="finalNetAmount">0</span></div>
+        </div>
+      </div>
+
+      <div class="breakdown-grid">
+        <div class="breakdown-item">
+          <div class="breakdown-label">Gross Amount</div>
+          <div class="breakdown-value">₹<span id="breakGross">0</span></div>
+        </div>
+        <div class="breakdown-item">
+          <div class="breakdown-label">Total Deductions</div>
+          <div class="breakdown-value">₹<span id="breakDeductions">0</span></div>
+        </div>
+        <div class="breakdown-item">
+          <div class="breakdown-label">Net Amount</div>
+          <div class="breakdown-value">₹<span id="breakNet">0</span></div>
+        </div>
+        <div class="breakdown-item">
+          <div class="breakdown-label">Real Value</div>
+          <div class="breakdown-value">₹<span id="breakReal">0</span></div>
+        </div>
+      </div>
+
+      <div class="info-box">
+        💡 <strong>Tax Limits:</strong> Gratuity Act: ₹10L | 15th Pay: ₹20L | Pension: ₹25L
+      </div>
+    </div>
+
+    <!-- RETIREMENT TAB -->
+    <div id="retirement" class="tab-content">
+      <div class="grid-2">
+        <div>
+          <div class="form-group">
+            <label>Current Age (Years)</label>
+            <input type="number" id="currentAge" value="45" min="18" max="80" oninput="calculateRetirement()">
+          </div>
+
+          <div class="form-group">
+            <label>Retirement Age (Years)</label>
+            <input type="number" id="retirementAge" value="60" min="30" max="80" oninput="calculateRetirement()">
+          </div>
+
+          <div class="form-group">
+            <label>Current Monthly Expense (₹)</label>
+            <input type="number" id="monthlyExpense" value="50000" min="0" oninput="calculateRetirement()">
+          </div>
+
+          <div class="form-group">
+            <label>Life Expectancy (Years)</label>
+            <input type="number" id="lifeExpectancy" value="85" min="60" max="120" oninput="calculateRetirement()">
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <label>Annual Salary Increment (%)</label>
+            <input type="number" id="salaryIncrement" value="5" min="0" max="20" step="0.1" oninput="calculateRetirement()">
+          </div>
+
+          <div class="form-group">
+            <label>Monthly Pension/Income (₹)</label>
+            <input type="number" id="pension" value="0" min="0" oninput="calculateRetirement()">
+          </div>
+
+          <div class="form-group">
+            <label>Retirement Inflation (%)</label>
+            <input type="number" id="retInflation" value="5" min="0" max="20" step="0.1" oninput="calculateRetirement()">
+          </div>
+
+          <div class="form-group">
+            <label>Investment Return (%)</label>
+            <input type="number" id="retReturn" value="6" min="0" max="20" step="0.1" oninput="calculateRetirement()">
+          </div>
+        </div>
+      </div>
+
+      <div class="results-grid">
+        <div class="result-box">
+          <div class="result-label">Years to Retirement</div>
+          <div class="result-value"><span id="yearsToRet">0</span></div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Retirement Period</div>
+          <div class="result-value"><span id="retPeriod">0</span></div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Monthly Expense at Retirement</div>
+          <div class="result-value">₹<span id="retExpense">0</span></div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Total Corpus Needed</div>
+          <div class="result-value">₹<span id="corpusNeeded">0</span></div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Expected Gratuity</div>
+          <div class="result-value">₹<span id="expectedGratuity">0</span></div>
+        </div>
+        <div class="result-box highlight">
+          <div class="result-label">Additional Savings Needed</div>
+          <div class="result-value">₹<span id="additionalSavings">0</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPARISON TAB -->
+    <div id="comparison" class="tab-content">
+      <h3>Formula Comparison</h3>
+      <div class="comparison-grid">
+        <div class="comparison-card">
+          <h4>📋 Gratuity Act 1972</h4>
+          <p><strong>Formula:</strong> 0.5 × (BS+DA) × Years</p>
+          <p><strong>Max Limit:</strong> ₹10,00,000</p>
+          <p><strong>Tax Exemption:</strong> ₹10 Lakhs</p>
+          <p><strong>Applicable:</strong> Private Sector</p>
+          <p style="color: #16a34a; margin-top: 8px;"><strong>Amount: ₹<span id="comp1">0</span></strong></p>
+        </div>
+
+        <div class="comparison-card">
+          <h4>📋 15th Pay Commission</h4>
+          <p><strong>Formula:</strong> 1 × (BS+DA) × Years</p>
+          <p><strong>Max Limit:</strong> ₹20,00,000</p>
+          <p><strong>Tax Exemption:</strong> ₹20 Lakhs</p>
+          <p><strong>Applicable:</strong> Government (2016+)</p>
+          <p style="color: #16a34a; margin-top: 8px;"><strong>Amount: ₹<span id="comp2">0</span></strong></p>
+        </div>
+
+        <div class="comparison-card">
+          <h4>📋 Pension Related</h4>
+          <p><strong>Formula:</strong> (BS+DA) × Years / 300</p>
+          <p><strong>Max Limit:</strong> ₹25,00,000</p>
+          <p><strong>Tax Exemption:</strong> ₹25 Lakhs</p>
+          <p><strong>Applicable:</strong> Government, PSU</p>
+          <p style="color: #16a34a; margin-top: 8px;"><strong>Amount: ₹<span id="comp3">0</span></strong></p>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 24px;">Detailed Comparison Table</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Gratuity Act</th>
+            <th>15th Pay</th>
+            <th>Pension Related</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Multiplier</strong></td>
+            <td>0.5</td>
+            <td>1.0</td>
+            <td>1/300</td>
+          </tr>
+          <tr>
+            <td><strong>Max Limit</strong></td>
+            <td>₹10 Lakh</td>
+            <td>₹20 Lakh</td>
+            <td>₹25 Lakh</td>
+          </tr>
+          <tr>
+            <td><strong>Tax Exemption</strong></td>
+            <td>₹10 Lakh</td>
+            <td>₹20 Lakh</td>
+            <td>₹25 Lakh</td>
+          </tr>
+          <tr>
+            <td><strong>Minimum Service</strong></td>
+            <td>5 years</td>
+            <td>5 years</td>
+            <td>5-10 years</td>
+          </tr>
+          <tr>
+            <td><strong>Sector</strong></td>
+            <td>Private</td>
+            <td>Government</td>
+            <td>Government, PSU</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="actions">
+      <button class="btn-primary" onclick="reset()">🔄 Reset</button>
+      <button onclick="downloadReport()">📥 Download</button>
+      <button onclick="printReport()">🖨️ Print</button>
+      <button onclick="copyResults()">📋 Copy</button>
+    </div>
+  </div>
+
+  <!-- Year-by-Year Projection -->
+  <div class="card">
+    <h3>📊 Year-by-Year Gratuity Projection</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Service Year</th>
+          <th>Gratuity Amount (₹)</th>
+          <th>After Tax (₹)</th>
+          <th>Real Value (₹)</th>
+          <th>Growth (₹)</th>
+        </tr>
+      </thead>
+      <tbody id="projectionTable">
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Chart -->
+  <div class="card">
+    <h3>📈 Gratuity Growth Chart</h3>
+    <canvas id="chart" width="800" height="300"></canvas>
+  </div>
+
+  <!-- Retirement Projection -->
+  <div class="card">
+    <h3>📊 Retirement Corpus Projection</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Year</th>
+          <th>Age</th>
+          <th>Annual Requirement (₹)</th>
+          <th>Corpus Needed (₹)</th>
+          <th>Shortfall/Surplus (₹)</th>
+        </tr>
+      </thead>
+      <tbody id="retTable">
+      </tbody>
+    </table>
+  </div>
+
+</section>
+
+<footer>
+  <p>© 2025 Advanced Gratuity Calculator | Built for Financial Planning | All calculations are based on Indian labor laws</p>
+</footer>
+
+<script>
+// ========== UTILITY FUNCTIONS ==========
+function formatNumber(n) {
+  return Math.round(n).toLocaleString('en-IN');
+}
+
+function switchTab(e, tab) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+  document.getElementById(tab).classList.add('active');
+  e.target.classList.add('active');
+}
+
+// ========== SYNC FUNCTIONS ==========
+function syncBasic() {
+  document.getElementById('basicSalary').value = document.getElementById('basicSlider').value;
+  calculate();
+}
+
+function syncDA() {
+  document.getElementById('da').value = document.getElementById('daSlider').value;
+  calculate();
+}
+
+function syncYears() {
+  document.getElementById('years').value = document.getElementById('yearsSlider').value;
+  calculate();
+}
+
+document.getElementById('basicSalary')?.addEventListener('input', function() {
+  document.getElementById('basicSlider').value = this.value;
+});
+document.getElementById('da')?.addEventListener('input', function() {
+  document.getElementById('daSlider').value = this.value;
+});
+document.getElementById('years')?.addEventListener('input', function() {
+  document.getElementById('yearsSlider').value = this.value;
+});
+
+// ========== MAIN CALCULATION ==========
+function calculate() {
+  const basicSalary = parseFloat(document.getElementById('basicSalary').value) || 0;
+  const daPercent = parseFloat(document.getElementById('da').value) || 0;
+  const yearsService = parseFloat(document.getElementById('years').value) || 0;
+  const formula = document.getElementById('formula').value;
+  const bonus = parseFloat(document.getElementById('bonus').value) || 0;
+  const benefits = parseFloat(document.getElementById('benefits').value) || 0;
+  const inflation = parseFloat(document.getElementById('inflation').value) || 0;
+  const taxMethod = document.getElementById('taxMethod').value;
+  const additionalTax = parseFloat(document.getElementById('additionalTax').value) || 0;
+  const forfeiture = parseFloat(document.getElementById('forfeiture').value) || 0;
+  const futureInflation = parseFloat(document.getElementById('futureInflation').value) || 0;
+
+  // Calculate effective salary
+  const da = (basicSalary * daPercent) / 100;
+  const effectiveSalary = basicSalary + da;
+
+  // Calculate gratuity
+  let gratuity = 0;
+  let maxLimit = 0;
+  let formulaText = '';
+
+  if (formula === 'act') {
+    gratuity = 0.5 * effectiveSalary * yearsService;
+    maxLimit = 1000000;
+    formulaText = 'Gratuity = 0.5 × (Basic + DA) × Years';
+  } else if (formula === '15pay') {
+    gratuity = 1 * effectiveSalary * yearsService;
+    maxLimit = 2000000;
+    formulaText = 'Gratuity = 1 × (Basic + DA) × Years';
+  } else if (formula === 'pension') {
+    gratuity = (effectiveSalary * yearsService) / 300;
+    maxLimit = 2500000;
+    formulaText = 'Gratuity = (Basic + DA) × Years / 300';
+  }
+
+  // Apply max limit
+  if (gratuity > maxLimit) gratuity = maxLimit;
+
+  // Total with bonus and benefits
+  const totalBenefits = bonus + benefits;
+  const totalGratuity = gratuity + totalBenefits;
+
+  // Tax calculation
+  let taxFreeLimit = 1000000;
+  if (formula === '15pay') taxFreeLimit = 2000000;
+  else if (formula === 'pension') taxFreeLimit = 2500000;
+
+  const taxableAmount = Math.max(0, totalGratuity - taxFreeLimit);
+  let tax = 0;
+
+  if (taxMethod === 'standard') {
+    tax = taxableAmount * 0.30;
+  } else if (taxMethod === '30percent') {
+    tax = totalGratuity * 0.30;
+  }
+
+  // Additional tax and forfeiture
+  const additionalTaxAmount = totalGratuity * (additionalTax / 100);
+  const forfeitureAmount = totalGratuity * (forfeiture / 100);
+
+  // Total tax and deductions
+  const totalTax = tax + additionalTaxAmount;
+  const totalDeductions = totalTax + forfeitureAmount;
+  const netAmount = totalGratuity - totalDeductions;
+  const realValue = netAmount / Math.pow(1 + inflation / 100, 1);
+
+  // Update display
+  document.getElementById('effectiveSalary').textContent = formatNumber(effectiveSalary);
+  document.getElementById('grossGratuity').textContent = formatNumber(gratuity);
+  document.getElementById('totalBenefits').textContent = formatNumber(totalBenefits);
+  document.getElementById('totalGratuity').textContent = formatNumber(totalGratuity);
+  document.getElementById('tax').textContent = formatNumber(tax);
+  document.getElementById('netAmount').textContent = formatNumber(netAmount);
+  
+  document.getElementById('taxFreeLimit').textContent = formatNumber(taxFreeLimit);
+  document.getElementById('taxableAmount').textContent = formatNumber(taxableAmount);
+  document.getElementById('totalTax').textContent = formatNumber(totalTax);
+  document.getElementById('forfeitureAmount').textContent = formatNumber(forfeitureAmount);
+  document.getElementById('realValue').textContent = formatNumber(realValue);
+  document.getElementById('finalNetAmount').textContent = formatNumber(netAmount);
+  
+  document.getElementById('breakGross').textContent = formatNumber(totalGratuity);
+  document.getElementById('breakDeductions').textContent = formatNumber(totalDeductions);
+  document.getElementById('breakNet').textContent = formatNumber(netAmount);
+  document.getElementById('breakReal').textContent = formatNumber(realValue);
+
+  document.getElementById('formulaBox').textContent = formulaText;
+
+  // Comparison
+  const act = Math.min(0.5 * effectiveSalary * yearsService, 1000000);
+  const fifteenpay = Math.min(1 * effectiveSalary * yearsService, 2000000);
+  const pension = Math.min((effectiveSalary * yearsService) / 300, 2500000);
+
+  document.getElementById('comp1').textContent = formatNumber(act);
+  document.getElementById('comp2').textContent = formatNumber(fifteenpay);
+  document.getElementById('comp3').textContent = formatNumber(pension);
+
+  // Generate projection
+  generateProjection(effectiveSalary, yearsService, formula);
+
+  // Update chart
+  updateChart(effectiveSalary, formula);
+
+  // Calculate retirement
+  calculateRetirement();
+}
+
+// ========== PROJECTION ==========
+function generateProjection(salary, years, formula) {
+  const tbody = document.getElementById('projectionTable');
+  tbody.innerHTML = '';
+  const inflation = parseFloat(document.getElementById('inflation').value) || 0;
+
+  for (let y = 5; y <= Math.min(40, Math.ceil(years) + 10); y += 5) {
+    let grat = 0;
+    if (formula === 'act') {
+      grat = Math.min(0.5 * salary * y, 1000000);
+    } else if (formula === '15pay') {
+      grat = Math.min(1 * salary * y, 2000000);
+    } else {
+      grat = Math.min((salary * y) / 300, 2500000);
+    }
+
+    const tax = Math.max(0, grat - 1000000) * 0.30;
+    const net = grat - tax;
+    const real = net / Math.pow(1 + inflation / 100, 1);
+
+    const prevY = y - 5;
+    let prevGrat = 0;
+    if (formula === 'act') prevGrat = Math.min(0.5 * salary * prevY, 1000000);
+    else if (formula === '15pay') prevGrat = Math.min(1 * salary * prevY, 2000000);
+    else prevGrat = Math.min((salary * prevY) / 300, 2500000);
+    
+    const growth = net - (prevGrat - Math.max(0, prevGrat - 1000000) * 0.30);
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${y} years</td>
+      <td>₹${formatNumber(grat)}</td>
+      <td>₹${formatNumber(net)}</td>
+      <td>₹${formatNumber(real)}</td>
+      <td>₹${formatNumber(Math.max(0, growth))}</td>
+    `;
+    tbody.appendChild(tr);
+  }
+}
+
+// ========== CHART ==========
+function updateChart(salary, formula) {
+  const canvas = document.getElementById('chart');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const width = canvas.width;
+  const height = canvas.height;
+  const pad = 50;
+  const maxYears = 40;
+  const maxValue = formula === '15pay' ? 2000000 : (formula === 'pension' ? 2500000 : 1000000);
+
+  // Grid
+  ctx.strokeStyle = '#e5e7eb';
+  for (let i = 0; i <= 10; i++) {
+    const x = pad + (i / 10) * (width - pad * 2);
+    ctx.beginPath();
+    ctx.moveTo(x, pad);
+    ctx.lineTo(x, height - pad);
+    ctx.stroke();
+
+    const y = height - pad - (i / 10) * (height - pad * 2);
+    ctx.beginPath();
+    ctx.moveTo(pad, y);
+    ctx.lineTo(width - pad, y);
+    ctx.stroke();
+  }
+
+  // Axes
+  ctx.strokeStyle = '#1f2937';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(pad, height - pad);
+  ctx.lineTo(width - pad, height - pad);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(pad, pad);
+  ctx.lineTo(pad, height - pad);
+  ctx.stroke();
+
+  // Line
+  ctx.strokeStyle = '#16a34a';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+
+  for (let year = 0; year <= maxYears; year++) {
+    let grat = 0;
+    if (formula === 'act') grat = Math.min(0.5 * salary * year, 1000000);
+    else if (formula === '15pay') grat = Math.min(1 * salary * year, 2000000);
+    else grat = Math.min((salary * year) / 300, 2500000);
+
+    const x = pad + (year / maxYears) * (width - pad * 2);
+    const y = height - pad - (grat / maxValue) * (height - pad * 2);
+
+    if (year === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  // Labels
+  ctx.fillStyle = '#6b7280';
+  ctx.font = 'bold 12px Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText('Years of Service', width / 2, height - 15);
+}
+
+// ========== RETIREMENT ==========
+function calculateRetirement() {
+  const currentAge = parseInt(document.getElementById('currentAge').value) || 0;
+  const retirementAge = parseInt(document.getElementById('retirementAge').value) || 0;
+  const monthlyExpense = parseFloat(document.getElementById('monthlyExpense').value) || 0;
+  const lifeExpectancy = parseInt(document.getElementById('lifeExpectancy').value) || 0;
+  const pension = parseFloat(document.getElementById('pension').value) || 0;
+  const retInflation = parseFloat(document.getElementById('retInflation').value) || 0;
+
+  if (currentAge >= retirementAge) return;
+
+  const yearsToRet = retirementAge - currentAge;
+  const retPeriod = lifeExpectancy - retirementAge;
+  const retExpense = monthlyExpense * Math.pow(1 + retInflation / 100, yearsToRet);
+  const totalExpense = retExpense * 12 * retPeriod;
+
+  const basicSalary = parseFloat(document.getElementById('basicSalary').value) || 0;
+  const daPercent = parseFloat(document.getElementById('da').value) || 0;
+  const yearsService = parseFloat(document.getElementById('years').value) || 0;
+  const formula = document.getElementById('formula').value;
+
+  const da = (basicSalary * daPercent) / 100;
+  const salary = basicSalary + da;
+
+  let expectedGratuity = 0;
+  if (formula === 'act') {
+    expectedGratuity = Math.min(0.5 * salary * (yearsService + yearsToRet), 1000000);
+  } else if (formula === '15pay') {
+    expectedGratuity = Math.min(1 * salary * (yearsService + yearsToRet), 2000000);
+  } else {
+    expectedGratuity = Math.min((salary * (yearsService + yearsToRet)) / 300, 2500000);
+  }
+
+  const corpusNeeded = totalExpense - expectedGratuity - (pension * 12 * retPeriod);
+  const additionalSavings = Math.max(0, corpusNeeded);
+
+  document.getElementById('yearsToRet').textContent = yearsToRet;
+  document.getElementById('retPeriod').textContent = retPeriod;
+  document.getElementById('retExpense').textContent = formatNumber(retExpense);
+  document.getElementById('corpusNeeded').textContent = formatNumber(totalExpense);
+  document.getElementById('expectedGratuity').textContent = formatNumber(expectedGratuity);
+  document.getElementById('additionalSavings').textContent = formatNumber(additionalSavings);
+
+  // Retirement projection table
+  const tbody = document.getElementById('retTable');
+  tbody.innerHTML = '';
+
+  for (let y = 0; y < Math.min(5, retPeriod); y++) {
+    const age = retirementAge + y;
+    const annualExp = retExpense * Math.pow(1 + retInflation / 100, y) * 12;
+    const corpus = annualExp * (retPeriod - y);
+    const shortfall = Math.max(0, corpus - expectedGratuity);
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${y + 1}</td>
+      <td>${age}</td>
+      <td>₹${formatNumber(annualExp)}</td>
+      <td>₹${formatNumber(corpus)}</td>
+      <td>${shortfall > 0 ? '₹' + formatNumber(shortfall) : '✓'}</td>
+    `;
+    tbody.appendChild(tr);
+  }
+}
+
+// ========== ACTIONS ==========
+function reset() {
+  document.getElementById('basicSalary').value = 50000;
+  document.getElementById('da').value = 40;
+  document.getElementById('years').value = 25;
+  document.getElementById('formula').value = 'act';
+  document.getElementById('bonus').value = 0;
+  document.getElementById('benefits').value = 0;
+  document.getElementById('inflation').value = 5;
+  document.getElementById('basicSlider').value = 50000;
+  document.getElementById('daSlider').value = 40;
+  document.getElementById('yearsSlider').value = 25;
+  
+  document.getElementById('currentAge').value = 45;
+  document.getElementById('retirementAge').value = 60;
+  document.getElementById('monthlyExpense').value = 50000;
+  document.getElementById('lifeExpectancy').value = 85;
+  document.getElementById('pension').value = 0;
+
+  calculate();
+}
+
+function downloadReport() {
+  const text = `GRATUITY CALCULATOR REPORT\n${'='.repeat(50)}\n\nBasic Salary: ₹${document.getElementById('basicSalary').value}\nDA: ${document.getElementById('da').value}%\nYears: ${document.getElementById('years').value}\n\nGross Gratuity: ₹${document.getElementById('grossGratuity').textContent}\nNet Amount: ₹${document.getElementById('netAmount').textContent}\n\nGenerated: ${new Date().toLocaleString()}`;
+  
+  const a = document.createElement('a');
+  a.href = 'data:text/plain,' + encodeURIComponent(text);
+  a.download = 'gratuity_report.txt';
+  a.click();
+  showToast('Report Downloaded!');
+}
+
+function printReport() {
+  const w = window.open();
+  w.document.write(`<h1>Gratuity Calculator Report</h1><p>Basic: ₹${document.getElementById('basicSalary').value} | DA: ${document.getElementById('da').value}% | Years: ${document.getElementById('years').value}</p><p>Net Gratuity: ₹${document.getElementById('netAmount').textContent}</p>`);
+  w.print();
+}
+
+function copyResults() {
+  const text = `Gratuity: ₹${document.getElementById('netAmount').textContent}`;
+  navigator.clipboard.writeText(text);
+  showToast('Copied!');
+}
+
+function showToast(msg) {
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 2500);
+}
+
+// Initialize
+window.addEventListener('load', calculate);
+</script>
+
+</body>
+</html>
