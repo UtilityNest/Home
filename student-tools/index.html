@@ -1,46 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Student Tools – UtilityNest</title>
-<meta name="description" content="Free student tools like percentage calculator, GPA calculator, age tools and exam utilities.">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<base href="/Home/">
-  <link rel="stylesheet" href="/Home/css/style.css">
-</head>
+  <meta charset="UTF-8">
+  <title>Student Tools – UtilityNest</title>
+  <meta name="description" content="Free student tools like percentage calculator, GPA calculator, age tools and exam utilities.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="/Home/">
 
+  <style>
+    body{margin:0;font-family:system-ui,Arial;background:#f6f7fb;color:#111}
+    a{text-decoration:none;color:#2563eb}
+    h1,h2,h3{margin:0 0 10px}
+
+    /* HEADER */
+    header{background:#111827;color:#fff;padding:15px 20px;display:flex;justify-content:space-between;align-items:center}
+    header a{color:#fff;font-weight:600;margin-right:15px}
+
+    /* BREADCRUMB */
+    .breadcrumb{background:#eef2ff;padding:10px 20px;font-size:14px}
+    .breadcrumb a{color:#2563eb}
+
+    /* SECTION */
+    .section{max-width:1200px;margin:auto;padding:40px 20px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+    .card{background:#fff;border-radius:14px;padding:20px;box-shadow:0 5px 15px rgba(0,0,0,.08)}
+    .card h3{margin-bottom:10px}
+
+    /* ADS */
+    .ad-box{margin:30px auto;padding:20px;text-align:center;border:1px dashed #ccc;max-width:900px}
+
+    /* FOOTER */
+    footer{background:#111827;color:#d1d5db;padding:30px 20px}
+    footer a{color:#d1d5db;display:block;margin:6px 0}
+    .footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
+    .copy{text-align:center;margin-top:20px;font-size:14px;color:#9ca3af}
+  </style>
+</head>
 <body>
 
-<header class="site-header">
-  <div class="container">
-    <a class="logo" href="">UtilityNest</a>
-    <nav>
+<header>
+  <a href="">UtilityNest</a>
+  <nav>
+    <a href="government-tools/">Government</a>
+    <a href="finance-calculators/">Finance</a>
+    <a href="student-tools/">Student</a>
+    <a href="utility-tools/">Utility</a>
+    <a href="hindi-tools/">Hindi</a>
+  </nav>
+</header>
+
+<nav class="breadcrumb">
+  <a href="">Home</a> › <strong>Student Tools</strong>
+</nav>
+
+<div class="ad-box">AdSense Banner (Top)</div>
+
+<section class="section">
+  <h1>Student Tools</h1>
+  <p>Essential calculators and utilities to help students with exams, grades, and academic planning.</p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Percentage Calculator</h3>
+      <p>Quickly calculate percentages for marks, scores, and exams.</p>
+      <a href="percentage-calculator/">Open Tool →</a>
+    </div>
+
+    <div class="card">
+      <h3>CGPA Calculator</h3>
+      <p>Convert grades into CGPA and track academic performance.</p>
+      <a href="cgpa-calculator/">Open Tool →</a>
+    </div>
+
+    <div class="card">
+      <h3>Age Calculator</h3>
+      <p>Find exact age for exam eligibility and student records.</p>
+      <a href="age-calculator/">Open Tool →</a>
+    </div>
+
+    <div class="card">
+      <h3>Exam Timer</h3>
+      <p>Practice with timed sessions to improve exam readiness.</p>
+      <a href="exam-timer/">Open Tool →</a>
+    </div>
+  </div>
+</section>
+
+<div class="ad-box">AdSense Banner (Middle)</div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h3>Categories</h3>
+      <a href="government-tools/">Government</a>
       <a href="finance-calculators/">Finance</a>
       <a href="student-tools/">Student</a>
       <a href="utility-tools/">Utility</a>
       <a href="hindi-tools/">Hindi</a>
-    </nav>
+    </div>
+    <div>
+      <h3>Popular Tools</h3>
+      <a href="age-calculator/">Age Calculator</a>
+      <a href="emi-calculator/">EMI Calculator</a>
+    </div>
   </div>
-</header>
-
-<div class="container">
-
-<nav class="breadcrumb">
-  <a href="">Home</a> › Student Tools
-</nav>
-
-<h1>Student Tools</h1>
-
-<div class="tool-grid">
-  <a class="tool-card" href="percentage-calculator/">Percentage Calculator</a>
-  <a class="tool-card" href="cgpa-calculator/">CGPA Calculator</a>
-  <a class="tool-card" href="age-calculator/">Age Calculator</a>
-</div>
-
-</div>
-
-<footer class="site-footer">
-  <p>© UtilityNest</p>
+  <p class="copy">© 2025 UtilityNest</p>
 </footer>
 
 </body>
