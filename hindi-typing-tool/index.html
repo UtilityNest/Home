@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <title>Hindi Typing Tool – Type English, Get Hindi | UtilityNest</title>
+
+  <meta name="description" content="Free Hindi Typing Tool to type Hindi using English keyboard. Real-time English to Hindi transliteration. No login, fast and secure.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="/Home/">
+
+  <!-- GLOBAL CSS -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    textarea{
+      width:100%;
+      min-height:180px;
+      padding:14px;
+      font-size:17px;
+      border:2px solid #d1d5db;
+      border-radius:10px;
+      resize:vertical;
+    }
+    textarea:focus{
+      outline:none;
+      border-color:#16a34a;
+      box-shadow:0 0 0 2px #bbf7d0;
+    }
+    .hint{
+      font-size:14px;
+      color:#6b7280;
+      margin-top:6px;
+    }
+    .actions{
+      display:flex;
+      gap:10px;
+      margin-top:15px;
+      flex-wrap:wrap;
+    }
+    .actions button{
+      flex:1;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+  <a href="">UtilityNest</a>
+  <nav>
+    <a href="government-tools/">Government</a>
+    <a href="finance-calculators/">Finance</a>
+    <a href="student-tools/">Student</a>
+    <a href="utility-tools/">Utility</a>
+    <a href="hindi-tools/">Hindi</a>
+  </nav>
+</header>
+
+<!-- BREADCRUMB -->
+<nav class="breadcrumb">
+  <a href="">Home</a> ›
+  <a href="hindi-tools/">Hindi Tools</a> ›
+  Hindi Typing Tool
+</nav>
+
+<!-- MAIN -->
+<section class="section">
+
+  <h1>Hindi Typing Tool</h1>
+  <p>
+    इस फ्री Hindi Typing Tool की मदद से आप
+    <strong>English keyboard</strong> से
+    <strong>Hindi में टाइप</strong> कर सकते हैं।
+    जैसे ही आप इंग्लिश में लिखेंगे, टेक्स्ट
+    अपने-आप हिंदी में बदल जाएगा।
+  </p>
+
+  <!-- TOOL CARD -->
+  <div class="card gradient-card">
+    <h2>Type in English</h2>
+
+    <textarea
+      id="englishInput"
+      placeholder="Type here in English (e.g. mera bharat mahan hai)"
+      oninput="convertToHindi()"></textarea>
+
+    <p class="hint">Example: <strong>mera bharat mahan hai</strong> → मेरा भारत महान है</p>
+  </div>
+
+  <!-- OUTPUT -->
+  <div class="card">
+    <h2>Hindi Output</h2>
+
+    <textarea
+      id="hindiOutput"
+      placeholder="यहाँ हिंदी टेक्स्ट दिखाई देगा..."
+      readonly></textarea>
+
+    <div class="actions">
+      <button class="btn-outline" onclick="copyHindi()">📋 Copy Hindi Text</button>
+      <button class="btn-outline" onclick="clearText()">🧹 Clear</button>
+    </div>
+  </div>
+
+  <!-- SEO CONTENT -->
+  <div class="card">
+    <h2>About Hindi Typing Tool</h2>
+    <p>
+      यह टूल छात्रों, प्रतियोगी परीक्षाओं,
+      ब्लॉगर्स और हिंदी कंटेंट लिखने वालों के
+      लिए बेहद उपयोगी है। इसमें किसी भी
+      प्रकार का डेटा सर्वर पर सेव नहीं होता,
+      जिससे आपकी प्राइवेसी पूरी तरह सुरक्षित रहती है।
+    </p>
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h3>Hindi Tools</h3>
+      <a href="hindi-tools/hindi-word-counter/">Hindi Word Counter</a>
+      <a href="hindi-tools/hindi-character-counter/">Hindi Character Counter</a>
+      <a href="hindi-tools/hindi-typing-tool/">Hindi Typing Tool</a>
+    </div>
+
+    <div>
+      <h3>Popular Tools</h3>
+      <a href="age-calculator/">Age Calculator</a>
+      <a href="emi-calculator/">EMI Calculator</a>
+    </div>
+  </div>
+
+  <p class="copy">© 2025 UtilityNest</p>
+</footer>
+
+<!-- TRANSLITERATION SCRIPT -->
+<script>
+const map = {
+  "aa":"आ","ai":"ऐ","au":"औ","ee":"ई","oo":"ऊ",
+  "a":"अ","i":"इ","u":"उ","e":"ए","o":"ओ",
+
+  "ka":"क","kha":"ख","ga":"ग","gha":"घ","cha":"च",
+  "chha":"छ","ja":"ज","jha":"झ","ta":"त","tha":"थ",
+  "da":"द","dha":"ध","na":"न",
+
+  "pa":"प","pha":"फ","ba":"ब","bha":"भ","ma":"म",
+  "ya":"य","ra":"र","la":"ल","va":"व","sa":"स",
+  "sha":"श","ha":"ह",
+
+  "k":"क","g":"ग","c":"च","j":"ज","t":"त","d":"द",
+  "n":"न","p":"प","b":"ब","m":"म","y":"य","r":"र",
+  "l":"ल","v":"व","s":"स","h":"ह"
+};
+
+function convertToHindi(){
+  let text = document.getElementById("englishInput").value.toLowerCase();
+  let output = "";
+  let i = 0;
+
+  while(i < text.length){
+    let two = text.substr(i,2);
+    let three = text.substr(i,3);
+
+    if(map[three]){
+      output += map[three];
+      i += 3;
+    }
+    else if(map[two]){
+      output += map[two];
+      i += 2;
+    }
+    else if(map[text[i]]){
+      output += map[text[i]];
+      i++;
+    }
+    else{
+      output += text[i];
+      i++;
+    }
+  }
+
+  document.getElementById("hindiOutput").value = output;
+}
+
+function copyHindi(){
+  const out = document.getElementById("hindiOutput");
+  out.select();
+  document.execCommand("copy");
+  alert("Hindi text copied!");
+}
+
+function clearText(){
+  document.getElementById("englishInput").value = "";
+  document.getElementById("hindiOutput").value = "";
+}
+</script>
+
+</body>
+</html>
