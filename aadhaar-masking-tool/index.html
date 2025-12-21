@@ -37,6 +37,7 @@
     .btn-primary:hover{background:#dc2626}
     .btn-outline{background:#fff;border:2px solid #d1d5db;color:#111;width:100%}
     .btn-outline:hover{background:#f9fafb}
+    .btn-ghost{background:transparent;color:#111}
 
     /* Result Box */
     .masked-box{background:linear-gradient(to right,#fee2e2,#ffedd5);border:2px solid #fca5a5;border-radius:10px;padding:15px;margin-bottom:15px}
@@ -79,8 +80,8 @@
     <h3>Masked Aadhaar Number</h3>
     <div class="masked-box">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-        <span>Masked Number:</span>
-        <button onclick="toggleView()">👁 Show / Hide</button>
+        <span class="text-sm">Masked Number:</span>
+        <button class="btn-ghost" onclick="toggleView()">👁 Show / Hide</button>
       </div>
       <p class="masked-number" id="maskedNumber"></p>
     </div>
@@ -112,10 +113,11 @@
 
 <script>
 let originalAadhaar = "";
+let maskedAadhaar = "";
 let isShowingOriginal = false;
 
 function formatAadhaar(value) {
-  return value.replace(/\\D/g, '').replace(/(.{4})/g, '$1 ').trim();
+  return value.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim();
 }
 
 document.getElementById('aadhaarInput').addEventListener('input', function () {
@@ -123,19 +125,19 @@ document.getElementById('aadhaarInput').addEventListener('input', function () {
 });
 
 function maskAadhaar() {
-  const input = document.getElementById('aadhaarInput').value.replace(/\\s/g, '');
+  const input = document.getElementById('aadhaarInput').value.replace(/\s/g, '');
   const error = document.getElementById('errorMsg');
 
-  if (input.length !== 12 || !/^\\d+$/.test(input)) {
+  if (input.length !== 12 || !/^\d+$/.test(input)) {
     error.textContent = "Please enter a valid 12-digit Aadhaar number.";
     return;
   }
 
   error.textContent = "";
   originalAadhaar = formatAadhaar(input);
-  const masked = "XXXX XXXX " + input.slice(-4);
+  maskedAadhaar = "XXXX XXXX " + input.slice(-4);
 
-  document.getElementById('maskedNumber').textContent = masked;
+  document.getElementById('maskedNumber').textContent = maskedAadhaar;
   document.getElementById('resultBox').style.display = "block";
   isShowingOriginal = false;
 }
@@ -143,7 +145,7 @@ function maskAadhaar() {
 function toggleView() {
   const display = document.getElementById('maskedNumber');
   if (isShowingOriginal) {
-    display.textContent = "XXXX XXXX " + originalAadhaar.replace(/\\s/g, '').slice(-4);
+    display.textContent = maskedAadhaar;
   } else {
     display.textContent = originalAadhaar;
   }
