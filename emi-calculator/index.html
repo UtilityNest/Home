@@ -5,7 +5,10 @@
   <title>EMI Calculator - Calculate Monthly EMI | UtilityNest</title>
   <meta name="description" content="Free EMI Calculator to calculate monthly EMI, total interest, total amount payable. Works for loans, mortgages, car loans. Fast, accurate and real-time.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <base href="/Home/">
+
+  <!-- GLOBAL CSS -->
+  <link rel="stylesheet" href="/Home/css/style.css">
+  
   <style>
     * {
       margin: 0;
@@ -20,65 +23,13 @@
       line-height: 1.6;
     }
 
-    /* Header */
-    header {
-      background: white;
-      border-bottom: 1px solid #e5e7eb;
-      padding: 16px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    header a:first-child {
-      font-size: 20px;
-      font-weight: bold;
-      color: #16a34a;
-      text-decoration: none;
-      margin-right: 30px;
-    }
-
-    header nav {
-      display: inline-flex;
-      gap: 20px;
-    }
-
-    header nav a {
-      color: #6b7280;
-      text-decoration: none;
-      font-size: 14px;
-      transition: color 0.2s;
-    }
-
-    header nav a:hover {
-      color: #16a34a;
-    }
-
     @media (max-width: 768px) {
       header nav {
         display: none;
       }
     }
 
-    /* Breadcrumb */
-    .breadcrumb {
-      padding: 10px 20px;
-      font-size: 13px;
-      color: #9ca3af;
-      background: white;
-      border-bottom: 1px solid #e5e7eb;
-    }
-
-    .breadcrumb a {
-      color: #16a34a;
-      text-decoration: none;
-    }
-
-    .breadcrumb a:hover {
-      text-decoration: underline;
-    }
-
-    /* Section */
+        /* Section */
     .section {
       max-width: 1000px;
       margin: 0 auto;
@@ -348,45 +299,8 @@
       margin-bottom: 15px;
       color: #1f2937;
     }
-
-    /* Footer */
-    footer {
-      background: white;
-      border-top: 1px solid #e5e7eb;
-      padding: 30px 20px;
-      margin-top: 40px;
-    }
-
-    .footer-grid {
-      max-width: 1000px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 30px;
-      margin-bottom: 30px;
-    }
-
-    .footer-grid h3 {
-      font-size: 14px;
-      font-weight: 600;
-      color: #1f2937;
-      margin-bottom: 12px;
-    }
-
-    .footer-grid a {
-      display: block;
-      font-size: 13px;
-      color: #6b7280;
-      text-decoration: none;
-      margin-bottom: 8px;
-      transition: color 0.2s;
-    }
-
-    .footer-grid a:hover {
-      color: #16a34a;
-    }
-
-    .copy {
+   
+       .copy {
       max-width: 1000px;
       margin: 0 auto;
       font-size: 13px;
@@ -422,21 +336,14 @@
 </head>
 <body>
 
-<!-- HEADER -->
-<header>
-  <a href="">UtilityNest</a>
-  <nav>
-    <a href="government-tools/">Government</a>
-    <a href="finance-calculators/">Finance</a>
-    <a href="student-tools/">Student</a>
-    <a href="utility-tools/">Utility</a>
-    <a href="hindi-tools/">Hindi</a>
-  </nav>
-</header>
+<!-- ================= GLOBAL HEADER ================= -->
+<div id="site-header"></div>
 
-<!-- BREADCRUMB -->
+<!-- ================= BREADCRUMB ================= -->
 <nav class="breadcrumb">
-  <a href="">Home</a> › <strong>Finance Calculators</strong> ›  EMI Calculator
+  <a href="/Home/">Home</a> ›
+  <a href="/Home/finance-calculators/">Finance Calculators</a> ›
+  <strong>EMI Calculator</strong>
 </nav>
 
 <!-- MAIN -->
@@ -623,25 +530,11 @@
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-grid">
-    <div>
-      <h3>Finance Calculators</h3>
-      <a href="government-tools/">Government</a>
-      <a href="finance-calculators/">Finance</a>
-      <a href="student-tools/">Student</a>
-      <a href="utility-tools/">Utility</a>
-      <a href="hindi-tools/">Hindi</a>
-    </div>
-    <div>
-      <h3>Popular Tools</h3>
-      <a href="age-calculator/">Age Calculator</a>
-      <a href="student-tools/">Student Tools</a>
-    </div>
-  </div>
-  <p class="copy">© 2025 UtilityNest</p>
-</footer>
+<!-- ================= GLOBAL FOOTER ================= -->
+<div id="site-footer"></div>
+
+<!-- ================= GLOBAL JS ================= -->
+<script src="/Home/js/common.js"></script>
 
 <script>
 // ===================== EMI CALCULATION ENGINE =====================
