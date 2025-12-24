@@ -3,134 +3,98 @@
 <head>
   <meta charset="UTF-8">
   <title>Age Calculator – Exact Age in Years, Months & Days</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <meta name="description" content="Free Age Calculator for government exams, forms and eligibility. Calculate exact age in years, months and days.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- FIXED BASE FOR YOUR SITE -->
-  <base href="/Home/">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://utilitynest.github.io/Home/age-calculator/">
 
-  <style>
-    body{margin:0;font-family:Arial, sans-serif;background:#f6f7fb}
-
-    /* HEADER */
-    .site-header{
-      display:flex;justify-content:space-between;align-items:center;
-      padding:12px 20px;background:#111827
-    }
-    .site-header a{color:#fff;text-decoration:none;margin-right:14px;font-weight:600}
-
-    /* BREADCRUMB */
-    .breadcrumb{padding:10px 20px;background:#f3f4f6;font-size:14px}
-    .breadcrumb a{text-decoration:none;color:#2563eb}
-
-    /* TOOL BOX */
-    .container{max-width:420px;margin:30px auto;background:#fff;padding:20px;border-radius:12px;box-shadow:0 5px 15px rgba(0,0,0,.1)}
-    h1{text-align:center;font-size:22px}
-    label{font-weight:600;margin-top:10px;display:block}
-    input,button{width:100%;padding:10px;margin-top:6px}
-    button{background:#4f46e5;color:#fff;border:none;border-radius:6px;cursor:pointer}
-    .result{margin-top:15px;font-weight:700;text-align:center}
-
-    /* CATEGORY BLOCK */
-    .tool-categories{text-align:center;margin:40px 20px}
-    .cat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:15px}
-    .cat-grid a{padding:12px;border:1px solid #e5e7eb;border-radius:8px;text-decoration:none;font-weight:600;background:#f9fafb;color:#111827}
-
-    /* FOOTER */
-    .site-footer{background:#111827;color:#fff;padding:30px 20px}
-    .footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
-    .site-footer a{display:block;color:#d1d5db;text-decoration:none;margin:6px 0}
-    .copy{text-align:center;margin-top:20px;font-size:14px;color:#9ca3af}
-  </style>
+  <!-- GLOBAL CSS -->
+  <link rel="stylesheet" href="/Home/css/style.css">
 </head>
 <body>
 
-<!-- HEADER -->
-<header class="site-header">
-  <div class="logo"><a href="">UtilityNest</a></div>
-  <nav>
-    <a href="government-tools/">Government</a>
-    <a href="finance-calculators/">Finance</a>
-    <a href="student-tools/">Student</a>
-    <a href="utility-tools/">Utility</a>
-    <a href="hindi-tools/">Hindi</a>
-  </nav>
-</header>
+<!-- GLOBAL HEADER -->
+<div id="site-header"></div>
 
 <!-- BREADCRUMB -->
 <nav class="breadcrumb">
-  <a href="">Home</a> ›
-  <a href="government-tools/">Government Tools</a> ›
-  <span>Age Calculator</span>
+  <a href="/Home/">Home</a> ›
+  <a href="/Home/government-tools/">Government Tools</a> ›
+  <strong>Age Calculator</strong>
 </nav>
 
-<!-- TOOL -->
-<div class="container">
+<!-- TOOL SECTION -->
+<section class="section section-small">
   <h1>Age Calculator</h1>
+  <p>Calculate your exact age in years, months, and days for exams, forms, and official use.</p>
 
-  <label>Date of Birth</label>
-  <input type="date" id="dob">
+  <div class="card">
+    <label for="dob">Date of Birth</label>
+    <input type="date" id="dob">
 
-  <label>As on Date</label>
-  <input type="date" id="asOn">
+    <label for="asOn">As on Date</label>
+    <input type="date" id="asOn">
 
-  <button onclick="calcAge()">Calculate Age</button>
+    <button class="btn-primary" onclick="calcAge()">Calculate Age</button>
 
-  <div class="result" id="result"></div>
-</div>
-
-<!-- CATEGORY LINKS -->
-<section class="tool-categories">
-  <h3>Explore More Tools</h3>
-  <div class="cat-grid">
-    <a href="government-tools/">🏛 Government Tools</a>
-    <a href="finance-calculators/">💰 Finance Calculators</a>
-    <a href="student-tools/">🎓 Student Tools</a>
-    <a href="utility-tools/">🛠 Utility Tools</a>
-    <a href="hindi-tools/">🇮🇳 Hindi Tools</a>
+    <div class="result-text" id="result"></div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer class="site-footer">
-  <div class="footer-grid">
-    <div>
-      <h4>Government Tools</h4>
-      <a href="age-calculator/">Age Calculator</a>
-      <a href="retirement-date-calculator/">Retirement Calculator</a>
-      <a href="gratuity-calculator/">Gratuity Calculator</a>
-    </div>
-    <div>
-      <h4>Finance Calculators</h4>
-      <a href="emi-calculator/">EMI Calculator</a>
-      <a href="sip-calculator/">SIP Calculator</a>
-    </div>
-    <div>
-      <h4>Hindi Tools</h4>
-      <a href="hindi-word-counter/">Hindi Word Counter</a>
-    </div>
+<!-- EXPLORE MORE -->
+<section class="section">
+  <h2>Explore More Tools</h2>
+
+  <div class="grid small-grid">
+    <a class="card link-card" href="/Home/government-tools/">🏛 Government Tools</a>
+    <a class="card link-card" href="/Home/finance-calculators/">💰 Finance Calculators</a>
+    <a class="card link-card" href="/Home/student-tools/">🎓 Student Tools</a>
+    <a class="card link-card" href="/Home/utility-tools/">🛠 Utility Tools</a>
+    <a class="card link-card" href="/Home/hindi-tools/">🇮🇳 Hindi Tools</a>
   </div>
-  <p class="copy">© 2025 UtilityNest</p>
-</footer>
+</section>
 
+<!-- GLOBAL FOOTER -->
+<div id="site-footer"></div>
+
+<!-- GLOBAL JS -->
+<script src="/Home/js/common.js"></script>
+
+<!-- TOOL JS -->
 <script>
-function calcAge(){
-  let dobVal = document.getElementById('dob').value;
-  if(!dobVal){alert('Please select Date of Birth');return}
+function calcAge() {
+  const dobVal = document.getElementById('dob').value;
+  const asOnVal = document.getElementById('asOn').value;
+  const result = document.getElementById('result');
 
-  let dob = new Date(dobVal);
-  let asOnVal = document.getElementById('asOn').value;
-  let asOn = asOnVal ? new Date(asOnVal) : new Date();
+  if (!dobVal) {
+    alert("Please select Date of Birth");
+    return;
+  }
+
+  const dob = new Date(dobVal);
+  const asOn = asOnVal ? new Date(asOnVal) : new Date();
 
   let years = asOn.getFullYear() - dob.getFullYear();
   let months = asOn.getMonth() - dob.getMonth();
   let days = asOn.getDate() - dob.getDate();
 
-  if(days < 0){months--; days += 30}
-  if(months < 0){years--; months += 12}
+  if (days < 0) {
+    months--;
+    days += 30;
+  }
 
-  document.getElementById('result').innerHTML =
-    `Age: ${years} Years, ${months} Months, ${days} Days`;
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
+
+  result.innerHTML = `
+    <strong>Exact Age:</strong><br>
+    ${years} Years, ${months} Months, ${days} Days
+  `;
 }
 </script>
 
