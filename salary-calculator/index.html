@@ -2,8 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Advanced Salary Calculator - Tax & Take-Home</title>
+  <title>Advanced Salary Calculator - Tax & Take-Home | UtilityNest</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Based on Indian income tax slabs FY 2025-26. For legal/tax filing, always confirm with CA or official IT tools">
+  
+  <!-- ✅ GLOBAL COMMON CSS -->
+  <link rel="stylesheet" href="/Home/css/style.css">
   
   <style>
     * {
@@ -30,22 +34,7 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
-    header a {
-      font-size: 24px;
-      font-weight: 700;
-      color: #667eea;
-      text-decoration: none;
-    }
-
-    .breadcrumb {
-      padding: 10px 20px;
-      font-size: 13px;
-      color: #9ca3af;
-      background: white;
-      border-bottom: 1px solid #e5e7eb;
-    }
-
-    .section {
+        .section {
       max-width: 1400px;
       margin: 30px auto;
       padding: 0 20px;
@@ -480,23 +469,15 @@
       z-index: 1000;
     }
 
-    footer {
-      background: white;
-      border-top: 2px solid #e5e7eb;
-      padding: 18px 20px;
-      margin-top: 30px;
-      font-size: 11px;
-      color: #6b7280;
-      text-align: center;
     }
   </style>
 </head>
 <body>
 
-<header>
-  <a href="#">💰 Advanced Salary Calculator</a>
-</header>
+<!-- ================= GLOBAL HEADER ================= -->
+<div id="site-header"></div>
 
+<!-- ================= BREADCRUMB ================= -->
 <div class="breadcrumb">
   📊 Salary · Tax · Deductions · Take-Home
 </div>
@@ -951,9 +932,12 @@
 
 </section>
 
-<footer>
-  Based on Indian income tax slabs FY 2025-26. For legal/tax filing, always confirm with CA or official IT tools.[web:104][web:107][web:112]
-</footer>
+  <!-- ================= GLOBAL FOOTER ================= -->
+<div id="site-footer"></div>
+
+<!-- ================= GLOBAL COMMON JS ================= -->
+<script src="/Home/js/common.js"></script>
+
 
 <script>
 let basicMode = 'monthly';   // 'monthly' or 'yearly'
