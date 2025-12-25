@@ -197,3 +197,33 @@ footer.footer {
   color: #ffffff;
   text-decoration: underline;
 }
+
+/* Related Government Tools – scoped styling */
+.related-tools ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 10px;
+}
+
+.related-tools li {
+  margin-bottom: 8px;
+}
+
+.related-tools a {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: #f8fafc;
+  color: #1f2937;
+  font-size: 14px;
+  text-decoration: none;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.related-tools a:hover {
+  background: #eef2ff;
+  color: #1d4ed8;
+  border-color: #c7d2fe;
+  text-decoration: none;
+}
