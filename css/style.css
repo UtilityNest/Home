@@ -163,37 +163,10 @@ h1, h2, h3 {
 /* =====================
    GLOBAL FOOTER
 ===================== */
-footer {
-  background: #0f172a;
-  color: #94a3b8;
-  margin-top: 40px;
-}
-
-.footer-grid {
-  max-width: 1200px;
-  margin: auto;
-  padding: 30px 20px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-}
-
-footer a {
-  color: #94a3b8;
-  display: block;
-  margin: 6px 0;
-}
-
-.copy {
-  text-align: center;
-  padding: 15px;
-  font-size: 14px;
-  color: #64748b;
-}
-
-.footer {
+footer.footer {
   background: #111827;
   color: #d1d5db;
+  margin-top: 40px;
   padding: 20px;
   text-align: center;
 }
@@ -203,15 +176,21 @@ footer a {
   margin: auto;
 }
 
+.footer-inner p {
+  font-size: 14px;
+  color: #d1d5db;
+}
+
 .footer-links {
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
 .footer-links a {
   color: #9ca3af;
-  margin: 0 8px;
+  margin: 0 10px;
   font-size: 14px;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .footer-links a:hover {
