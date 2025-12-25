@@ -59,4 +59,10 @@
     <changefreq>monthly</changefreq>
   </url>
 
+  <url>
+  <loc>https://utilitynest.github.io/Home/rajasthan-government-calendar/</loc>
+  <changefreq>yearly</changefreq>
+</url>
+
+
 </urlset>
